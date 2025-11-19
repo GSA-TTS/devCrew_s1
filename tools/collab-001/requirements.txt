@@ -1,0 +1,33 @@
+# GitHub Integration Tool (TOOL-COLLAB-001) Dependencies
+# Python package requirements for devCrew GitHub integration
+
+# Core GitHub API client
+PyGithub>=2.1.0
+
+# YAML configuration parser
+PyYAML>=6.0
+
+# HTTP requests library (for artifact downloads)
+requests>=2.31.0
+
+# Type hints support
+typing-extensions>=4.8.0
+
+# Development and Testing Dependencies
+# (Install with: pip install -r requirements.txt -r requirements-dev.txt)
+
+# Testing framework
+pytest>=7.4.0
+pytest-cov>=4.1.0
+pytest-mock>=3.12.0
+
+# Code quality tools (use via pre-commit)
+black>=23.11.0
+isort>=5.12.0
+flake8>=6.1.0
+pylint>=3.0.0
+mypy>=1.7.0
+bandit>=1.7.5
+
+# Pre-commit hooks
+pre-commit>=3.5.0

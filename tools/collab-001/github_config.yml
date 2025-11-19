@@ -1,0 +1,312 @@
+# GitHub Integration Configuration
+# Configuration for devCrew GitHub integration tool (TOOL-COLLAB-001)
+
+# Default labels for issue and PR management
+default_labels:
+  issues:
+    - bug
+    - enhancement
+    - documentation
+    - question
+    - priority:high
+    - priority:medium
+    - priority:low
+    - needs-triage
+    - verified
+    - in-progress
+  pull_requests:
+    - feature
+    - bugfix
+    - hotfix
+    - breaking-change
+    - needs-review
+    - ready-to-merge
+    - work-in-progress
+
+# Default reviewers by team or role
+default_reviewers:
+  backend:
+    - backend-lead
+    - senior-backend-dev
+  frontend:
+    - frontend-lead
+    - senior-frontend-dev
+  security:
+    - security-architect
+    - devsecops-lead
+  architecture:
+    - tech-architect
+    - principal-engineer
+
+# Branch protection rules
+branch_protection:
+  main:
+    required_reviews: 2
+    require_code_owner_reviews: true
+    dismiss_stale_reviews: true
+    require_status_checks: true
+    required_status_checks:
+      - "CI / test"
+      - "CI / lint"
+      - "CI / security-scan"
+    enforce_admins: false
+    allow_force_pushes: false
+    allow_deletions: false
+  develop:
+    required_reviews: 1
+    require_code_owner_reviews: false
+    dismiss_stale_reviews: true
+    require_status_checks: true
+    required_status_checks:
+      - "CI / test"
+      - "CI / lint"
+
+# Rate limiting policies
+rate_limit:
+  # Warning threshold (percentage of limit consumed)
+  warning_threshold: 80
+
+  # Minimum requests to keep in reserve
+  reserve_limit: 100
+
+  # Wait time multiplier for rate limit backoff (seconds)
+  backoff_multiplier: 1.5
+
+  # Maximum wait time for rate limit reset (seconds)
+  max_wait_time: 3600
+
+# Retry configuration
+retry:
+  # Maximum number of retry attempts
+  max_retries: 3
+
+  # Initial backoff delay (seconds)
+  initial_delay: 1
+
+  # Backoff strategy: 'exponential' or 'linear'
+  strategy: exponential
+
+  # Multiplier for exponential backoff
+  multiplier: 2
+
+  # Maximum backoff delay (seconds)
+  max_delay: 60
+
+  # HTTP status codes that trigger retry
+  retryable_status_codes:
+    - 502  # Bad Gateway
+    - 503  # Service Unavailable
+    - 504  # Gateway Timeout
+    - 408  # Request Timeout
+    - 429  # Too Many Requests
+
+# Workflow configuration
+workflows:
+  # Timeout for workflow completion (seconds)
+  timeout: 3600
+
+  # Poll interval for workflow status (seconds)
+  poll_interval: 30
+
+  # Default workflow inputs
+  default_inputs:
+    environment: "staging"
+    notify: "true"
+
+# Issue management
+issues:
+  # Auto-label based on content patterns
+  auto_label:
+    enabled: true
+    patterns:
+      bug:
+        - "error"
+        - "exception"
+        - "failed"
+        - "crash"
+        - "broken"
+      documentation:
+        - "docs"
+        - "documentation"
+        - "readme"
+        - "guide"
+      enhancement:
+        - "feature"
+        - "enhancement"
+        - "improvement"
+        - "optimize"
+      security:
+        - "security"
+        - "vulnerability"
+        - "CVE"
+        - "exploit"
+
+  # Issue templates
+  templates:
+    bug_report:
+      title: "Bug: "
+      labels: ["bug", "needs-triage"]
+    feature_request:
+      title: "Feature: "
+      labels: ["enhancement", "needs-triage"]
+    security_issue:
+      title: "Security: "
+      labels: ["security", "priority:high"]
+
+# Pull request configuration
+pull_requests:
+  # PR title patterns
+  title_patterns:
+    feature: "^(feat|feature):"
+    bugfix: "^(fix|bugfix):"
+    hotfix: "^hotfix:"
+    documentation: "^docs:"
+    refactor: "^refactor:"
+    test: "^test:"
+    chore: "^chore:"
+
+  # Auto-merge conditions
+  auto_merge:
+    enabled: false
+    require_all_checks_pass: true
+    require_approvals: 2
+    allowed_merge_methods:
+      - squash
+      - merge
+
+  # Draft PR settings
+  draft:
+    auto_label: ["work-in-progress"]
+    disable_auto_merge: true
+
+# Notification settings
+notifications:
+  # Channels for notifications
+  channels:
+    slack:
+      enabled: false
+      webhook_url_env: "SLACK_WEBHOOK_URL"
+    email:
+      enabled: false
+      recipients: []
+
+  # Events to notify on
+  events:
+    - issue_created
+    - pr_created
+    - pr_merged
+    - workflow_failed
+    - security_alert
+
+# Logging configuration
+logging:
+  # Log level: DEBUG, INFO, WARNING, ERROR, CRITICAL
+  level: INFO
+
+  # Log format: 'json' or 'text'
+  format: json
+
+  # Log file path (optional, logs to stdout if not set)
+  file: null
+
+  # Include request/response details
+  include_details: true
+
+  # Sanitize sensitive data
+  sanitize_secrets: true
+
+# Protocol-specific settings
+protocols:
+  # GH-1: GitHub Issue Triage Protocol
+  gh1:
+    branch_prefix: "issue_"
+    parent_branch: "main"
+    plan_directory: "docs/development"
+    auto_comment: true
+
+  # P-TDD: Test-Driven Development Protocol
+  p_tdd:
+    test_directory: "tests"
+    coverage_threshold: 80
+    required_checks:
+      - "pytest"
+      - "coverage"
+    comment_on_pr: true
+
+  # P-FEATURE-DEV: Feature Development Protocol
+  p_feature_dev:
+    branch_prefix: "feature/"
+    require_issue_link: true
+    require_tests: true
+    auto_delete_branch: true
+
+# Security settings
+security:
+  # Secret scanning
+  secret_scanning:
+    enabled: true
+    fail_on_detection: true
+
+  # Dependency scanning
+  dependency_scanning:
+    enabled: true
+    auto_update: false
+
+  # Code scanning (CodeQL)
+  code_scanning:
+    enabled: true
+    languages:
+      - python
+      - javascript
+      - typescript
+
+  # Token permissions (minimum required)
+  required_permissions:
+    - repo
+    - workflow
+    - read:org
+
+# Repository maintenance
+maintenance:
+  # Stale branch cleanup
+  stale_branches:
+    enabled: true
+    days_inactive: 30
+    exclude_branches:
+      - main
+      - master
+      - develop
+
+  # Stale issue/PR management
+  stale_issues:
+    enabled: true
+    days_inactive: 60
+    label: "stale"
+    close_after_days: 7
+
+  # Auto-close linked issues on PR merge
+  auto_close_issues: true
+
+# Performance optimization
+performance:
+  # Enable caching
+  cache_enabled: true
+
+  # Cache TTL (seconds)
+  cache_ttl: 300
+
+  # Batch operations size
+  batch_size: 50
+
+  # Concurrent operations limit
+  max_concurrent_operations: 10
+
+# Feature flags
+features:
+  # Enable/disable specific features
+  batch_operations: true
+  auto_labeling: true
+  auto_merge: false
+  workflow_triggers: true
+  artifact_downloads: true
+  code_search: true
