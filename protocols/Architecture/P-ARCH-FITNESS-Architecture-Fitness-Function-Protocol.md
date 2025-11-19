@@ -3,6 +3,24 @@
 ## Objective
 To operationalize architectural principles as continuously executed automated tests with comprehensive monitoring and governance integration.
 
+## Trigger
+
+- After ADR acceptance (governance.adr.accepted event)
+- On architecture principle updates or modifications
+- Scheduled fitness function execution (daily/weekly automated checks)
+- CI/CD pipeline failures related to architectural violations
+- Manual fitness function validation requests from System-Architect
+- Before major architecture changes or refactoring
+
+## Prerequisites
+
+- Existing ADRs with defined architectural principles and success criteria
+- Access to TOOL-ARCH-001, TOOL-TEST-001, TOOL-CICD-001, TOOL-MON-001
+- CI/CD pipeline infrastructure configured and operational
+- Fitness function execution environment available
+- Monitoring and alerting systems operational with dashboard access
+- Threshold definitions and architectural constraints documented
+
 ## Tool Requirements
 
 - **TOOL-ARCH-001** (Architecture Management): Fitness function definition, architectural principle operationalization, and fitness monitoring
@@ -40,3 +58,22 @@ To operationalize architectural principles as continuously executed automated te
 6. **Evolution Management:** Update fitness functions as architecture evolves while maintaining historical tracking and trend analysis.
 
 7. **Governance Reporting:** Generate regular architectural health reports with fitness function performance, violation trends, and architectural debt analysis.
+
+## Expected Outputs
+
+- Defined and documented fitness functions (automated tests)
+- CI/CD pipeline integrations with fitness tests embedded
+- Fitness monitoring dashboards with real-time architectural health metrics
+- Regular architectural health reports for governance review
+- Violation alerts and notifications via configured channels
+- Automated and manual response workflows for fitness failures
+- Fitness function evolution history with trend analysis
+- Architectural debt tracking and remediation plans
+
+## Failure Handling
+
+- **Fitness function execution failures**: Retry with exponential backoff, escalate after 3 failures
+- **CI/CD integration failures**: Validate pipeline configuration, restore from backup, notify DevOps
+- **Monitoring system unavailability**: Queue metrics, enable degraded mode, escalate to SRE
+- **Fitness threshold violations**: Execute automated responses, notify stakeholders, create remediation tickets
+- **Unable to operationalize principles**: Request ADR clarification, engage System-Architect, defer until resolved
