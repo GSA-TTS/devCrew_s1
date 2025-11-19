@@ -3,6 +3,26 @@
 ## Objective
 Ensure operational continuity through robust error handling and file management.
 
+## Trigger
+
+- Incident detection or service degradation events
+- Degraded service performance below SLO thresholds
+- Scheduled disaster recovery drills (quarterly/annual)
+- Scheduled resilience testing execution
+- Chaos engineering test execution
+- Post-incident review requirements
+- Compliance audit resilience validation
+
+## Prerequisites
+
+- Incident response runbooks defined and accessible
+- Monitoring systems operational with alerting configured
+- Backup and recovery procedures tested and validated
+- Access to TOOL-COLLAB-001, TOOL-INFRA-001, TOOL-MON-001, TOOL-BACKUP-001
+- Disaster recovery infrastructure provisioned
+- Communication channels and escalation paths established
+- Service dependencies documented
+
 ## Tool Requirements
 
 - **TOOL-COLLAB-001** (GitHub Integration): Error handling, resilience coordination, and operational continuity
@@ -41,3 +61,22 @@ Ensure operational continuity through robust error handling and file management.
 
 ### 3. Access Control
 - Ensure appropriate permissions for all `/docs/` folders.
+
+## Expected Outputs
+
+- Resilience test execution reports with pass/fail results
+- Incident response playbooks and runbooks
+- Chaos engineering test results and findings
+- System recovery validation documentation
+- Operational resilience metrics and KPIs
+- Disaster recovery drill reports
+- Service dependency maps and failure impact analysis
+- Remediation plans for identified weaknesses
+
+## Failure Handling
+
+- **Monitoring system failure**: Activate backup monitoring, manual checks, escalate to SRE
+- **Backup restoration failures**: Execute alternate recovery procedures, escalate to data team
+- **Incident escalation needed**: Follow escalation matrix, engage on-call rotation
+- **Cascading failure detected**: Isolate affected services, activate circuit breakers, emergency response
+- **Resilience test failures**: Document gaps, create tickets, schedule remediation
