@@ -25,6 +25,53 @@ Execute comprehensive, multi-layered validation of deployment success across sta
   - Integration: Infrastructure platforms, deployment infrastructure, resource validation, infrastructure monitoring, deployment coordination
   - Usage: Infrastructure validation, deployment support, resource validation, infrastructure health, deployment coordination
 
+## Trigger
+- After deployment completion (any environment: dev, staging, production)
+- Before production release approval
+- After infrastructure changes or scaling events
+- As part of QG-DEPLOYMENT-APPROVAL quality gate
+- Manual validation request from DevOps or SRE
+- Post-rollback verification
+
+## Prerequisites
+- Deployment completed successfully (confirmed by CI/CD pipeline)
+- Test environment accessible and operational
+- Access to TOOL-CICD-001, TOOL-TEST-001, TOOL-MON-001, TOOL-INFRA-001
+- Validation scripts and test suites ready
+- Baseline metrics available for comparison
+- Monitoring dashboards configured
+- Rollback procedures documented and ready
+
+## Steps
+1. **Health Checks**: Verify all services responding, endpoints accessible, dependencies reachable
+2. **Smoke Tests**: Execute critical path tests, validate core functionality
+3. **Integration Tests**: Run integration test suite, verify service interactions
+4. **Performance Validation**: Check response times, throughput, resource utilization vs baselines
+5. **Security Scans**: Run security validation, check SSL/TLS, verify credentials rotation
+6. **Configuration Verification**: Validate environment variables, feature flags, config correctness
+7. **Rollback Readiness**: Verify rollback procedures can execute if needed
+8. **Approval Decision**: Approve deployment or initiate rollback
+
+## Expected Outputs
+- Deployment validation report with pass/fail status
+- Health check results for all services and endpoints
+- Smoke test execution logs and results
+- Integration test results with coverage metrics
+- Performance validation report comparing to baselines
+- Security scan findings and compliance status
+- Configuration validation results
+- Deployment approval/rejection decision
+- Rollback execution confirmation (if validation fails)
+
+## Failure Handling
+- **Failed health checks**: Investigate service issues, check logs, potentially rollback
+- **Smoke test failures**: Identify broken functionality, assess severity, rollback if critical
+- **Performance degradation**: Compare metrics, investigate bottlenecks, rollback if severe (>20% degradation)
+- **Security vulnerabilities detected**: Assess severity, rollback if critical, create security tickets
+- **Configuration errors**: Correct configuration, redeploy, or rollback if complex
+- **Integration failures**: Identify incompatibilities, rollback, coordinate with affected teams
+- **Rollback execution**: Execute rollback procedure, validate rollback success, investigate root cause
+
 ## Comprehensive Agent Coordination Framework
 **Primary Orchestrator**: DevOps-Engineer (coordinates all validation activities and deployment decisions)
 
