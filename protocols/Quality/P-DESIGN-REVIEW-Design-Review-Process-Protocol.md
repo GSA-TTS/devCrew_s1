@@ -54,6 +54,44 @@ Define a comprehensive, multi-agent orchestrated workflow for reviewing UI/UX de
 - When accessibility compliance review required (quarterly audits): Compliance validation
 - When internationalization (i18n) requirements introduced: Localization support needed
 
+## Prerequisites
+
+- Design artifacts available (mockups, wireframes, prototypes, design system)
+- Design requirements and specifications documented
+- Access to TOOL-DESIGN-001, TOOL-TEST-001, TOOL-COLLAB-001, TOOL-MON-001
+- Design reviewers identified and assigned
+- Design review criteria and checklists established
+- Accessibility standards and guidelines available (WCAG 2.1)
+
+## Steps
+
+1. **Design Submission**: Designer submits design artifacts via GitHub issue or PR
+2. **Reviewer Assignment**: Assign reviewers based on expertise and availability
+3. **Design Analysis**: Review for usability, accessibility, consistency with design system, brand guidelines
+4. **Feedback Collection**: Document findings, suggestions, required changes
+5. **Stakeholder Review**: Present to stakeholders for business alignment
+6. **Design Iteration**: Designer implements feedback and updates
+7. **Re-review**: Validate changes address feedback
+8. **Approval/Rejection Decision**: Final approval or request additional iterations
+
+## Expected Outputs
+
+- Design review report with findings and recommendations
+- Feedback documentation with actionable items
+- Approved or rejected design artifacts with rationale
+- Design improvement recommendations and best practices
+- Accessibility compliance validation report (WCAG 2.1 checklist)
+- Design system compliance validation
+- Design approval certification for development handoff
+
+## Failure Handling
+
+- **Design accessibility failures**: Document violations, require remediation, block until compliant
+- **Usability concerns identified**: Conduct user testing, gather data, iterate design
+- **Inconsistency with design system**: Provide design system guidance, require alignment
+- **Reviewer disagreements**: Escalate to lead designer or design committee for resolution
+- **Iteration limit exceeded**: Escalate to Product Owner, reassess requirements, consider alternative approaches
+
 ## Enhanced Prerequisites
 **Foundation Requirements**:
 - Product requirements comprehensively documented (prd.md, user stories, acceptance criteria) via **TOOL-COLLAB-001**
