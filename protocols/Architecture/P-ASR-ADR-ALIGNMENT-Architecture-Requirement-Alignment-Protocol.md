@@ -3,6 +3,23 @@
 ## Objective
 Ensure traceability between ASRs and ADRs, prevent drift, and maintain governance oversight.
 
+## Trigger
+
+- When new ASRs are identified from GitHub issues
+- After ADR creation or updates
+- During architectural review processes (ARB)
+- As part of QG-ALIGN-VALIDATION quality gate execution
+- When architectural drift is detected
+
+## Prerequisites
+
+- Existing ADR registry in `/docs/architecture/ADRs` directory
+- Identified ASRs documented in `issue_{{issue_number}}_asr.md`
+- Access to TOOL-ARCH-001, TOOL-DATA-002, TOOL-AI-001, TOOL-COLLAB-001
+- Graph-of-Thoughts cache available and operational
+- Architecture Review Board (ARB) process defined and accessible
+- Semantic search and analysis tools configured
+
 ## Tool Requirements
 
 - **TOOL-ARCH-001** (Architecture Management): ASR-ADR alignment analysis, traceability management, and governance coordination
@@ -42,3 +59,21 @@ Ensure traceability between ASRs and ADRs, prevent drift, and maintain governanc
 7. **Governance Trigger:** Initiate Architecture Review Board (ARB) process for high-impact decisions requiring formal governance approval.
 
 8. **Quality Gate:** Execute **QG-ALIGN-VALIDATION** before completing.
+
+## Expected Outputs
+
+- Updated `issue_{{issue_number}}_asr.md` with ADR cross-references and traceability links
+- Coverage gap analysis report identifying ASRs without corresponding ADRs
+- Dependency impact graph (`docs/reports/{{issue}}_DependencyGraph.svg`) showing ADR relationships
+- Impact analysis document (`docs/reports/..._ImpactAnalysis.md`) with downstream effects
+- ARB review requests for high-impact architectural decisions (if triggered)
+- QG-ALIGN-VALIDATION quality gate execution results
+- Alignment metrics and coverage statistics
+
+## Failure Handling
+
+- **Semantic search fails**: Fallback to manual ADR review, escalate to System-Architect
+- **Graph-of-Thoughts cache corruption**: Rebuild cache from ADR registry, delay execution
+- **ADR registry missing/inaccessible**: Escalate to DevOps, block until registry restored
+- **QG-ALIGN-VALIDATION failure**: Document gaps, create remediation plan, block phase transition
+- **ARB process unavailable**: Queue for next ARB meeting, escalate if time-critical
