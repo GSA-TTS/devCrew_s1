@@ -38,6 +38,43 @@ Executed exclusively by the **Orchestrator** as the central resource management 
 - **Emergency Override**: When critical tasks require immediate resource allocation
 - **System Recovery**: During failure recovery and rollback operations
 
+## Prerequisites
+- Orchestrator operational and accessible
+- Task queue infrastructure configured (message queue/database)
+- Resource pool defined with execution slot allocations
+- Access to TOOL-ORG-001, TOOL-MON-001, TOOL-DATA-002, TOOL-AI-001
+- Execution slots allocated and monitored
+- Priority calculation algorithms configured
+- SLO thresholds defined (target: 90% parallelization)
+
+## Steps
+1. **Task Submission**: Receive task from Orchestrator with priority and requirements
+2. **Priority Calculation**: Calculate RICE score or priority using TOOL-DATA-002
+3. **Queue Management**: Insert task into priority queue, apply aging to prevent starvation
+4. **Resource Allocation**: Assign task to available execution slot
+5. **Execution Slot Assignment**: Dispatch task to agent with allocated resources
+6. **Priority Aging**: Increment priority of waiting tasks over time
+7. **Parallelization Optimization**: Monitor slot utilization, aim for ≥90% target
+8. **Completion Tracking**: Update queue state, release resources
+9. **Resource Cleanup**: Deallocate slot, make available for next task
+
+## Expected Outputs
+- Task assignments to execution slots with agent mappings
+- Priority queue state with current waiting tasks
+- Resource utilization metrics achieving ≥90% parallelization target
+- Parallelization ratio reports showing active/total parallelizable tasks
+- Task completion status tracking
+- Resource allocation logs and audit trails
+- Queue depth and aging metrics
+
+## Failure Handling
+- **Resource saturation (no available slots)**: Reject lowest-priority tasks, escalate to Human Command Group for scaling
+- **Task starvation (aging queue items)**: Force priority boost, preempt lower-priority tasks if needed
+- **Priority conflicts**: Use tiebreaker rules (FIFO, task size, business impact)
+- **Execution slot crashes**: Reassign task to different slot, investigate crash, alert DevOps
+- **SLO violations (<90% utilization)**: Trigger HITL gate, request resource scaling or workflow adjustment
+- **Queue overflow**: Implement backpressure, reject new tasks, escalate capacity planning
+
 ## Comprehensive Resource Management Steps
 
 ### Phase 1: Task Reception and Priority Analysis
