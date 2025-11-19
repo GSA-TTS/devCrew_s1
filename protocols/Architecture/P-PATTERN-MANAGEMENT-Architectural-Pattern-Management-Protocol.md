@@ -2259,6 +2259,93 @@ The protocol generates:
 - **Ranked Pattern Recommendations**: Confidence scores, effort estimates, and risk assessments
 - **Implementation Roadmaps**: Detailed guidance for pattern adoption
 
+## Expected Outputs
+
+### Pattern Catalog and Registry
+- **Pattern catalog directory** (`/docs/architecture/pattern-catalog/`): Comprehensive repository of validated architectural patterns
+  - Standardized pattern documentation following 14-section template
+  - Pattern metadata including classification, confidence levels, and validation evidence
+  - Cross-references between related patterns and anti-patterns
+  - Pattern versioning and evolution history
+- **Pattern index** (`pattern-catalog-index.md`): Searchable catalog organized by classification, context, and problem domain
+- **Pattern relationships matrix**: Compatibility and complementarity mappings between patterns
+
+### Pattern Selection and Decision Artifacts
+- **Pattern recommendation report** (`pattern-recommendations-{context}-{date}.md`): Context-aware pattern suggestions
+  - Ranked pattern recommendations with confidence scores (0.0-1.0)
+  - Multi-perspective analysis (business, technical, operational, security, UX, compliance)
+  - Fit scores and implementation effort estimates (1-10 scale)
+  - Risk assessments and mitigation strategies
+  - Alternative pattern options with comparative analysis
+- **Pattern selection decision record**: ADR documenting pattern choice rationale and trade-offs
+- **Context dependency mapping**: Critical context factors influencing pattern suitability
+
+### Pattern Implementation Guidance
+- **Pattern implementation guide** (`implementation-guides/{pattern-name}.md`): Detailed adoption instructions
+  - Step-by-step implementation roadmap
+  - Code examples and architecture diagrams
+  - Integration points and configuration requirements
+  - Technology-specific adaptation guidance
+  - Success metrics and validation checkpoints
+- **Pattern template instantiation**: Concrete application of pattern to current project context
+- **Migration plan**: Transition strategy from current architecture to selected pattern (if applicable)
+
+### Pattern Compliance and Validation Reports
+- **Pattern effectiveness report** (`pattern-effectiveness-{date}.md`): Quantitative assessment of pattern performance
+  - Success rate metrics across different contexts (target: ≥70%)
+  - Adaptability scores and cross-context validation results
+  - Performance impact analysis and optimization opportunities
+  - Lessons learned and refinement recommendations
+- **Pattern compliance audit**: Verification that implemented patterns follow documented specifications
+- **Validation evidence dossier**: Supporting data for pattern confidence levels (ADR references, success metrics, expert assessments)
+
+### Pattern Evolution Documentation
+- **Pattern lifecycle tracking** (`pattern-lifecycle-log.md`): Historical record of pattern changes
+  - Pattern discovery dates and initial validation results
+  - Refinement history with rationale for modifications
+  - Context expansion tracking (new contexts where pattern proven effective)
+  - Deprecation notices and superseding pattern recommendations
+- **Pattern optimization recommendations**: Identified improvements based on usage analysis
+- **Emerging pattern candidates**: Potential new patterns identified from recent ADRs requiring further validation
+
+### Anti-Pattern Identification Reports
+- **Anti-pattern detection report** (`anti-pattern-scan-{date}.md`): Automated scanning results
+  - Detected anti-pattern instances with severity levels (Critical, High, Medium, Low)
+  - Risk assessment and impact analysis for each detection
+  - Prioritized remediation plans with effort estimates
+  - Code/architecture references for each anti-pattern occurrence
+- **Anti-pattern registry** (`anti-patterns/`): Documented problematic patterns
+  - Problem description and negative consequences
+  - Detection criteria and scanning rules
+  - Remediation strategies and refactoring guidance
+  - Related patterns offering better solutions
+- **Prevention integration artifacts**: ADR template enhancements and creation hooks to prevent anti-pattern introduction
+
+### Pattern Usage Metrics and Adoption Tracking
+- **Pattern usage analytics dashboard**: Metrics on pattern adoption and effectiveness
+  - Pattern selection frequency by context type
+  - Success rate trends over time
+  - Most commonly selected patterns and alternatives
+  - Pattern recommendation acceptance rates
+- **Adoption tracking report** (`pattern-adoption-{quarter}.md`): Quarterly analysis of pattern usage
+  - Team/project adoption rates for recommended patterns
+  - Deviation analysis (instances where recommendations not followed)
+  - Pattern effectiveness correlation with team experience levels
+  - ROI analysis for pattern-driven architecture decisions
+- **Pattern health metrics**: Catalog maintenance indicators
+  - Percentage of patterns with up-to-date validation evidence
+  - Pattern documentation completeness scores
+  - Cross-reference integrity status
+
+### Integration and Coordination Artifacts
+- **Pattern discovery report** (`pattern-discovery-{date}.md`): Output from analogical reasoning analysis
+  - Pattern cluster analysis with similarity scores
+  - Historical ADR extraction results
+  - Pattern characteristics matrix
+  - Candidate patterns requiring validation
+- **Multi-context validation results**: Cross-context effectiveness analysis with adaptability scores
+- **Pattern catalog synchronization log**: Changes synchronized with related protocols (ADR-001, ASR-001, DEBT-001, CFR-001)
+
 ## Failure Handling
 
 ### Pattern Discovery Failures
