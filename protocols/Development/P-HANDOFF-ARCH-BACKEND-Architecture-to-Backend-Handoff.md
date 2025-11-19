@@ -51,6 +51,166 @@ Establish formal handoff mechanism for System-Architect to delegate implementati
 - Handoff coordination and tracking workflows established through **TOOL-COLLAB-001**
 - Technical specification validation tools operational via **TOOL-DEV-004**
 
+## Steps
+
+1. **Handoff Preparation (System-Architect)**:
+   - **Deliverable Packaging**: Gather all outputs from architectural design phase:
+     - Architectural design document (`/docs/architecture/features/feature_{{feature_id}}_design.md`)
+     - Technical specifications and implementation requirements
+     - All relevant ADRs (Architectural Decision Records)
+     - ASR (Architecturally Significant Requirements) analysis
+     - Architecture fitness functions definitions
+     - API specifications and data models (via **TOOL-DEV-004**)
+     - Database schema designs and migration requirements
+     - Integration specifications with external services
+     - Security and compliance requirements documentation
+     - Performance and scalability constraints
+   - **Complexity Indicators Identification**: Document factors affecting implementation complexity:
+     - Novel technology usage or unfamiliar frameworks
+     - Cross-system dependencies and integration points
+     - Regulatory compliance requirements (GDPR, HIPAA, etc.)
+     - Performance optimization needs and scalability requirements
+     - Technical debt or legacy system constraints
+
+2. **Context Document Creation (System-Architect)**:
+   - Create handoff_context.md at `/docs/architecture/handoffs/feature_{{feature_id}}_arch_to_backend.md` containing:
+     - **Task Summary**: Architectural design completed, implementation complexity estimation required
+     - **Key Architectural Decisions**: Summary of critical ADRs impacting implementation
+     - **Implementation Requirements**: Extracted technical specifications for backend development
+     - **Known Constraints**: Architectural limitations, technology constraints, dependencies
+     - **Blockers or Dependencies**: External service dependencies, infrastructure requirements
+     - **Recommended Approach**: Suggested implementation strategy and technology choices
+     - **Complexity Indicators**: Highlighted factors requiring careful estimation
+     - **Timeline Context**: Sprint planning deadlines, milestone requirements
+
+3. **Artifact Validation (System-Architect)**:
+   - Verify deliverables meet handoff criteria using **TOOL-COLLAB-001**:
+     - Architectural design document complete with all major components specified
+     - All acceptance criteria from QG-PHASE2 (Architecture Review) satisfied
+     - Technical specifications include sufficient implementation detail
+     - ADRs properly documented with rationale and implications
+     - ASR analysis completed and validated
+     - No blocking architectural issues unresolved
+   - Run pre-handoff checklist via **TOOL-DEV-002**:
+     - Architecture fitness functions defined where applicable
+     - API specifications documented using **TOOL-DEV-004** (OpenAPI/Swagger)
+     - Database schema validated and migration strategy defined
+     - Integration points clearly specified with interface contracts
+     - Security requirements mapped to implementation tasks
+     - Performance benchmarks and constraints documented
+
+4. **Handoff Notification (System-Architect → Orchestrator)**:
+   - Notify Orchestrator of architectural design completion via **TOOL-COLLAB-001**:
+     - Post handoff notification to GitHub issue {{issue_number}}:
+       ```bash
+       gh issue comment {{issue_number}} --body "Architecture design complete. Implementation complexity estimation requested from Backend-Engineer. P-COMPLEXITY-EST protocol execution required. Architectural artifacts available at /docs/architecture/features/feature_{{feature_id}}_design.md. Estimation needed for sprint planning by [deadline]."
+       ```
+     - Add GitHub issue labels for tracking:
+       - `complexity-estimation`
+       - `implementation-planning`
+       - `backend-development`
+       - `architecture-handoff`
+   - Provide handoff package location and manifest:
+     - Primary document: `/docs/architecture/features/feature_{{feature_id}}_design.md`
+     - Context document: `/docs/architecture/handoffs/feature_{{feature_id}}_arch_to_backend.md`
+     - ADR references: List of relevant ADR document paths
+     - Technical specs: API specifications, schema definitions
+   - Indicate next agent assignment: System-Architect → Backend-Engineer
+   - Flag special considerations: Timeline urgency, technology risks, compliance requirements
+
+5. **Task Assignment (Orchestrator)**:
+   - Orchestrator validates handoff package completeness using **TOOL-ORG-001**:
+     - Confirm all architectural artifacts accessible
+     - Verify handoff context document complete
+     - Validate quality gate QG-PHASE2 passed
+   - Dispatch task to Backend-Engineer using Task tool:
+     - **subagent_type**: backend-engineer
+     - **description**: Implementation complexity estimation for feature {{feature_id}}
+     - **prompt**: "Execute P-COMPLEXITY-EST protocol for feature {{feature_id}} in GitHub issue {{issue_number}}. Provide comprehensive implementation complexity estimate including story points (Fibonacci scale), T-shirt sizing (S/M/L/XL), person-days with confidence intervals, and risk factor analysis. Review architectural design at /docs/architecture/features/feature_{{feature_id}}_design.md and handoff context at /docs/architecture/handoffs/feature_{{feature_id}}_arch_to_backend.md. Validate technical requirements and identify any clarification needs. Estimation required by [deadline] for sprint planning."
+   - Provide task_packet.json with:
+     - Previous agent deliverables (architectural design, ADRs, specs)
+     - Handoff context document path
+     - Current phase status (post-QG-PHASE2)
+     - Acceptance criteria for complexity estimation
+     - Priority level and deadline
+
+6. **Handoff Acceptance (Backend-Engineer)**:
+   - Backend-Engineer reviews handoff package using **TOOL-COLLAB-001**:
+     - Read handoff context document for architectural overview
+     - Review architectural design document for technical details
+     - Examine relevant ADRs for decision rationale
+     - Validate API specifications and data models
+     - Check database schema and migration requirements
+   - Perform acceptance validation using **TOOL-DEV-002**:
+     - Verify all referenced artifacts accessible and complete
+     - Confirm architectural specifications sufficient for estimation
+     - Identify any missing technical details or ambiguities
+     - Assess complexity indicators for implementation effort
+     - Validate understanding of performance and security requirements
+   - Acknowledgment process:
+     - If handoff valid: Post GitHub comment acknowledging receipt within 1 hour, begin P-COMPLEXITY-EST protocol execution
+     - If issues found: Request clarification with specific questions via GitHub comment, listing missing artifacts or unclear specifications
+
+7. **Clarification Loop (if needed)**:
+   - Backend-Engineer requests clarification from System-Architect via Orchestrator using **TOOL-COLLAB-001**:
+     - Post GitHub comment with specific clarification questions
+     - Identify missing technical details or ambiguous requirements
+     - Request additional architectural context or design rationale
+   - System-Architect responds via GitHub comment within 2 hours:
+     - Provide requested technical specifications
+     - Clarify architectural decisions and rationale
+     - Update handoff context document if needed
+     - Supply additional ADR references or documentation
+   - Orchestrator facilitates asynchronous communication using **TOOL-ORG-001**:
+     - Monitor clarification thread for resolution
+     - Track response times against SLOs
+     - Escalate if clarification cycle exceeds 3 iterations
+   - Loop continues until Backend-Engineer satisfied with architectural context
+   - If unresolvable: Orchestrator escalates to Human Command Group for architectural guidance
+
+8. **Work Continuation (Backend-Engineer)**:
+   - Backend-Engineer begins P-COMPLEXITY-EST protocol execution:
+     - Analyze architectural design for implementation complexity
+     - Assess technical specifications against team capabilities
+     - Calculate story points using Fibonacci scale (1, 2, 3, 5, 8, 13, 21)
+     - Provide T-shirt sizing (S/M/L/XL) for high-level estimation
+     - Generate person-days estimate with confidence intervals
+     - Identify risk factors and implementation blockers
+   - Reference architectural artifacts throughout estimation:
+     - Maintain traceability to architectural decisions
+     - Link complexity factors to specific ADRs
+     - Document implementation assumptions
+   - Create estimation document at `/docs/development/estimates/feature_{{feature_id}}_estimate.md`
+   - Log any deviations from architectural assumptions or recommendations
+
+9. **Handoff Completion Logging (System-Architect)**:
+   - System-Architect receives complexity estimate from Backend-Engineer via GitHub comment
+   - Parse and validate estimation completeness using **TOOL-DATA-002**:
+     - Story points rating present (Fibonacci scale)
+     - T-shirt sizing provided (S/M/L/XL)
+     - Person-days estimate with confidence intervals
+     - Risk factor analysis identifying blockers
+     - Technical requirements validation or clarification requests
+   - Integrate estimates into architectural planning:
+     - Update architectural design with implementation constraints
+     - Revise ADRs if complexity reveals architectural issues
+     - Document implementation recommendations
+     - Flag technology decisions requiring reconsideration
+   - Forward consolidated analysis to Product-Owner for sprint planning
+   - Log handoff completion via **TOOL-COLLAB-001**:
+     - Source agent: System-Architect
+     - Receiving agent: Backend-Engineer
+     - Handoff timestamp (start and completion)
+     - Deliverable manifest (list of architectural artifacts)
+     - Validation status (acceptance, clarification cycles count)
+     - Estimation results summary
+   - Track metrics using **TOOL-DATA-002**:
+     - Handoff preparation time
+     - Backend-Engineer acknowledgment time
+     - Clarification cycle count (if any)
+     - Total handoff duration (preparation to estimate receipt)
+     - Estimation quality assessment
+
 ## Handoff Steps
 
 ### Step 1: Implementation Request Preparation
