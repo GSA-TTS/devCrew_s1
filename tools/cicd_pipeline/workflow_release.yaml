@@ -1,0 +1,274 @@
+# Release Workflow
+# Issue #36 - TOOL-CICD-001
+# Automated release creation with changelog and artifact publishing
+
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Release version (e.g., v1.0.0)'
+        required: true
+        type: string
+      prerelease:
+        description: 'Mark as pre-release'
+        required: false
+        type: boolean
+        default: false
+
+jobs:
+  validate-release:
+    name: Validate Release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Full history for changelog
+
+      - name: Validate version format
+        run: |
+          VERSION="${{ github.event.inputs.version }}"
+          if [[ ! $VERSION =~ ^v[0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9]+)?$ ]]; then
+            echo "❌ Invalid version format: $VERSION"
+            echo "Expected format: vX.Y.Z or vX.Y.Z-suffix"
+            exit 1
+          fi
+          echo "✅ Version format valid: $VERSION"
+
+      - name: Check if version exists
+        run: |
+          VERSION="${{ github.event.inputs.version }}"
+          if git rev-parse "$VERSION" >/dev/null 2>&1; then
+            echo "❌ Version $VERSION already exists"
+            exit 1
+          fi
+          echo "✅ Version $VERSION is new"
+
+      - name: Run quality gate
+        uses: ./.github/workflows/issue_36_workflow_quality_gate.yaml
+
+  build-artifacts:
+    name: Build Release Artifacts
+    runs-on: ubuntu-latest
+    needs: [validate-release]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install build dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install build wheel setuptools
+
+      - name: Build distribution packages
+        run: |
+          # Create minimal setup.py if not exists
+          if [ ! -f setup.py ]; then
+            cat > setup.py << 'EOF'
+          from setuptools import setup, find_packages
+
+          setup(
+              name="cicd-pipeline-platform",
+              version="${{ github.event.inputs.version }}".lstrip('v'),
+              packages=find_packages(),
+              python_requires=">=3.11",
+          )
+          EOF
+          fi
+
+          python -m build
+          echo "✅ Distribution packages built"
+
+      - name: Generate checksum
+        run: |
+          cd dist
+          sha256sum * > checksums.txt
+          cat checksums.txt
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-artifacts
+          path: |
+            dist/
+          retention-days: 90
+
+  generate-changelog:
+    name: Generate Changelog
+    runs-on: ubuntu-latest
+    needs: [validate-release]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Get previous tag
+        id: prev_tag
+        run: |
+          PREV_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
+          if [ -z "$PREV_TAG" ]; then
+            echo "No previous tag found, using initial commit"
+            PREV_TAG=$(git rev-list --max-parents=0 HEAD)
+          fi
+          echo "prev_tag=$PREV_TAG" >> $GITHUB_OUTPUT
+          echo "Previous version: $PREV_TAG"
+
+      - name: Generate changelog
+        run: |
+          VERSION="${{ github.event.inputs.version }}"
+          PREV_TAG="${{ steps.prev_tag.outputs.prev_tag }}"
+
+          cat > CHANGELOG.md << EOF
+          # Changelog for $VERSION
+
+          ## Changes since $PREV_TAG
+
+          ### Features
+          $(git log $PREV_TAG..HEAD --oneline --grep="feat:" --grep="feature:" -i | sed 's/^/- /')
+
+          ### Bug Fixes
+          $(git log $PREV_TAG..HEAD --oneline --grep="fix:" --grep="bug:" -i | sed 's/^/- /')
+
+          ### Documentation
+          $(git log $PREV_TAG..HEAD --oneline --grep="docs:" --grep="documentation:" -i | sed 's/^/- /')
+
+          ### Other Changes
+          $(git log $PREV_TAG..HEAD --oneline --invert-grep --grep="feat:" --grep="fix:" --grep="docs:" -i | sed 's/^/- /')
+
+          ---
+
+          **Full Changelog**: https://github.com/${{ github.repository }}/compare/$PREV_TAG...$VERSION
+          EOF
+
+          cat CHANGELOG.md
+
+      - name: Upload changelog
+        uses: actions/upload-artifact@v4
+        with:
+          name: changelog
+          path: CHANGELOG.md
+          retention-days: 90
+
+  create-release:
+    name: Create GitHub Release
+    runs-on: ubuntu-latest
+    needs: [build-artifacts, generate-changelog]
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: release-files
+
+      - name: Create release tag
+        run: |
+          VERSION="${{ github.event.inputs.version }}"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git tag -a "$VERSION" -m "Release $VERSION"
+          git push origin "$VERSION"
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ github.event.inputs.version }}
+          name: Release ${{ github.event.inputs.version }}
+          body_path: release-files/changelog/CHANGELOG.md
+          draft: false
+          prerelease: ${{ github.event.inputs.prerelease }}
+          files: |
+            release-files/release-artifacts/dist/*
+          generate_release_notes: true
+
+      - name: Release created
+        run: |
+          echo "✅ Release ${{ github.event.inputs.version }} created successfully"
+          echo "URL: ${{ github.server_url }}/${{ github.repository }}/releases/tag/${{ github.event.inputs.version }}"
+
+  notify-release:
+    name: Notify Release
+    runs-on: ubuntu-latest
+    needs: [create-release]
+    if: success()
+
+    steps:
+      - name: Send notification
+        run: |
+          cat << EOF
+          📢 Release Notification
+
+          Version: ${{ github.event.inputs.version }}
+          Pre-release: ${{ github.event.inputs.prerelease }}
+          Created by: ${{ github.actor }}
+
+          Release URL: ${{ github.server_url }}/${{ github.repository }}/releases/tag/${{ github.event.inputs.version }}
+
+          ✅ Release published successfully
+          EOF
+
+          # Add actual notification logic here
+          # Examples:
+          # - Slack webhook
+          # - Email notification
+          # - Discord webhook
+          # - Teams notification
+
+  release-summary:
+    name: Release Summary
+    runs-on: ubuntu-latest
+    needs: [create-release, notify-release]
+    if: always()
+
+    steps:
+      - name: Generate release summary
+        run: |
+          cat << EOF > release-summary.md
+          # Release Summary
+
+          **Version:** ${{ github.event.inputs.version }}
+          **Pre-release:** ${{ github.event.inputs.prerelease }}
+          **Triggered by:** ${{ github.actor }}
+          **Workflow Run:** ${{ github.run_id }}
+
+          ## Job Results
+
+          - Validation: ${{ needs.validate-release.result }}
+          - Build Artifacts: ${{ needs.build-artifacts.result }}
+          - Generate Changelog: ${{ needs.generate-changelog.result }}
+          - Create Release: ${{ needs.create-release.result }}
+          - Notify Release: ${{ needs.notify-release.result }}
+
+          ## Links
+
+          - [Release](${{ github.server_url }}/${{ github.repository }}/releases/tag/${{ github.event.inputs.version }})
+          - [Workflow Run](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
+
+          ---
+
+          ${{ needs.create-release.result == 'success' && '✅ Release completed successfully' || '❌ Release failed' }}
+          EOF
+
+          cat release-summary.md
+
+      - name: Upload summary
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-summary
+          path: release-summary.md
+          retention-days: 90

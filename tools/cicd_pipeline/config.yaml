@@ -1,0 +1,138 @@
+# CI/CD Pipeline Platform Configuration
+# Issue #36 - TOOL-CICD-001
+
+github:
+  # Repository information (set via environment or override here)
+  owner: "your-org"
+  repo: "your-repo"
+  # Personal Access Token (use environment variable GITHUB_TOKEN)
+  token: "${GITHUB_TOKEN}"
+
+  # API settings
+  api_url: "https://api.github.com"
+  timeout: 30
+  max_retries: 3
+
+workflows:
+  # Workflow file paths (relative to .github/workflows/)
+  quality_gate: "quality_gate.yml"
+  tdd: "tdd.yml"
+  deployment: "deployment.yml"
+  release: "release.yml"
+
+  # Default branch
+  default_branch: "main"
+
+  # Workflow run settings
+  poll_interval: 10  # seconds
+  max_wait_time: 1800  # 30 minutes
+
+quality_gates:
+  # Code coverage thresholds
+  coverage:
+    minimum: 80.0  # percentage
+    target: 85.0
+    enforcement: true
+
+  # Security scanning
+  security:
+    max_high_severity: 0
+    max_medium_severity: 5
+    max_low_severity: 10
+    fail_on_high: true
+
+  # Code quality metrics
+  code_quality:
+    max_complexity: 10
+    max_duplication: 5.0  # percentage
+    max_lines_per_function: 50
+
+  # Linting
+  linting:
+    fail_on_error: true
+    fail_on_warning: false
+
+deployment:
+  # Environment configuration
+  environments:
+    dev:
+      requires_approval: false
+      auto_deploy: true
+      health_check_url: "https://dev.example.com/health"
+
+    staging:
+      requires_approval: true
+      auto_deploy: false
+      health_check_url: "https://staging.example.com/health"
+      approvers:
+        - "devops-team"
+
+    production:
+      requires_approval: true
+      auto_deploy: false
+      health_check_url: "https://example.com/health"
+      approvers:
+        - "devops-team"
+        - "tech-leads"
+
+  # Deployment settings
+  rollback_enabled: true
+  health_check_timeout: 300  # seconds
+  health_check_retries: 5
+
+artifacts:
+  # Artifact retention
+  retention_days: 90
+
+  # Artifact patterns
+  patterns:
+    - "coverage/**"
+    - "test-results/**"
+    - "security-reports/**"
+    - "build/**"
+    - "dist/**"
+
+  # Download settings
+  download_path: "./artifacts"
+  extract_archives: true
+
+release:
+  # Release configuration
+  tag_prefix: "v"
+  generate_notes: true
+  draft: false
+  prerelease: false
+
+  # Changelog settings
+  changelog_sections:
+    - title: "Features"
+      labels: ["enhancement", "feature"]
+    - title: "Bug Fixes"
+      labels: ["bug", "fix"]
+    - title: "Documentation"
+      labels: ["documentation"]
+    - title: "Breaking Changes"
+      labels: ["breaking"]
+
+logging:
+  # Logging configuration
+  level: "INFO"  # DEBUG, INFO, WARNING, ERROR, CRITICAL
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file: "pipeline.log"
+  console: true
+
+protocols:
+  # Protocol-specific settings
+  tdd:
+    enforce_red_phase: true
+    enforce_green_phase: true
+    allow_refactor_only: false
+
+  devsecops:
+    security_scan_required: true
+    dependency_check_required: true
+    container_scan_required: false
+
+  qgate:
+    parallel_checks: true
+    fail_fast: false

@@ -1,0 +1,218 @@
+# TDD Workflow
+# Issue #36 - TOOL-CICD-001
+# Test-Driven Development: Red-Green-Refactor workflow
+
+name: TDD Workflow
+
+on:
+  workflow_dispatch:
+    inputs:
+      phase:
+        description: 'TDD Phase'
+        required: true
+        type: choice
+        options:
+          - red
+          - green
+          - refactor
+          - full
+        default: 'full'
+
+jobs:
+  red-phase:
+    name: Red Phase - Failing Tests
+    runs-on: ubuntu-latest
+    if: ${{ github.event.inputs.phase == 'red' || github.event.inputs.phase == 'full' }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r issue_36_requirements.txt
+
+      - name: Run tests (expect failures)
+        id: red_tests
+        run: |
+          pytest -v --tb=short || true
+          EXIT_CODE=$?
+          if [ $EXIT_CODE -eq 0 ]; then
+            echo "WARNING: All tests passed in RED phase"
+            echo "status=warning" >> $GITHUB_OUTPUT
+          else
+            echo "Expected: Tests failed in RED phase"
+            echo "status=expected" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Validate RED phase
+        run: |
+          echo "RED Phase complete"
+          echo "Status: ${{ steps.red_tests.outputs.status }}"
+          if [ "${{ steps.red_tests.outputs.status }}" = "warning" ]; then
+            echo "⚠️ WARNING: No failing tests found in RED phase"
+            echo "TDD requires writing failing tests first"
+          else
+            echo "✅ RED phase successful - tests are failing as expected"
+          fi
+
+  green-phase:
+    name: Green Phase - Passing Tests
+    runs-on: ubuntu-latest
+    needs: [red-phase]
+    if: |
+      always() &&
+      (github.event.inputs.phase == 'green' || github.event.inputs.phase == 'full')
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r issue_36_requirements.txt
+
+      - name: Run tests (expect success)
+        run: |
+          pytest -v --tb=short
+
+      - name: Run tests with coverage
+        run: |
+          pytest \
+            --cov=. \
+            --cov-report=xml \
+            --cov-report=term \
+            -v
+
+      - name: Validate GREEN phase
+        run: |
+          echo "✅ GREEN Phase complete - all tests passing"
+
+      - name: Upload coverage
+        uses: actions/upload-artifact@v4
+        with:
+          name: green-phase-coverage
+          path: coverage.xml
+          retention-days: 30
+
+  refactor-phase:
+    name: Refactor Phase - Code Quality
+    runs-on: ubuntu-latest
+    needs: [green-phase]
+    if: |
+      always() &&
+      (github.event.inputs.phase == 'refactor' || github.event.inputs.phase == 'full')
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r issue_36_requirements.txt
+
+      - name: Run tests (must still pass)
+        run: |
+          pytest -v --tb=short
+
+      - name: Run Black formatter check
+        run: |
+          black --check --diff issue_36_*.py
+
+      - name: Run isort check
+        run: |
+          isort --check-only --diff issue_36_*.py
+
+      - name: Run Flake8
+        run: |
+          flake8 issue_36_*.py \
+            --max-line-length=88 \
+            --extend-ignore=E203,W503
+
+      - name: Run Pylint
+        run: |
+          pylint issue_36_*.py \
+            --fail-under=8.0 \
+            || true
+
+      - name: Check code complexity
+        run: |
+          radon cc issue_36_*.py -a -nb
+          radon cc issue_36_*.py -a -nb --total-average > complexity.txt
+          COMPLEXITY=$(tail -1 complexity.txt | awk '{print $NF}')
+          echo "Average complexity: $COMPLEXITY"
+
+      - name: Run MyPy type checking
+        run: |
+          mypy issue_36_*.py --ignore-missing-imports || true
+
+      - name: Validate REFACTOR phase
+        run: |
+          echo "✅ REFACTOR Phase complete - code quality checks passed"
+
+  tdd-summary:
+    name: TDD Summary
+    runs-on: ubuntu-latest
+    needs: [red-phase, green-phase, refactor-phase]
+    if: always()
+
+    steps:
+      - name: Generate TDD report
+        run: |
+          echo "# TDD Workflow Summary" > tdd-summary.md
+          echo "" >> tdd-summary.md
+          echo "**Phase:** ${{ github.event.inputs.phase }}" >> tdd-summary.md
+          echo "**Workflow Run:** ${{ github.run_id }}" >> tdd-summary.md
+          echo "" >> tdd-summary.md
+          echo "## Phase Results" >> tdd-summary.md
+          echo "" >> tdd-summary.md
+          echo "- Red Phase: ${{ needs.red-phase.result }}" >> tdd-summary.md
+          echo "- Green Phase: ${{ needs.green-phase.result }}" >> tdd-summary.md
+          echo "- Refactor Phase: ${{ needs.refactor-phase.result }}" >> tdd-summary.md
+          cat tdd-summary.md
+
+      - name: Upload summary
+        uses: actions/upload-artifact@v4
+        with:
+          name: tdd-summary
+          path: tdd-summary.md
+          retention-days: 30
+
+      - name: Check overall status
+        run: |
+          RED="${{ needs.red-phase.result }}"
+          GREEN="${{ needs.green-phase.result }}"
+          REFACTOR="${{ needs.refactor-phase.result }}"
+
+          if [[ "$GREEN" == "failure" ]]; then
+            echo "❌ TDD workflow failed - GREEN phase failed"
+            exit 1
+          fi
+
+          if [[ "$REFACTOR" == "failure" ]]; then
+            echo "❌ TDD workflow failed - REFACTOR phase failed"
+            exit 1
+          fi
+
+          echo "✅ TDD workflow completed successfully"

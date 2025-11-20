@@ -1,0 +1,33 @@
+# CI/CD Pipeline Platform Dependencies
+# Issue #36 - TOOL-CICD-001
+
+# GitHub API Integration
+PyGithub>=2.1.1
+
+# HTTP Requests
+requests>=2.31.0
+
+# Configuration
+pyyaml>=6.0
+
+# Date/Time Utilities
+python-dateutil>=2.8.2
+
+# Testing Framework
+pytest>=7.4.0
+pytest-cov>=4.1.0
+pytest-mock>=3.12.0
+pytest-asyncio>=0.21.0
+
+# Code Quality
+black>=23.0.0
+flake8>=6.0.0
+pylint>=2.17.0
+mypy>=1.4.0
+
+# Security Scanning
+bandit>=1.7.5
+
+# Type Checking
+types-requests>=2.31.0
+types-PyYAML>=6.0.0

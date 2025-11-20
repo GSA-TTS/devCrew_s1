@@ -1,0 +1,342 @@
+# Issue #41: Configuration File
+# Customer Data Management & API Gateway Integration Platform
+
+# Application Settings
+app:
+  name: "Customer Data Management API"
+  version: "1.0.0"
+  environment: "development"  # development, staging, production
+  debug: true
+  log_level: "INFO"
+
+# Server Settings
+server:
+  host: "0.0.0.0"
+  port: 8000
+  workers: 4
+  reload: true  # Only for development
+
+# Database Configuration
+database:
+  # PostgreSQL connection
+  postgres:
+    host: "localhost"
+    port: 5432
+    username: "postgres"
+    password: "CHANGE_ME_IN_PRODUCTION"
+    database: "customer_db"
+    pool_size: 10
+    max_overflow: 20
+    echo: false  # SQL query logging
+
+  # Analytics Database (separate for reporting)
+  analytics:
+    host: "localhost"
+    port: 5432
+    username: "analytics_user"
+    password: "CHANGE_ME_IN_PRODUCTION"
+    database: "analytics_db"
+
+# Redis Configuration
+redis:
+  host: "localhost"
+  port: 6379
+  db: 0
+  password: ""  # Leave empty if no password
+  decode_responses: true
+  socket_timeout: 5
+  socket_connect_timeout: 5
+
+# Authentication Settings
+authentication:
+  # JWT Configuration
+  jwt:
+    secret_key: "CHANGE_ME_TO_RANDOM_SECRET_KEY_IN_PRODUCTION"
+    algorithm: "HS256"
+    access_token_expire_minutes: 30
+    refresh_token_expire_days: 7
+
+  # OAuth2 Configuration
+  oauth2:
+    client_id: "your_oauth2_client_id"
+    client_secret: "CHANGE_ME_IN_PRODUCTION"
+    redirect_uri: "http://localhost:8000/auth/callback"
+    authorization_url: "https://oauth.provider.com/authorize"
+    token_url: "https://oauth.provider.com/token"
+
+  # API Key Settings
+  api_key:
+    header_name: "X-API-Key"
+    prefix: "sk_"
+
+# Rate Limiting Configuration
+rate_limiting:
+  enabled: true
+
+  # Per-user limits
+  per_user:
+    max_requests: 1000
+    window_seconds: 3600  # 1 hour
+    block_duration_seconds: 300  # 5 minutes
+
+  # Per-IP limits
+  per_ip:
+    max_requests: 100
+    window_seconds: 60  # 1 minute
+    block_duration_seconds: 300
+
+  # Global limits
+  global:
+    max_requests: 10000
+    window_seconds: 60
+
+  # Endpoint-specific limits
+  endpoints:
+    auth:
+      max_requests: 5
+      window_seconds: 300  # 5 attempts per 5 minutes
+
+    write:
+      max_requests: 100
+      window_seconds: 3600
+
+    read:
+      max_requests: 1000
+      window_seconds: 3600
+
+# API Gateway Configuration
+api_gateway:
+  type: "kong"  # kong or tyk
+
+  # Kong Configuration
+  kong:
+    admin_url: "http://localhost:8001"
+    proxy_url: "http://localhost:8000"
+    admin_api_key: ""  # Leave empty if no authentication required
+
+  # Tyk Configuration
+  tyk:
+    admin_url: "http://localhost:3000"
+    gateway_url: "http://localhost:8080"
+    admin_api_key: "CHANGE_ME_IN_PRODUCTION"
+    org_id: "default"
+
+# Privacy & Compliance Settings
+privacy:
+  # PII Detection
+  pii_detection:
+    enabled: true
+    confidence_threshold: 0.7
+
+  # GDPR Settings
+  gdpr:
+    enabled: true
+    required_consents:
+      - "data_processing"
+    data_retention_days: 365
+    erasure_delay_days: 30  # Grace period before permanent deletion
+
+  # Anonymization Settings
+  anonymization:
+    salt: "CHANGE_ME_TO_RANDOM_SALT_IN_PRODUCTION"
+    hash_algorithm: "sha256"
+
+# Audit Logging Configuration
+audit_logging:
+  enabled: true
+  log_all_requests: false  # Only log important events if false
+  log_pii_access: true
+  log_authentication: true
+  log_data_modifications: true
+  retention_days: 90
+
+  # Log storage
+  storage:
+    type: "file"  # file, database, or both
+    file_path: "/var/log/customer_api/audit.log"
+    max_file_size_mb: 100
+    backup_count: 10
+
+# Feedback Ingestion Settings
+feedback:
+  # Processing settings
+  processing:
+    batch_size: 100
+    max_file_size_mb: 10
+    allowed_formats:
+      - "json"
+      - "csv"
+
+  # Validation settings
+  validation:
+    require_customer_id: true
+    max_subject_length: 500
+    max_content_length: 10000
+
+  # Deduplication settings
+  deduplication:
+    enabled: true
+    window_hours: 24
+
+# Data Pipeline Configuration
+data_pipeline:
+  # Airflow settings
+  airflow:
+    enabled: true
+    dag_folder: "/opt/airflow/dags"
+    log_folder: "/opt/airflow/logs"
+
+  # Pipeline schedules
+  schedules:
+    customer_etl: "0 2 * * *"  # Daily at 2 AM
+    feedback_processing: "0 */6 * * *"  # Every 6 hours
+    data_enrichment: "0 3 * * *"  # Daily at 3 AM
+    quality_monitoring: "0 */4 * * *"  # Every 4 hours
+
+# Cache Configuration
+cache:
+  enabled: true
+  default_ttl_seconds: 300  # 5 minutes
+
+  # Cache strategies per endpoint type
+  strategies:
+    customer_read:
+      ttl_seconds: 600  # 10 minutes
+      invalidate_on_update: true
+
+    feedback_read:
+      ttl_seconds: 300  # 5 minutes
+
+    metrics:
+      ttl_seconds: 60  # 1 minute
+
+# Performance Settings
+performance:
+  # Connection pooling
+  connection_pool:
+    max_connections: 100
+    min_connections: 10
+
+  # Request timeout settings
+  timeouts:
+    request_timeout_seconds: 30
+    database_timeout_seconds: 10
+    redis_timeout_seconds: 5
+
+  # Pagination limits
+  pagination:
+    default_page_size: 100
+    max_page_size: 1000
+
+# CORS Configuration
+cors:
+  enabled: true
+  allow_origins:
+    - "http://localhost:3000"
+    - "http://localhost:8080"
+  allow_methods:
+    - "GET"
+    - "POST"
+    - "PUT"
+    - "PATCH"
+    - "DELETE"
+    - "OPTIONS"
+  allow_headers:
+    - "Content-Type"
+    - "Authorization"
+    - "X-API-Key"
+  allow_credentials: true
+  max_age: 3600
+
+# Monitoring & Metrics
+monitoring:
+  enabled: true
+
+  # Prometheus metrics
+  prometheus:
+    enabled: true
+    port: 9090
+    endpoint: "/metrics"
+
+  # Health checks
+  health_checks:
+    enabled: true
+    interval_seconds: 30
+    timeout_seconds: 5
+
+# Protocol Integration Settings
+protocols:
+  # P-ADR-CREATION: Store ADRs as structured data
+  adr_creation:
+    enabled: true
+    storage_path: "/data/adrs"
+
+  # P-BUG-PRIORITIZATION: Bug data ingestion
+  bug_prioritization:
+    enabled: true
+    priority_threshold: 70
+
+  # P-FEEDBACK-INGEST: Feedback collection
+  feedback_ingest:
+    enabled: true
+
+  # P-FILE-IO: File upload/download
+  file_io:
+    enabled: true
+    max_upload_size_mb: 50
+    allowed_extensions:
+      - "json"
+      - "csv"
+      - "txt"
+
+  # P-ROADMAP-SYNC: Roadmap data sync
+  roadmap_sync:
+    enabled: true
+    sync_interval_hours: 24
+
+  # P-STAKEHOLDER-COMM: Notifications
+  stakeholder_comm:
+    enabled: true
+    notification_channels:
+      - "email"
+      - "webhook"
+
+  # P-CACHE-MANAGEMENT: Cache operations
+  cache_management:
+    enabled: true
+
+  # P-KNOW-KG-INTERACTION: Knowledge graph access
+  kg_interaction:
+    enabled: true
+    endpoint: "http://localhost:7474"
+
+  # P-HANDOFF-PO-ARCH: Data handoff
+  handoff:
+    enabled: true
+
+# Email Configuration (for notifications)
+email:
+  enabled: false
+  smtp_host: "smtp.example.com"
+  smtp_port: 587
+  smtp_username: "notifications@example.com"
+  smtp_password: "CHANGE_ME_IN_PRODUCTION"
+  from_address: "noreply@example.com"
+  use_tls: true
+
+# Webhook Configuration
+webhooks:
+  enabled: false
+  endpoints:
+    customer_created: "https://example.com/webhooks/customer_created"
+    feedback_received: "https://example.com/webhooks/feedback_received"
+  timeout_seconds: 10
+  retry_attempts: 3
+
+# Feature Flags
+features:
+  advanced_analytics: true
+  sentiment_analysis: true
+  auto_tagging: true
+  real_time_notifications: false
+  batch_processing: true
