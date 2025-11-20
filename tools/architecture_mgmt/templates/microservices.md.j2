@@ -1,0 +1,95 @@
+# ADR-{{ "%03d"|format(adr.number) }}: {{ adr.title }}
+
+**Status**: {{ adr.status }}
+**Date**: {{ adr.date }}
+**Deciders**: {{ adr.deciders|join(', ') }}
+**Architecture Type**: Microservices
+{% if adr.technical_story %}**Technical Story**: {{ adr.technical_story }}  {% endif %}
+
+## Context and Problem Statement
+
+{{ adr.context }}
+
+## Business Requirements
+
+- Scalability needs
+- Team structure and autonomy
+- Deployment frequency requirements
+- Technology diversity
+
+{% if adr.decision_drivers %}
+## Technical Drivers
+
+{% for driver in adr.decision_drivers %}
+- {{ driver }}
+{% endfor %}
+{% endif %}
+
+{% if adr.considered_options %}
+## Architecture Options Evaluated
+
+{% for option in adr.considered_options %}
+{{ loop.index }}. {{ option }}
+{% endfor %}
+{% endif %}
+
+## Decision
+
+{{ adr.decision }}
+
+### Service Boundaries
+
+- Define service boundaries based on business capabilities
+- Each service owns its data
+- Communication via REST APIs and event bus
+
+### Deployment Strategy
+
+- Containerized deployment (Docker/Kubernetes)
+- Independent deployment pipelines
+- Blue-green deployment strategy
+
+## Consequences
+
+{{ adr.consequences }}
+
+### Positive Consequences
+
+- Independent service scaling
+- Technology flexibility
+- Team autonomy
+- Fault isolation
+
+### Negative Consequences
+
+- Increased operational complexity
+- Distributed data management
+- Network latency considerations
+- Debugging complexity
+
+## Implementation Guidelines
+
+1. Start with coarse-grained services
+2. Define clear API contracts
+3. Implement service discovery
+4. Set up centralized logging and monitoring
+5. Establish deployment automation
+
+{% if adr.compliance %}
+## Compliance & Standards
+
+{% for comp in adr.compliance %}
+- {{ comp }}
+{% endfor %}
+{% endif %}
+
+## Links
+
+{% if adr.supersedes %}
+- Supersedes: {{ adr.supersedes|map('format', 'ADR-%03d')|join(', ') }}
+{% else %}
+- Supersedes: None
+{% endif %}
+{% if adr.related_adrs %}
+- Related ADRs: {{ adr.related_adrs|map('format', 'ADR-%03d')|join(', ') }}
+{% endif %}

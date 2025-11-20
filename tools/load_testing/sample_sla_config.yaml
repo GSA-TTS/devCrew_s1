@@ -1,0 +1,62 @@
+# Issue #37: Sample SLA Configuration
+# Define performance thresholds for load test validation
+
+# SLA Definitions
+slas:
+  # Response Time SLAs
+  - name: "P95 Response Time SLA"
+    metric: "p95_response_time"
+    threshold: 500  # milliseconds
+    operator: "less_than"
+
+  - name: "P99 Response Time SLA"
+    metric: "p99_response_time"
+    threshold: 1000  # milliseconds
+    operator: "less_than"
+
+  - name: "Average Response Time SLA"
+    metric: "avg_response_time"
+    threshold: 300  # milliseconds
+    operator: "less_than"
+
+  # Error Rate SLAs
+  - name: "Error Rate SLA (99.9% Success)"
+    metric: "error_rate"
+    threshold: 0.1  # 0.1% error rate = 99.9% success rate
+    operator: "less_than"
+
+  # Throughput SLAs
+  - name: "Minimum Throughput"
+    metric: "requests_per_second"
+    threshold: 10  # RPS
+    operator: "greater_than_or_equal"
+
+# Bottleneck Detection Thresholds
+latency_threshold_ms: 500  # P95 latency threshold in milliseconds
+error_rate_threshold: 1.0  # Maximum acceptable error rate percentage
+
+# Capacity Planning Targets
+target_latency_ms: 400  # Target P95 latency for capacity recommendations
+target_error_rate: 0.5  # Target error rate percentage for capacity recommendations
+
+# Test Configuration Suggestions
+recommended_test_parameters:
+  load_test:
+    vus: 50
+    duration: "5m"
+    description: "Sustained load test to validate normal operation"
+
+  stress_test:
+    vus: 200
+    duration: "10m"
+    description: "Stress test to find system limits"
+
+  spike_test:
+    vus: 500
+    duration: "2m"
+    description: "Spike test to validate system resilience"
+
+  soak_test:
+    vus: 30
+    duration: "4h"
+    description: "Extended test to identify memory leaks"

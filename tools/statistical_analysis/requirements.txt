@@ -1,0 +1,36 @@
+# Core dependencies for Statistical Analysis & RICE Scoring Engine
+# Tool ID: TOOL-DATA-002
+# Issue: #34
+
+# Data manipulation and analysis
+pandas>=2.0.0,<3.0.0
+numpy>=1.24.0,<2.0.0
+
+# Statistical functions
+scipy>=1.10.0,<2.0.0
+statsmodels>=0.14.0,<0.15.0
+
+# Visualization
+matplotlib>=3.7.0,<4.0.0
+seaborn>=0.12.0,<0.14.0
+
+# Excel support (optional)
+openpyxl>=3.1.0,<4.0.0
+
+# Pretty tables for CLI output
+tabulate>=0.9.0,<1.0.0
+
+# Testing dependencies
+pytest>=7.4.0,<8.0.0
+pytest-cov>=4.1.0,<5.0.0
+
+# Code quality tools
+black>=23.0.0,<25.0.0
+isort>=5.12.0,<6.0.0
+flake8>=6.0.0,<8.0.0
+mypy>=1.5.0,<2.0.0
+bandit>=1.7.5,<2.0.0
+
+# Type hints for pandas
+pandas-stubs>=2.0.0,<3.0.0
+types-tabulate>=0.9.0,<1.0.0

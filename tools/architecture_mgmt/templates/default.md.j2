@@ -1,0 +1,65 @@
+# ADR-{{ "%03d"|format(adr.number) }}: {{ adr.title }}
+
+**Status**: {{ adr.status }}
+**Date**: {{ adr.date }}
+**Deciders**: {{ adr.deciders|join(', ') }}
+{% if adr.technical_story %}**Technical Story**: {{ adr.technical_story }}  {% endif %}
+
+## Context and Problem Statement
+
+{{ adr.context }}
+
+{% if adr.decision_drivers %}
+## Decision Drivers
+
+{% for driver in adr.decision_drivers %}
+- {{ driver }}
+{% endfor %}
+{% endif %}
+
+{% if adr.considered_options %}
+## Considered Options
+
+{% for option in adr.considered_options %}
+{{ loop.index }}. {{ option }}
+{% endfor %}
+{% endif %}
+
+## Decision Outcome
+
+{{ adr.decision }}
+
+## Consequences
+
+{{ adr.consequences }}
+
+{% if adr.compliance %}
+## Compliance
+
+{% for comp in adr.compliance %}
+- {{ comp }}
+{% endfor %}
+{% endif %}
+
+## Links
+
+{% if adr.supersedes %}
+- Supersedes: {{ adr.supersedes|map('format', 'ADR-%03d')|join(', ') }}
+{% else %}
+- Supersedes: None
+{% endif %}
+{% if adr.superseded_by %}
+- Superseded by: [ADR-{{ "%03d"|format(adr.superseded_by) }}](ADR-{{ "%03d"|format(adr.superseded_by) }}.md)
+{% endif %}
+{% if adr.amended_by %}
+- Amended by: {{ adr.amended_by|map('format', 'ADR-%03d')|join(', ') }}
+{% endif %}
+{% if adr.related_adrs %}
+- Related: {{ adr.related_adrs|map('format', 'ADR-%03d')|join(', ') }}
+{% endif %}
+
+{% if adr.tags %}
+## Tags
+
+{{ adr.tags|join(', ') }}
+{% endif %}

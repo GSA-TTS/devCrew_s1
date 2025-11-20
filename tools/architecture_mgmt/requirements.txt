@@ -1,0 +1,42 @@
+# Architecture Management & Documentation Platform Dependencies
+# Issue #40: TOOL-ARCH-001
+
+# Core Dependencies
+PyYAML>=6.0.1
+pydantic>=2.5.0
+click>=8.1.7
+jinja2>=3.1.2
+
+# GitHub Integration
+PyGithub>=2.1.1
+requests>=2.31.0
+
+# Diagram Generation
+graphviz>=0.20.1
+plantuml>=0.3.0
+
+# Code Analysis
+radon>=6.0.1
+mccabe>=0.7.0
+pylint>=3.0.0
+
+# Documentation
+markdown>=3.5.1
+python-frontmatter>=1.0.1
+
+# Testing
+pytest>=7.4.3
+pytest-cov>=4.1.0
+pytest-mock>=3.12.0
+
+# Development
+black>=23.11.0
+isort>=5.12.0
+flake8>=6.1.0
+mypy>=1.7.0
+bandit>=1.7.5
+
+# Utilities
+python-dateutil>=2.8.2
+colorama>=0.4.6
+tabulate>=0.9.0

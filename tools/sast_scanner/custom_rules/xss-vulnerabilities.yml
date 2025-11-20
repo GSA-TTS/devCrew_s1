@@ -1,0 +1,83 @@
+rules:
+  - id: javascript-dom-xss
+    pattern-either:
+      - pattern: $ELEM.innerHTML = $INPUT
+      - pattern: document.write($INPUT)
+      - pattern: $ELEM.outerHTML = $INPUT
+    message: |
+      Potential Cross-Site Scripting (XSS) vulnerability. Setting innerHTML
+      or using document.write with unsanitized user input can lead to XSS.
+
+      Example:
+        # Bad
+        element.innerHTML = userInput
+
+        # Good
+        element.textContent = userInput
+        # Or use a sanitization library like DOMPurify
+    languages: [javascript, typescript]
+    severity: ERROR
+    metadata:
+      category: security
+      cwe:
+        - "CWE-79"
+      owasp:
+        - "A03:2021-Injection"
+      confidence: HIGH
+      references:
+        - https://owasp.org/www-community/attacks/xss/
+
+  - id: python-flask-xss
+    pattern: |
+      return $VAR
+    paths:
+      include:
+        - "*.py"
+    message: |
+      Potential XSS in Flask route. Returning user input directly without
+      escaping can lead to XSS. Use render_template or Markup with caution.
+
+      Example:
+        # Bad
+        @app.route("/")
+        def index():
+            return request.args.get("name")
+
+        # Good
+        from markupsafe import escape
+        @app.route("/")
+        def index():
+            return escape(request.args.get("name"))
+    languages: [python]
+    severity: WARNING
+    metadata:
+      category: security
+      cwe:
+        - "CWE-79"
+      owasp:
+        - "A03:2021-Injection"
+      confidence: MEDIUM
+
+  - id: react-dangerously-set-inner-html
+    pattern: |
+      <$ELEM dangerouslySetInnerHTML={{__html: $VAR}} />
+    message: |
+      Using dangerouslySetInnerHTML with unsanitized input can lead to XSS.
+      Ensure the content is properly sanitized before rendering.
+
+      Example:
+        # Bad
+        <div dangerouslySetInnerHTML={{__html: userContent}} />
+
+        # Good
+        import DOMPurify from 'dompurify'
+        <div dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(userContent)}} />
+    languages: [javascript, typescript]
+    severity: ERROR
+    metadata:
+      category: security
+      cwe:
+        - "CWE-79"
+      owasp:
+        - "A03:2021-Injection"
+      confidence: HIGH

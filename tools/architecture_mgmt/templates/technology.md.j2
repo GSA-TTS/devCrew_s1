@@ -1,0 +1,112 @@
+# ADR-{{ "%03d"|format(adr.number) }}: {{ adr.title }}
+
+**Status**: {{ adr.status }}
+**Date**: {{ adr.date }}
+**Deciders**: {{ adr.deciders|join(', ') }}
+**Decision Type**: Technology Selection
+{% if adr.technical_story %}**Technical Story**: {{ adr.technical_story }}  {% endif %}
+
+## Context and Problem Statement
+
+{{ adr.context }}
+
+## Requirements
+
+- Functional requirements
+- Performance requirements
+- Scalability needs
+- Team expertise
+- Licensing considerations
+- Community support
+
+{% if adr.decision_drivers %}
+## Selection Criteria
+
+{% for driver in adr.decision_drivers %}
+- {{ driver }}
+{% endfor %}
+{% endif %}
+
+{% if adr.considered_options %}
+## Technology Options
+
+{% for option in adr.considered_options %}
+{{ loop.index }}. {{ option }}
+{% endfor %}
+
+### Evaluation Matrix
+
+| Criteria | Option 1 | Option 2 | Option 3 |
+|----------|----------|----------|----------|
+| Performance | | | |
+| Scalability | | | |
+| Community | | | |
+| Learning Curve | | | |
+| Cost | | | |
+{% endif %}
+
+## Decision
+
+{{ adr.decision }}
+
+### Chosen Technology
+
+- **Name**: [Technology Name]
+- **Version**: [Version]
+- **License**: [License Type]
+
+### Justification
+
+- Meets performance requirements
+- Strong community support
+- Team has existing expertise
+- Good documentation
+- Active development
+
+## Consequences
+
+{{ adr.consequences }}
+
+### Positive Consequences
+
+- Performance benefits
+- Development velocity
+- Community resources
+
+### Negative Consequences
+
+- Learning curve
+- Licensing costs
+- Vendor lock-in risks
+
+## Migration Plan
+
+1. Prototype development
+2. Team training
+3. Gradual migration
+4. Deprecation of old technology
+
+{% if adr.compliance %}
+## Compliance
+
+{% for comp in adr.compliance %}
+- {{ comp }}
+{% endfor %}
+{% endif %}
+
+## Links
+
+{% if adr.supersedes %}
+- Supersedes: {{ adr.supersedes|map('format', 'ADR-%03d')|join(', ') }}
+{% else %}
+- Supersedes: None
+{% endif %}
+{% if adr.related_adrs %}
+- Related: {{ adr.related_adrs|map('format', 'ADR-%03d')|join(', ') }}
+{% endif %}
+
+## References
+
+- Official Documentation: [URL]
+- Community Forum: [URL]
+- Best Practices: [URL]

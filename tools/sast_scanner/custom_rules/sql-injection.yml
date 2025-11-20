@@ -1,0 +1,76 @@
+rules:
+  - id: python-sql-injection-format
+    pattern: |
+      cursor.execute($QUERY % ...)
+    message: |
+      Potential SQL injection vulnerability detected. String formatting with %
+      is vulnerable to SQL injection attacks. Use parameterized queries instead.
+
+      Example:
+        # Bad
+        cursor.execute("SELECT * FROM users WHERE id = %s" % user_id)
+
+        # Good
+        cursor.execute("SELECT * FROM users WHERE id = %s", (user_id,))
+    languages: [python]
+    severity: ERROR
+    metadata:
+      category: security
+      cwe:
+        - "CWE-89"
+      owasp:
+        - "A03:2021-Injection"
+      confidence: HIGH
+      references:
+        - https://owasp.org/www-community/attacks/SQL_Injection
+        - https://cwe.mitre.org/data/definitions/89.html
+
+  - id: python-sql-injection-format-string
+    pattern-either:
+      - pattern: cursor.execute(f"... {$VAR} ...")
+      - pattern: cursor.execute("...".format(...))
+    message: |
+      SQL injection vulnerability: Using f-strings or .format() for SQL queries
+      is unsafe. Always use parameterized queries.
+
+      Example:
+        # Bad
+        cursor.execute(f"SELECT * FROM users WHERE name = '{username}'")
+
+        # Good
+        cursor.execute("SELECT * FROM users WHERE name = %s", (username,))
+    languages: [python]
+    severity: ERROR
+    metadata:
+      category: security
+      cwe:
+        - "CWE-89"
+      owasp:
+        - "A03:2021-Injection"
+      confidence: HIGH
+
+  - id: javascript-sql-injection
+    pattern-either:
+      - pattern: |
+          $DB.query($QUERY + $VAR)
+      - pattern: |
+          $DB.query(`... ${$VAR} ...`)
+    message: |
+      SQL injection vulnerability: String concatenation or template literals
+      in SQL queries can lead to SQL injection. Use parameterized queries.
+
+      Example:
+        # Bad
+        db.query("SELECT * FROM users WHERE id = " + userId)
+
+        # Good
+        db.query("SELECT * FROM users WHERE id = ?", [userId])
+    languages: [javascript, typescript]
+    severity: ERROR
+    metadata:
+      category: security
+      cwe:
+        - "CWE-89"
+      owasp:
+        - "A03:2021-Injection"
+      confidence: HIGH
