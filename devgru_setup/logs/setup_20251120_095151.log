@@ -1,0 +1,52 @@
+
+[0;36m========================================[0m
+[0;36mDevGRU Setup Script v1.0.0[0m
+[0;36m========================================[0m
+[0;34m[INFO][0m Profile: minimal
+[0;34m[INFO][0m Dry Run: true
+[0;34m[INFO][0m Verbose: false
+[0;34m[INFO][0m Skip Databases: false
+[0;34m[INFO][0m Skip Tools: false
+[0;34m[INFO][0m Log File: /Users/tamnguyen/Documents/GitHub/devCrew_s1/devgru_setup/logs/setup_20251120_095151.log
+[0;33m[WARNING][0m DRY RUN MODE - No actual changes will be made
+
+[0;36m========================================[0m
+[0;36mDetecting Operating System[0m
+[0;36m========================================[0m
+[0;32m[SUCCESS][0m OS Type: macos
+[0;32m[SUCCESS][0m OS Version: 26.1
+[0;32m[SUCCESS][0m Architecture: arm64
+[0;32m[SUCCESS][0m Package Manager: brew
+
+[0;36m========================================[0m
+[0;36mVerifying Prerequisites[0m
+[0;36m========================================[0m
+[0;32m[SUCCESS][0m Prerequisites file validated
+[0;32m[SUCCESS][0m All required tools are available
+
+[0;36m========================================[0m
+[0;36mUpdating Package Manager[0m
+[0;36m========================================[0m
+[0;34m[INFO][0m [DRY-RUN] Would execute: brew update
+[0;32m[SUCCESS][0m Package manager updated
+
+[0;36m========================================[0m
+[0;36mExecuting Profile: minimal[0m
+[0;36m========================================[0m
+
+[0;36m========================================[0m
+[0;36mInstalling Python 3.10+[0m
+[0;36m========================================[0m
+[0;32m[SUCCESS][0m Python 3.12 is already installed
+
+[0;36m========================================[0m
+[0;36mInstalling Core Packages[0m
+[0;36m========================================[0m
+[0;34m[INFO][0m Installing Python package: pandas>=2.0
+[0;34m[INFO][0m Package already installed: pandas
+[0;34m[INFO][0m Installing Python package: requests>=2.31
+[0;34m[INFO][0m Package already installed: requests
+[0;34m[INFO][0m Installing Python package: pydantic>=2.5
+[0;34m[INFO][0m Package already installed: pydantic
+[0;34m[INFO][0m Installing Python package: celery>=5.3.4
+[0;31m[ERROR][0m Setup failed with exit code: 141

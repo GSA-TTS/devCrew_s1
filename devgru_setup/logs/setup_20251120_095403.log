@@ -1,0 +1,177 @@
+
+[0;36m========================================[0m
+[0;36mDevGRU Setup Script v1.0.0[0m
+[0;36m========================================[0m
+[0;34m[INFO][0m Profile: security
+[0;34m[INFO][0m Dry Run: true
+[0;34m[INFO][0m Verbose: false
+[0;34m[INFO][0m Skip Databases: false
+[0;34m[INFO][0m Skip Tools: false
+[0;34m[INFO][0m Log File: /Users/tamnguyen/Documents/GitHub/devCrew_s1/devgru_setup/logs/setup_20251120_095403.log
+[0;33m[WARNING][0m DRY RUN MODE - No actual changes will be made
+
+[0;36m========================================[0m
+[0;36mDetecting Operating System[0m
+[0;36m========================================[0m
+[0;32m[SUCCESS][0m OS Type: macos
+[0;32m[SUCCESS][0m OS Version: 26.1
+[0;32m[SUCCESS][0m Architecture: arm64
+[0;32m[SUCCESS][0m Package Manager: brew
+
+[0;36m========================================[0m
+[0;36mVerifying Prerequisites[0m
+[0;36m========================================[0m
+[0;32m[SUCCESS][0m Prerequisites file validated
+[0;32m[SUCCESS][0m All required tools are available
+
+[0;36m========================================[0m
+[0;36mUpdating Package Manager[0m
+[0;36m========================================[0m
+[0;34m[INFO][0m [DRY-RUN] Would execute: brew update
+[0;32m[SUCCESS][0m Package manager updated
+
+[0;36m========================================[0m
+[0;36mExecuting Profile: security[0m
+[0;36m========================================[0m
+
+[0;36m========================================[0m
+[0;36mInstalling Python 3.10+[0m
+[0;36m========================================[0m
+[0;32m[SUCCESS][0m Python 3.12 is already installed
+
+[0;36m========================================[0m
+[0;36mInstalling Core Packages[0m
+[0;36m========================================[0m
+[0;34m[INFO][0m Installing Python package: pandas>=2.0
+[0;34m[INFO][0m Package already installed: pandas
+[0;34m[INFO][0m Installing Python package: requests>=2.31
+[0;34m[INFO][0m Package already installed: requests
+[0;34m[INFO][0m Installing Python package: pydantic>=2.5
+[0;34m[INFO][0m Package already installed: pydantic
+[0;34m[INFO][0m Installing Python package: celery>=5.3.4
+[0;34m[INFO][0m Package already installed: celery
+[0;34m[INFO][0m Installing Python package: playwright>=1.40
+[0;34m[INFO][0m [DRY-RUN] Would execute: python3 -m pip install 'playwright>=1.40'
+[0;32m[SUCCESS][0m Core packages installation completed
+
+[0;36m========================================[0m
+[0;36mInstalling Optional Packages[0m
+[0;36m========================================[0m
+[0;34m[INFO][0m Installing Python package: fastapi>=0.104
+[0;34m[INFO][0m Package already installed: fastapi
+[0;34m[INFO][0m Installing Python package: sqlalchemy>=2.0
+[0;34m[INFO][0m Package already installed: sqlalchemy
+[0;34m[INFO][0m Installing Python package: pytest>=7.4
+[0;34m[INFO][0m Package already installed: pytest
+[0;34m[INFO][0m Installing Python package: langchain>=0.1
+[0;34m[INFO][0m Package already installed: langchain
+[0;34m[INFO][0m Installing Python package: spacy>=3.7
+[0;34m[INFO][0m [DRY-RUN] Would execute: python3 -m pip install 'spacy>=3.7'
+[0;34m[INFO][0m Installing Python package: beautifulsoup4>=4.12
+[0;34m[INFO][0m Package already installed: beautifulsoup4
+[0;34m[INFO][0m Installing Python package: scrapy>=2.11
+[0;34m[INFO][0m [DRY-RUN] Would execute: python3 -m pip install 'scrapy>=2.11'
+[0;34m[INFO][0m Installing Python package: docker>=7.0
+[0;34m[INFO][0m [DRY-RUN] Would execute: python3 -m pip install 'docker>=7.0'
+[0;34m[INFO][0m Installing Python package: kubernetes>=1.27
+[0;34m[INFO][0m [DRY-RUN] Would execute: python3 -m pip install 'kubernetes>=1.27'
+[0;34m[INFO][0m Installing Python package: safety>=3.0
+[0;34m[INFO][0m Package already installed: safety
+[0;34m[INFO][0m Installing Python package: bandit>=1.7.5
+[0;34m[INFO][0m Package already installed: bandit
+[0;34m[INFO][0m Installing Python package: checkov>=3.1
+[0;34m[INFO][0m [DRY-RUN] Would execute: python3 -m pip install 'checkov>=3.1'
+[0;34m[INFO][0m Installing Python package: numpy>=1.24
+[0;34m[INFO][0m Package already installed: numpy
+[0;34m[INFO][0m Installing Python package: sentence-transformers>=2.2
+[0;34m[INFO][0m [DRY-RUN] Would execute: python3 -m pip install 'sentence-transformers>=2.2'
+[0;34m[INFO][0m Installing Python package: chromadb>=0.4
+[0;34m[INFO][0m [DRY-RUN] Would execute: python3 -m pip install 'chromadb>=0.4'
+[0;32m[SUCCESS][0m Optional packages installation completed
+
+[0;36m========================================[0m
+[0;36mInstalling Security Tools[0m
+[0;36m========================================[0m
+[0;34m[INFO][0m Installing Python package: safety>=3.0
+[0;34m[INFO][0m Package already installed: safety
+[0;34m[INFO][0m Installing Python package: bandit>=1.7.5
+[0;34m[INFO][0m Package already installed: bandit
+[0;34m[INFO][0m Installing Python package: checkov>=3.1
+[0;34m[INFO][0m [DRY-RUN] Would execute: python3 -m pip install 'checkov>=3.1'
+[0;32m[SUCCESS][0m Security tools installation completed
+[0;32m[SUCCESS][0m Profile execution completed
+
+[0;36m========================================[0m
+[0;36mVerifying Installation[0m
+[0;36m========================================[0m
+[0;32m[SUCCESS][0m Python: Python 3.12.9
+[0;32m[SUCCESS][0m pip is available
+[0;34m[INFO][0m Verifying installed packages...
+[0;33m[WARNING][0m ✗ playwright verification failed
+[0;33m[WARNING][0m ✗ spacy verification failed
+[0;33m[WARNING][0m ✗ scrapy verification failed
+[0;33m[WARNING][0m ✗ kubernetes verification failed
+[0;33m[WARNING][0m ✗ checkov verification failed
+[0;33m[WARNING][0m ✗ sentence-transformers verification failed
+[0;33m[WARNING][0m ✗ chromadb verification failed
+[0;33m[WARNING][0m ✗ checkov verification failed
+[0;32m[SUCCESS][0m Installation verification passed
+
+[0;36m========================================[0m
+[0;36mInstallation Report[0m
+[0;36m========================================[0m
+DevGRU Setup Installation Report
+================================
+
+Timestamp: Thu Nov 20 09:54:12 EST 2025
+Profile: security
+OS Type: macos
+OS Version: 26.1
+Architecture: arm64
+
+Installed Packages (9):
+  - playwright
+  - spacy
+  - scrapy
+  - docker
+  - kubernetes
+  - checkov
+  - sentence-transformers
+  - chromadb
+  - checkov
+
+Failed Packages (8):
+  - playwright
+  - spacy
+  - scrapy
+  - kubernetes
+  - checkov
+  - sentence-transformers
+  - chromadb
+  - checkov
+
+Log File: /Users/tamnguyen/Documents/GitHub/devCrew_s1/devgru_setup/logs/setup_20251120_095403.log
+State File: /Users/tamnguyen/Documents/GitHub/devCrew_s1/devgru_setup/.state/installation_state.json
+
+Next Steps:
+1. Review the log file for any warnings or errors
+2. Verify package installations with: pip list
+3. Configure cloud provider credentials if applicable
+4. Set up virtual environments for project isolation
+5. Review project-specific requirements
+
+[0;32m[SUCCESS][0m Report saved to: /Users/tamnguyen/Documents/GitHub/devCrew_s1/devgru_setup/logs/installation_report_20251120_095412.txt
+
+[0;36m========================================[0m
+[0;36mSetup Completed Successfully![0m
+[0;36m========================================[0m
+[0;32m[SUCCESS][0m DevGRU environment has been configured with profile: security
+[0;32m[SUCCESS][0m Total packages installed: 9
+[0;33m[WARNING][0m Some packages failed to install: 8
+[0;33m[WARNING][0m Check the log file for details: /Users/tamnguyen/Documents/GitHub/devCrew_s1/devgru_setup/logs/setup_20251120_095403.log
+[0;34m[INFO][0m Next steps:
+[0;34m[INFO][0m   1. Review the installation report
+[0;34m[INFO][0m   2. Configure cloud provider credentials (if applicable)
+[0;34m[INFO][0m   3. Create a virtual environment for your projects
+[0;34m[INFO][0m   4. Install project-specific dependencies
+[0;34m[INFO][0m Cleanup completed

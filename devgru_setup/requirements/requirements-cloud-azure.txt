@@ -1,0 +1,19 @@
+# Azure Cloud Dependencies for devCrew_s1
+# Generated from validated prerequisites (issue #67)
+# Last updated: 2025-11-20
+# Required for Azure cloud integrations and resource management
+
+# Azure Resource Management
+# SDK for managing Azure resources (resource groups, deployments, subscriptions)
+# Core library for Azure infrastructure provisioning and management
+azure-mgmt-resource>=23.0
+
+# Azure Blob Storage
+# Client library for Azure Blob Storage operations
+# Enables file storage, data lake integration, and backup solutions
+azure-storage-blob>=12.0
+
+# Azure Cost Management
+# SDK for accessing Azure cost and billing data
+# Provides cost analysis, budget tracking, and usage reporting
+azure-mgmt-costmanagement>=4.0

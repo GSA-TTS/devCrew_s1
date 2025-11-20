@@ -1,0 +1,64 @@
+# Optional Python Dependencies for devCrew_s1
+# Generated from validated prerequisites (issue #67)
+# Last updated: 2025-11-20
+# These packages are used by specific features and can be installed as needed
+
+# Web Framework
+# Modern async web framework for building REST APIs and microservices
+fastapi>=0.104
+
+# Database ORM
+# SQL toolkit and Object-Relational Mapping for database interactions
+sqlalchemy>=2.0
+
+# Testing Framework
+# Feature-rich testing framework for unit and integration tests
+pytest>=7.4
+
+# LLM Framework
+# Building context-aware reasoning applications with LLMs
+langchain>=0.1
+
+# Natural Language Processing
+# Industrial-strength NLP library for text analysis and entity recognition
+spacy>=3.7
+
+# Web Scraping - HTML Parser
+# Library for parsing HTML and XML documents, excellent for web scraping
+beautifulsoup4>=4.12
+
+# Web Scraping - Framework
+# Fast high-level web crawling and scraping framework
+scrapy>=2.11
+
+# Container Management
+# Python SDK for Docker API, enables container orchestration
+docker>=7.0
+
+# Kubernetes Client
+# Official Python client for Kubernetes API
+kubernetes>=1.27
+
+# Security - Dependency Vulnerability Scanner
+# Checks Python dependencies for known security vulnerabilities
+safety>=3.0
+
+# Security - Code Security Scanner
+# Finds common security issues in Python code (SAST tool)
+bandit>=1.7.5
+
+# Security - Infrastructure as Code Scanner
+# Prevents cloud misconfigurations and security issues in IaC
+checkov>=3.1
+
+# Numerical Computing
+# Fundamental package for scientific computing with Python
+numpy>=1.24
+
+# Semantic Search
+# Framework for state-of-the-art sentence and text embeddings
+sentence-transformers>=2.2
+
+# Vector Database
+# AI-native open-source embedding database for semantic search
+chromadb>=0.4

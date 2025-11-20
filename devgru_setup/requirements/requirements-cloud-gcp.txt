@@ -1,0 +1,19 @@
+# Google Cloud Platform Dependencies for devCrew_s1
+# Generated from validated prerequisites (issue #67)
+# Last updated: 2025-11-20
+# Required for GCP cloud integrations and resource management
+
+# Google Cloud Storage
+# Client library for Google Cloud Storage operations
+# Enables object storage, data lake integration, and file management
+google-cloud-storage>=2.14
+
+# Google Cloud Billing
+# SDK for accessing GCP billing and cost data
+# Provides cost analysis, budget management, and usage tracking
+google-cloud-billing>=1.12
+
+# Google Cloud Resource Manager
+# SDK for managing GCP resources (projects, organizations, folders)
+# Core library for GCP infrastructure provisioning and hierarchy management
+google-cloud-resource-manager>=1.11

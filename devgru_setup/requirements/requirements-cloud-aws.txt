@@ -1,0 +1,9 @@
+# AWS Cloud Dependencies for devCrew_s1
+# Generated from validated prerequisites (issue #67)
+# Last updated: 2025-11-20
+# Required for AWS cloud integrations and resource management
+
+# AWS SDK for Python
+# Provides Python interfaces to Amazon Web Services (S3, EC2, Lambda, etc.)
+# Essential for AWS resource provisioning, cost analysis, and service integration
+boto3>=1.34

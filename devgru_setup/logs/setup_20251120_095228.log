@@ -1,0 +1,4 @@
+[0;31m[ERROR][0m Invalid profile: invalid
+[0;34m[INFO][0m Valid profiles: minimal standard full security cloud-aws cloud-azure cloud-gcp
+[0;31m[ERROR][0m Setup failed with exit code: 1
+[0;34m[INFO][0m Cleanup completed

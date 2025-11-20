@@ -1,0 +1,23 @@
+# Core Python Dependencies for devCrew_s1
+# Generated from validated prerequisites (issue #67)
+# Last updated: 2025-11-20
+
+# Data manipulation and analysis (usage_count: 9)
+# Used across multiple projects for data processing, CSV handling, and analytics
+pandas>=2.0
+
+# HTTP client library (usage_count: 5)
+# Essential for API calls, web scraping, and external service integration
+requests>=2.31
+
+# Data validation and settings management (usage_count: 3)
+# Provides runtime type checking and data validation for API models
+pydantic>=2.5
+
+# Distributed task queue (usage_count: 3)
+# Enables asynchronous task processing and background job execution
+celery>=5.3.4
+
+# Browser automation framework (usage_count: 3)
+# Powers web scraping, testing, and automated browser interactions
+playwright>=1.40

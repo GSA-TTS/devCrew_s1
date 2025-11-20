@@ -1,0 +1,40 @@
+DevGRU Setup Installation Report
+================================
+
+Timestamp: Thu Nov 20 09:54:12 EST 2025
+Profile: security
+OS Type: macos
+OS Version: 26.1
+Architecture: arm64
+
+Installed Packages (9):
+  - playwright
+  - spacy
+  - scrapy
+  - docker
+  - kubernetes
+  - checkov
+  - sentence-transformers
+  - chromadb
+  - checkov
+
+Failed Packages (8):
+  - playwright
+  - spacy
+  - scrapy
+  - kubernetes
+  - checkov
+  - sentence-transformers
+  - chromadb
+  - checkov
+
+Log File: /Users/tamnguyen/Documents/GitHub/devCrew_s1/devgru_setup/logs/setup_20251120_095403.log
+State File: /Users/tamnguyen/Documents/GitHub/devCrew_s1/devgru_setup/.state/installation_state.json
+
+Next Steps:
+1. Review the log file for any warnings or errors
+2. Verify package installations with: pip list
+3. Configure cloud provider credentials if applicable
+4. Set up virtual environments for project isolation
+5. Review project-specific requirements
+
