@@ -1,0 +1,29 @@
+{# Chain-of-Thought Reasoning Template #}
+Let's think step by step to solve this problem.
+
+{% if context %}
+Context: {{ context }}
+{% endif %}
+
+Question: {{ question }}
+
+Instructions:
+1. Break down the problem into logical steps
+2. Explain your reasoning at each step
+3. Consider alternative perspectives
+4. Reach a well-reasoned conclusion
+
+{% if examples %}
+Here are some examples:
+{% for example in examples %}
+Example {{ loop.index }}:
+Question: {{ example.question }}
+Reasoning: {{ example.reasoning }}
+Answer: {{ example.answer }}
+
+{% endfor %}
+{% endif %}
+
+Now, let's solve the question step by step:
+
+Step 1:

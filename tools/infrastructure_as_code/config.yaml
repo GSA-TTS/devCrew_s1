@@ -1,0 +1,134 @@
+# Infrastructure as Code Platform Configuration
+# Issue #38: TOOL-INFRA-001
+
+# Terraform configuration
+terraform:
+  binary: "terraform"
+  working_dir: "."
+  max_retries: 3
+  retry_delay: 5
+
+# Cloud provider configuration
+provider:
+  name: "aws"  # Options: aws, azure, gcp
+  region: "us-east-1"
+  credentials:
+    # AWS credentials (use environment variables or AWS CLI config)
+    # access_key_id: "YOUR_AWS_ACCESS_KEY"
+    # secret_access_key: "YOUR_AWS_SECRET_KEY"
+    # profile: "default"
+
+    # Azure credentials (use environment variables or Azure CLI)
+    # subscription_id: "YOUR_AZURE_SUBSCRIPTION_ID"
+
+    # GCP credentials (use environment variables or gcloud config)
+    # project_id: "YOUR_GCP_PROJECT_ID"
+    # credentials_file: "/path/to/credentials.json"
+
+# Remote state backend configuration
+backend:
+  type: "s3"  # Options: s3, azurerm, gcs, local
+
+  # S3 backend (AWS)
+  bucket: "terraform-state-bucket"
+  key: "terraform.tfstate"
+  region: "us-east-1"
+  encrypt: true
+  dynamodb_table: "terraform-state-lock"
+  # kms_key_id: "arn:aws:kms:us-east-1:123456789:key/xxx"
+
+  # Azure Storage backend
+  # storage_account_name: "tfstate"
+  # container_name: "terraform-state"
+  # resource_group_name: "terraform-rg"
+
+  # GCS backend (GCP)
+  # bucket: "terraform-state-bucket"
+  # prefix: "terraform/state"
+
+# Security and compliance validation
+validation:
+  enable_checkov: true
+  enable_tfsec: true
+  severity_threshold: "MEDIUM"  # Options: CRITICAL, HIGH, MEDIUM, LOW, INFO
+
+  # Custom policies directory (optional)
+  # custom_policies_dir: "./policies"
+
+  # Compliance frameworks to check (optional)
+  # frameworks:
+  #   - "cis-aws"
+  #   - "pci-dss"
+  #   - "hipaa"
+
+# Cost estimation
+cost_estimation:
+  enabled: true
+  budget_limit: 1000.0  # Monthly budget in USD
+  currency: "USD"
+
+  # Cost alerts
+  alert_threshold: 0.8  # Alert when 80% of budget is reached
+
+# Drift detection
+drift_detection:
+  enabled: true
+  auto_remediate: false  # Automatically fix drift (USE WITH CAUTION)
+
+  # Ignore specific resources (optional)
+  # ignore_resources:
+  #   - "aws_instance.temporary"
+
+# Logging configuration
+logging:
+  level: "INFO"  # Options: DEBUG, INFO, WARNING, ERROR
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+
+  # Log to file (optional)
+  # file: "iac_manager.log"
+
+# Notification configuration (optional)
+notifications:
+  enabled: false
+
+  # Slack webhook
+  # slack_webhook: "https://hooks.slack.com/services/YOUR/WEBHOOK/URL"
+
+  # Email notifications
+  # email:
+  #   smtp_server: "smtp.gmail.com"
+  #   smtp_port: 587
+  #   from_address: "noreply@example.com"
+  #   to_addresses:
+  #     - "admin@example.com"
+
+# Protocol integration settings
+protocols:
+  # P-ARCH-INTEGRATION: Architecture-driven infrastructure
+  architecture_integration: true
+
+  # P-CLOUD-VALIDATION: Cloud architecture validation
+  cloud_validation: true
+
+  # CORE-CACHE-003: Cache infrastructure provisioning
+  cache_provisioning: true
+
+  # P-DEPLOYMENT-VALIDATION: Deployment environment validation
+  deployment_validation: true
+
+  # P-DOCKER-CLEANUP: Container infrastructure management
+  docker_cleanup: true
+
+# Advanced options
+advanced:
+  # Parallelism for terraform operations
+  parallelism: 10
+
+  # Timeout for operations (seconds)
+  operation_timeout: 3600
+
+  # Enable detailed logging
+  verbose: false
+
+  # Dry run mode (don't make changes)
+  dry_run: false

@@ -1,0 +1,279 @@
+# Example Alert Rules for APM & Monitoring Platform
+# Issue #35: TOOL-MON-001
+#
+# Load these rules with:
+#   python issue_35_apm_monitor.py --config issue_35_config.yaml alerts load --rules-file issue_35_example_alerts.yaml
+
+groups:
+  - name: apm_availability_alerts
+    interval: 30s
+    rules:
+      # High Error Rate Alert
+      - alert: HighErrorRate
+        expr: |
+          (
+            sum(rate(http_requests_total{code=~"5.."}[5m]))
+            /
+            sum(rate(http_requests_total[5m]))
+          ) > 0.01
+        for: 5m
+        labels:
+          severity: critical
+          team: platform
+          protocol: P-INCIDENT-DETECTION
+        annotations:
+          summary: "High error rate detected"
+          description: "Error rate is {{ $value | humanizePercentage }} (threshold: 1%)"
+          runbook_url: "https://wiki.example.com/runbooks/high-error-rate"
+
+      # Service Down Alert
+      - alert: ServiceDown
+        expr: up{job="api"} == 0
+        for: 1m
+        labels:
+          severity: critical
+          team: platform
+          protocol: P-HEALTHCHECK
+        annotations:
+          summary: "Service {{ $labels.instance }} is down"
+          description: "Service has been down for more than 1 minute"
+          runbook_url: "https://wiki.example.com/runbooks/service-down"
+
+      # SLO Breach Alert
+      - alert: SLOBreach
+        expr: |
+          (
+            sum(rate(http_requests_total{code!~"5.."}[1h]))
+            /
+            sum(rate(http_requests_total[1h]))
+          ) < 0.999
+        for: 10m
+        labels:
+          severity: warning
+          team: platform
+          protocol: P-SLO-TRACKING
+        annotations:
+          summary: "SLO breach: availability below 99.9%"
+          description: "Current availability: {{ $value | humanizePercentage }}"
+          runbook_url: "https://wiki.example.com/runbooks/slo-breach"
+
+  - name: apm_latency_alerts
+    interval: 30s
+    rules:
+      # High Latency Alert (p95)
+      - alert: HighLatencyP95
+        expr: |
+          histogram_quantile(0.95,
+            sum(rate(http_request_duration_seconds_bucket[5m])) by (le)
+          ) > 0.1
+        for: 5m
+        labels:
+          severity: warning
+          team: platform
+          protocol: P-PERFORMANCE-MONITORING
+        annotations:
+          summary: "High p95 latency detected"
+          description: "p95 latency is {{ $value | humanizeDuration }} (threshold: 100ms)"
+          runbook_url: "https://wiki.example.com/runbooks/high-latency"
+
+      # High Latency Alert (p99)
+      - alert: HighLatencyP99
+        expr: |
+          histogram_quantile(0.99,
+            sum(rate(http_request_duration_seconds_bucket[5m])) by (le)
+          ) > 0.5
+        for: 5m
+        labels:
+          severity: critical
+          team: platform
+          protocol: P-PERFORMANCE-MONITORING
+        annotations:
+          summary: "Critical p99 latency detected"
+          description: "p99 latency is {{ $value | humanizeDuration }} (threshold: 500ms)"
+          runbook_url: "https://wiki.example.com/runbooks/critical-latency"
+
+      # Latency SLO Breach
+      - alert: LatencySLOBreach
+        expr: |
+          (
+            sum(rate(http_request_duration_seconds_bucket{le="0.1"}[1h]))
+            /
+            sum(rate(http_request_duration_seconds_count[1h]))
+          ) < 0.95
+        for: 10m
+        labels:
+          severity: warning
+          team: platform
+          protocol: P-SLO-TRACKING
+        annotations:
+          summary: "Latency SLO breach: less than 95% requests under 100ms"
+          description: "Current percentage: {{ $value | humanizePercentage }}"
+          runbook_url: "https://wiki.example.com/runbooks/latency-slo-breach"
+
+  - name: apm_resource_alerts
+    interval: 30s
+    rules:
+      # High CPU Usage
+      - alert: HighCPUUsage
+        expr: rate(process_cpu_seconds_total[5m]) * 100 > 80
+        for: 10m
+        labels:
+          severity: warning
+          team: platform
+          protocol: P-CAPACITY-PLANNING
+        annotations:
+          summary: "High CPU usage on {{ $labels.instance }}"
+          description: "CPU usage is {{ $value | humanize }}% (threshold: 80%)"
+          runbook_url: "https://wiki.example.com/runbooks/high-cpu"
+
+      # High Memory Usage
+      - alert: HighMemoryUsage
+        expr: |
+          (
+            process_resident_memory_bytes
+            /
+            process_virtual_memory_max_bytes
+          ) * 100 > 80
+        for: 10m
+        labels:
+          severity: warning
+          team: platform
+          protocol: P-CAPACITY-PLANNING
+        annotations:
+          summary: "High memory usage on {{ $labels.instance }}"
+          description: "Memory usage is {{ $value | humanize }}% (threshold: 80%)"
+          runbook_url: "https://wiki.example.com/runbooks/high-memory"
+
+      # Disk Space Low
+      - alert: DiskSpaceLow
+        expr: |
+          (
+            node_filesystem_avail_bytes{mountpoint="/"}
+            /
+            node_filesystem_size_bytes{mountpoint="/"}
+          ) * 100 < 20
+        for: 5m
+        labels:
+          severity: warning
+          team: platform
+          protocol: P-CAPACITY-PLANNING
+        annotations:
+          summary: "Low disk space on {{ $labels.instance }}"
+          description: "Available disk space: {{ $value | humanize }}% (threshold: 20%)"
+          runbook_url: "https://wiki.example.com/runbooks/low-disk"
+
+  - name: apm_error_budget_alerts
+    interval: 1m
+    rules:
+      # Error Budget Depleted
+      - alert: ErrorBudgetDepleted
+        expr: |
+          (
+            (0.001 - (1 - (
+              sum(rate(http_requests_total{code!~"5.."}[30d]))
+              /
+              sum(rate(http_requests_total[30d]))
+            )))
+            /
+            0.001
+          ) * 100 < 10
+        for: 30m
+        labels:
+          severity: critical
+          team: platform
+          protocol: P-ERROR-BUDGET
+        annotations:
+          summary: "Error budget critically low"
+          description: "Only {{ $value | humanize }}% of error budget remaining for the month"
+          runbook_url: "https://wiki.example.com/runbooks/error-budget-depleted"
+
+      # Fast Error Budget Burn
+      - alert: FastErrorBudgetBurn
+        expr: |
+          (
+            (0.001 - (1 - (
+              sum(rate(http_requests_total{code!~"5.."}[1h]))
+              /
+              sum(rate(http_requests_total[1h]))
+            )))
+            /
+            0.001
+          ) * 100 < 50
+        for: 15m
+        labels:
+          severity: warning
+          team: platform
+          protocol: P-BURN-RATE
+        annotations:
+          summary: "Rapid error budget consumption detected"
+          description: "Error budget burning at {{ $value | humanize }}x normal rate"
+          runbook_url: "https://wiki.example.com/runbooks/fast-burn"
+
+  - name: apm_traffic_alerts
+    interval: 30s
+    rules:
+      # High Traffic Alert
+      - alert: HighTraffic
+        expr: sum(rate(http_requests_total[5m])) > 10000
+        for: 5m
+        labels:
+          severity: info
+          team: platform
+          protocol: P-THROUGHPUT-MEASURE
+        annotations:
+          summary: "High traffic detected"
+          description: "Request rate: {{ $value | humanize }} req/s (threshold: 10000 req/s)"
+          runbook_url: "https://wiki.example.com/runbooks/high-traffic"
+
+      # Traffic Drop Alert
+      - alert: TrafficDrop
+        expr: |
+          sum(rate(http_requests_total[5m]))
+          <
+          sum(rate(http_requests_total[5m] offset 1h)) * 0.5
+        for: 10m
+        labels:
+          severity: warning
+          team: platform
+          protocol: P-THROUGHPUT-MEASURE
+        annotations:
+          summary: "Significant traffic drop detected"
+          description: "Current traffic is less than 50% of traffic 1 hour ago"
+          runbook_url: "https://wiki.example.com/runbooks/traffic-drop"
+
+  - name: apm_dependency_alerts
+    interval: 30s
+    rules:
+      # Database Slow Queries
+      - alert: DatabaseSlowQueries
+        expr: |
+          histogram_quantile(0.95,
+            sum(rate(db_query_duration_seconds_bucket[5m])) by (le)
+          ) > 1
+        for: 5m
+        labels:
+          severity: warning
+          team: platform
+          protocol: P-PERFORMANCE-MONITORING
+        annotations:
+          summary: "Database queries are slow"
+          description: "p95 query time: {{ $value | humanizeDuration }} (threshold: 1s)"
+          runbook_url: "https://wiki.example.com/runbooks/slow-db"
+
+      # Cache Hit Rate Low
+      - alert: CacheHitRateLow
+        expr: |
+          (
+            sum(rate(cache_hits_total[5m]))
+            /
+            sum(rate(cache_requests_total[5m]))
+          ) < 0.8
+        for: 10m
+        labels:
+          severity: warning
+          team: platform
+          protocol: P-PERFORMANCE-MONITORING
+        annotations:
+          summary: "Low cache hit rate"
+          description: "Cache hit rate: {{ $value | humanizePercentage }} (threshold: 80%)"
+          runbook_url: "https://wiki.example.com/runbooks/low-cache-hit"

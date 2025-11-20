@@ -1,0 +1,58 @@
+# AI Reasoning Framework Configuration
+
+# LLM Provider Settings
+llm_provider: "openai"  # Options: openai, anthropic, mock
+model: "gpt-4"          # Model to use
+api_key: ""             # API key (use environment variable: OPENAI_API_KEY or ANTHROPIC_API_KEY)
+
+# Alternative models:
+# OpenAI: gpt-4, gpt-4-turbo, gpt-4o, gpt-3.5-turbo
+# Anthropic: claude-3-opus-20240229, claude-3-sonnet-20240229, claude-3-5-sonnet-20240620
+
+# Generation Settings
+temperature: 0.7
+max_tokens: 8000
+max_retries: 3
+retry_delay: 1.0
+rate_limit_per_minute: 60
+
+# Chain-of-Thought Settings
+cot:
+  max_steps: 5
+  self_consistency_samples: 3
+  enable_reflection: true
+
+# Tree-of-Thought Settings
+tot:
+  max_depth: 3
+  branching_factor: 3
+  beam_width: 2
+  pruning_threshold: 0.3
+
+# Context Management Settings
+context:
+  max_tokens: 8000
+  sliding_window_size: 10
+  compression_threshold: 0.8
+  enable_redis: false
+  redis_url: "redis://localhost:6379"
+
+# Tracing Settings
+tracing:
+  enable_tracing: false
+  project_name: "ai-reasoning"
+  langsmith_api_key: ""  # Use environment variable: LANGSMITH_API_KEY
+
+# Cost Tracking Settings
+cost:
+  budget_limit: null      # Set budget limit in USD (null for no limit)
+  budget_warning_threshold: 0.8
+  enable_alerts: true
+
+# Logging Settings
+log_level: "INFO"  # DEBUG, INFO, WARNING, ERROR, CRITICAL
+log_file: null     # Set to file path for file logging
+
+# Project Settings
+project_name: "ai-reasoning"
+output_dir: "./output"

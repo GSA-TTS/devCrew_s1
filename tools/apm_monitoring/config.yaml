@@ -1,0 +1,140 @@
+# APM & Monitoring Platform Configuration
+# Issue #35: TOOL-MON-001
+
+# Prometheus Server Configuration
+prometheus:
+  url: "http://localhost:9090"
+  timeout: 30
+  verify_ssl: true
+
+# AlertManager Configuration
+alertmanager:
+  url: "http://localhost:9093"
+  timeout: 30
+
+# Grafana Configuration
+grafana:
+  url: "http://localhost:3000"
+  api_key: null  # Set via environment variable GRAFANA_API_KEY
+  username: "admin"
+  password: "admin"
+
+# Health Check Configuration
+health_check:
+  interval: 30  # Default check interval in seconds
+  endpoints:
+    - name: "api_service"
+      url: "http://localhost:8080/health"
+      interval: 30
+      timeout: 10
+      expected_status: 200
+      method: "GET"
+
+    - name: "database"
+      url: "http://localhost:5432/health"
+      interval: 60
+      timeout: 5
+      expected_status: 200
+
+    - name: "cache"
+      url: "http://localhost:6379/ping"
+      interval: 30
+      timeout: 5
+      expected_status: 200
+
+# SLO Definitions
+slos:
+  # Availability SLO
+  - name: "api_availability"
+    type: "availability"
+    target: 99.9  # 99.9% uptime
+    window_days: 30
+    window_type: "rolling"
+    service: "api"
+    description: "API service availability SLO"
+    success_query: 'sum(rate(http_requests_total{service="api",code!~"5.."}[5m]))'
+    total_query: 'sum(rate(http_requests_total{service="api"}[5m]))'
+
+  # Latency SLO
+  - name: "api_latency_p95"
+    type: "latency"
+    target: 95.0  # 95% of requests under threshold
+    window_days: 30
+    window_type: "rolling"
+    service: "api"
+    description: "API p95 latency SLO"
+    latency_threshold_ms: 100  # 100ms threshold
+    success_query: 'sum(rate(http_request_duration_seconds_bucket{service="api",le="0.1"}[5m]))'
+    total_query: 'sum(rate(http_request_duration_seconds_count{service="api"}[5m]))'
+
+  # Database Availability SLO
+  - name: "database_availability"
+    type: "availability"
+    target: 99.95  # 99.95% uptime
+    window_days: 30
+    window_type: "rolling"
+    service: "database"
+    description: "Database availability SLO"
+    success_query: 'sum(rate(db_queries_total{service="database",status="success"}[5m]))'
+    total_query: 'sum(rate(db_queries_total{service="database"}[5m]))'
+
+# Alert Rules (loaded separately via issue_35_example_alerts.yaml)
+# Use: python issue_35_apm_monitor.py --config issue_35_config.yaml alerts load --rules-file issue_35_example_alerts.yaml
+
+# Metrics Collection
+metrics:
+  namespace: "apm"
+  export_port: 8000
+  export_path: "/metrics"
+
+# Performance Settings
+performance:
+  max_metrics_per_second: 100000
+  query_timeout_seconds: 30
+  max_concurrent_queries: 10
+
+# Protocol Integration (28 protocols supported)
+protocols:
+  # Foundation Protocols (Phase 1)
+  - P-HEALTHCHECK  # Automated service health validation
+  - P-SLO-TRACKING  # SLO compliance monitoring with error budgets
+  - P-INCIDENT-DETECTION  # Real-time alert firing
+  - P-PERFORMANCE-MONITORING  # Latency and throughput tracking
+  - P-CAPACITY-PLANNING  # Resource utilization metrics
+
+  # Monitoring & Observability Protocols
+  - P-METRIC-COLLECTION  # Custom metric gathering
+  - P-ALERT-ROUTING  # Alert notification routing
+  - P-DASHBOARD-GEN  # Automated dashboard creation
+  - P-LOG-CORRELATION  # Log and metric correlation
+  - P-TRACE-ANALYSIS  # Distributed tracing support
+
+  # Reliability Protocols
+  - P-ERROR-BUDGET  # Error budget tracking and alerts
+  - P-BURN-RATE  # Error budget burn rate analysis
+  - P-AVAILABILITY-CALC  # Service availability calculation
+  - P-LATENCY-TRACKING  # Response time monitoring
+  - P-THROUGHPUT-MEASURE  # Request throughput metrics
+
+  # Integration Protocols
+  - P-PROM-QUERY  # Prometheus query execution
+  - P-GRAFANA-API  # Grafana dashboard management
+  - P-ALERTMGR-API  # AlertManager integration
+  - P-METRIC-EXPORT  # Prometheus format export
+  - P-HEALTH-ENDPOINT  # HTTP health check endpoints
+
+  # Advanced Features
+  - P-MULTI-WINDOW-SLO  # Rolling and calendar SLO windows
+  - P-COMPOSITE-SLO  # Multi-service SLO aggregation
+  - P-ALERT-SILENCING  # Temporary alert suppression
+  - P-ALERT-INHIBITION  # Cascading alert prevention
+  - P-METRIC-FEDERATION  # Multi-cluster metrics
+  - P-CUSTOM-VALIDATOR  # Custom health check validation
+  - P-AUTO-REMEDIATION  # Automated incident response
+  - P-CAPACITY-FORECAST  # Predictive capacity planning
+
+# Logging Configuration
+logging:
+  level: "INFO"  # DEBUG, INFO, WARNING, ERROR, CRITICAL
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file: null  # Optional log file path

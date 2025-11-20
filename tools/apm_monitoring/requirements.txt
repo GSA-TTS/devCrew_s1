@@ -1,0 +1,25 @@
+# APM & Monitoring Platform Requirements
+# Issue #35: TOOL-MON-001
+
+# Core Prometheus integration
+prometheus-client>=0.19.0
+
+# HTTP requests for API interactions
+requests>=2.31.0
+
+# YAML configuration parsing
+pyyaml>=6.0
+
+# Date and time utilities
+python-dateutil>=2.8.2
+
+# Testing framework
+pytest>=7.4.0
+pytest-cov>=4.1.0
+pytest-mock>=3.12.0
+
+# HTTP retry library (for robustness)
+urllib3>=2.0.0
+
+# Optional: async support (if needed in future)
+# aiohttp>=3.9.0

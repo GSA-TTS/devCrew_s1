@@ -1,0 +1,21 @@
+{# Tree-of-Thought Exploration Template #}
+We are exploring multiple solution paths for this problem.
+
+Question: {{ question }}
+
+{% if context %}
+Context: {{ context }}
+{% endif %}
+
+Current exploration path (depth {{ depth }}):
+{{ current_path }}
+
+Task: Generate {{ num_branches }} different possible next steps or approaches.
+
+Requirements for each thought:
+- Must be logically sound and relevant
+- Should explore different directions
+- Consider trade-offs and alternatives
+- Be specific and actionable
+
+Generate thought {{ branch_num }} of {{ num_branches }}:
