@@ -1,0 +1,11 @@
+# Code Analysis & Quality Metrics Platform Dependencies
+# Core dependencies - all analysis uses Python stdlib (ast module)
+# No external dependencies required for core functionality
+
+# Optional dependencies for enhanced functionality
+# pytest>=7.0.0  # For running tests
+# pytest-cov>=4.0.0  # For coverage reports
+# black>=23.0.0  # Code formatting
+# isort>=5.0.0  # Import sorting
+# flake8>=6.0.0  # Linting
+# mypy>=1.0.0  # Type checking
