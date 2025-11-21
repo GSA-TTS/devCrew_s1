@@ -11,8 +11,8 @@ from unittest.mock import MagicMock, Mock, patch
 
 import pytest
 
-from issue_37_k6_runner import K6Options, K6Result, K6Runner
-from issue_37_perf_analyzer import (
+from k6_runner import K6Options, K6Result, K6Runner
+from perf_analyzer import (
     Bottleneck,
     BottleneckType,
     CapacityRecommendation,
@@ -21,7 +21,7 @@ from issue_37_perf_analyzer import (
     SLAValidation,
     TestType,
 )
-from issue_37_report_generator import ReportGenerator
+from report_generator import ReportGenerator
 
 
 class TestK6Runner:

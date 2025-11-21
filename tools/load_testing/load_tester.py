@@ -12,9 +12,9 @@ import click
 import structlog
 import yaml
 
-from issue_37_k6_runner import K6Options, K6Result, K6Runner
-from issue_37_perf_analyzer import PerformanceAnalyzer, TestType
-from issue_37_report_generator import ReportGenerator
+from k6_runner import K6Options, K6Result, K6Runner
+from perf_analyzer import PerformanceAnalyzer, TestType
+from report_generator import ReportGenerator
 
 # Configure logging
 structlog.configure(

@@ -12,28 +12,28 @@ A comprehensive load testing and performance benchmarking platform built on k6, 
 
 ### Core Capabilities
 
-1. **k6 Test Execution** (`issue_37_k6_runner.py`)
+1. **k6 Test Execution** (`k6_runner.py`)
    - Execute k6 tests with configurable VU profiles (1-10,000 VUs)
    - Support for multiple test types: load, stress, spike, soak, baseline
    - Protocol support: HTTP/1.1, HTTP/2, WebSocket, gRPC
    - Threshold validation for SLAs
    - Real-time metric collection
 
-2. **Performance Analysis** (`issue_37_perf_analyzer.py`)
+2. **Performance Analysis** (`perf_analyzer.py`)
    - Automated metric aggregation and percentile calculation
    - Bottleneck identification (latency, errors, throughput, variability)
    - Capacity planning recommendations with safety margins
    - SLA validation against configurable thresholds
    - Baseline comparison for regression detection
 
-3. **Report Generation** (`issue_37_report_generator.py`)
+3. **Report Generation** (`report_generator.py`)
    - HTML reports with embedded charts
    - Executive summaries with key findings
    - Performance metrics visualization
    - Bottleneck analysis with recommendations
    - SLA validation results
 
-4. **CLI Interface** (`issue_37_load_tester.py`)
+4. **CLI Interface** (`load_tester.py`)
    - Easy-to-use command-line interface
    - Test orchestration from execution to reporting
    - Multiple commands: run-test, analyze, validate-sla
@@ -68,7 +68,7 @@ A comprehensive load testing and performance benchmarking platform built on k6, 
 
 ```bash
 # Install all required dependencies
-pip install -r issue_37_requirements.txt
+pip install -r requirements.txt
 ```
 
 Required packages:
@@ -82,15 +82,15 @@ Required packages:
 - `click>=8.1.0` - CLI framework
 - `pytest>=7.4.0` - Testing framework
 
-See `issue_37_requirements.txt` for complete list.
+See `requirements.txt` for complete list.
 
 ## Quick Start
 
 ### 1. Run a Simple Load Test
 
 ```bash
-python issue_37_load_tester.py run-test \
-  --script issue_37_sample_test.js \
+python load_tester.py run-test \
+  --script sample_test.js \
   --name my-load-test \
   --vus 50 \
   --duration 2m \
@@ -119,8 +119,8 @@ target_error_rate: 0.5
 
 Run with SLA validation:
 ```bash
-python issue_37_load_tester.py run-test \
-  --script issue_37_sample_test.js \
+python load_tester.py run-test \
+  --script sample_test.js \
   --name sla-test \
   --vus 100 \
   --duration 5m \
@@ -130,7 +130,7 @@ python issue_37_load_tester.py run-test \
 ### 3. Analyze Existing Results
 
 ```bash
-python issue_37_load_tester.py analyze \
+python load_tester.py analyze \
   --results ./load_test_results/my-load-test_raw.json \
   --output ./reports/analysis.html \
   --test-duration 120
@@ -139,7 +139,7 @@ python issue_37_load_tester.py analyze \
 ### 4. Validate SLA Compliance
 
 ```bash
-python issue_37_load_tester.py validate-sla \
+python load_tester.py validate-sla \
   --results ./load_test_results/my-load-test_analysis.json \
   --sla-config sla_config.yaml
 ```
@@ -217,15 +217,15 @@ export default function () {
 }
 ```
 
-See `issue_37_sample_test.js` for a comprehensive example.
+See `sample_test.js` for a comprehensive example.
 
 ### Python API Usage
 
 ```python
 from pathlib import Path
-from issue_37_load_tester import LoadTestOrchestrator
-from issue_37_k6_runner import K6Options
-from issue_37_perf_analyzer import TestType
+from load_tester import LoadTestOrchestrator
+from k6_runner import K6Options
+from perf_analyzer import TestType
 
 # Initialize orchestrator
 orchestrator = LoadTestOrchestrator(
@@ -328,16 +328,16 @@ Run the comprehensive test suite:
 
 ```bash
 # Run all tests
-pytest issue_37_test_load_tester.py -v
+pytest test_load_tester.py -v
 
 # Run with coverage
-pytest issue_37_test_load_tester.py -v --cov=. --cov-report=html
+pytest test_load_tester.py -v --cov=. --cov-report=html
 
 # Run specific test class
-pytest issue_37_test_load_tester.py::TestK6Runner -v
+pytest test_load_tester.py::TestK6Runner -v
 
 # Run specific test
-pytest issue_37_test_load_tester.py::TestPerformanceAnalyzer::test_identify_bottlenecks_high_latency -v
+pytest test_load_tester.py::TestPerformanceAnalyzer::test_identify_bottlenecks_high_latency -v
 ```
 
 Test coverage includes:
@@ -390,7 +390,7 @@ k6 version
 
 ```bash
 # Ensure all dependencies are installed
-pip install -r issue_37_requirements.txt
+pip install -r requirements.txt
 
 # Verify Python version
 python --version  # Must be 3.10+
@@ -405,7 +405,7 @@ Check the error message in the output:
 
 ### Empty Metrics
 
-- Ensure k6 script runs successfully: `k6 run issue_37_sample_test.js`
+- Ensure k6 script runs successfully: `k6 run sample_test.js`
 - Check output file is created and not empty
 - Verify JSON format in output file
 
@@ -462,7 +462,7 @@ const API_KEY = __ENV.API_KEY;
 Run with environment variables:
 ```bash
 K6_OPTIONS="--env BASE_URL=https://staging.example.com" \
-python issue_37_load_tester.py run-test --script test.js --name env-test
+python load_tester.py run-test --script test.js --name env-test
 ```
 
 ### Custom Metrics Export
@@ -486,11 +486,11 @@ k6 run --vus 5000 test.js &  # Machine 2
 
 ## Contributing
 
-This implementation is part of Issue #37. All files are prefixed with `issue_37_` for isolation.
+This implementation is part of Issue #37, located in `tools/load_testing/`.
 
 To contribute:
-1. Review the code in `issue_37_*.py` files
-2. Run tests: `pytest issue_37_test_load_tester.py -v`
+1. Review the code in the `*.py` files
+2. Run tests: `pytest test_load_tester.py -v`
 3. Follow Python best practices from global CLAUDE.md
 4. Ensure code quality with Black, isort, flake8, mypy
 
@@ -508,7 +508,7 @@ Part of the devCrew_s1 project.
 
 For questions or issues:
 1. Check this README
-2. Review test cases in `issue_37_test_load_tester.py`
+2. Review test cases in `test_load_tester.py`
 3. Check k6 documentation: https://k6.io/docs/
 4. Review Issue #37 on GitHub
 

@@ -14,7 +14,7 @@ import matplotlib.pyplot as plt
 import structlog
 from jinja2 import Environment, FileSystemLoader, Template
 
-from issue_37_perf_analyzer import (
+from perf_analyzer import (
     Bottleneck,
     CapacityRecommendation,
     PerformanceMetrics,
