@@ -6,11 +6,11 @@ multiple solution paths for complex system design problems.
 """
 
 import asyncio
-from issue_42_tree_of_thought import (
+from tree_of_thought import (
     TreeOfThoughtsExplorer, SearchStrategy, ToTVisualizer
 )
-from issue_42_llm_providers import LLMProviderFactory, LLMProvider
-from issue_42_cost_tracker import CostTracker
+from llm_providers import LLMProviderFactory, LLMProvider
+from cost_tracker import CostTracker
 
 
 async def main():

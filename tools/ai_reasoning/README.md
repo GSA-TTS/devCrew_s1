@@ -39,10 +39,10 @@ This tool implements 9 protocols (11% coverage):
 
 ```bash
 # Install all dependencies
-pip install -r issue_42_requirements.txt
+pip install -r requirements.txt
 
 # Or using uv (faster)
-uv pip install -r issue_42_requirements.txt
+uv pip install -r requirements.txt
 ```
 
 ### API Keys Setup
@@ -66,8 +66,8 @@ export LANGSMITH_API_KEY="your-langsmith-api-key"
 
 ```python
 import asyncio
-from issue_42_chain_of_thought import ChainOfThoughtReasoner, ReasoningStrategy
-from issue_42_llm_providers import LLMProviderFactory, LLMProvider
+from chain_of_thought import ChainOfThoughtReasoner, ReasoningStrategy
+from llm_providers import LLMProviderFactory, LLMProvider
 
 async def main():
     # Initialize LLM provider
@@ -105,7 +105,7 @@ asyncio.run(main())
 
 ```python
 import asyncio
-from issue_42_tree_of_thought import TreeOfThoughtsExplorer, SearchStrategy
+from tree_of_thought import TreeOfThoughtsExplorer, SearchStrategy
 
 async def main():
     # Initialize explorer
@@ -134,31 +134,31 @@ asyncio.run(main())
 
 ```bash
 # Chain-of-Thought reasoning
-python issue_42_ai_reasoner.py cot-reason \
+python ai_reasoner.py cot-reason \
     "What architecture should we use?" \
     --strategy zero_shot \
     --context "Small team, MVP timeline" \
     --evaluate
 
 # Tree-of-Thoughts exploration
-python issue_42_ai_reasoner.py tot-explore \
+python ai_reasoner.py tot-explore \
     "Design a caching strategy" \
     --strategy beam_search \
     --max-depth 3 \
     --visualize
 
 # Context management
-python issue_42_ai_reasoner.py context add \
+python ai_reasoner.py context add \
     --content "User wants microservices architecture" \
     --role user
 
 # Cost report
-python issue_42_ai_reasoner.py cost --export cost_report.json
+python ai_reasoner.py cost --export cost_report.json
 ```
 
 ## Configuration
 
-Create a `config.yaml` file (see `issue_42_config.yaml` for template):
+Create a `config.yaml` file (see `config.yaml` for template):
 
 ```yaml
 llm_provider: "openai"
@@ -182,7 +182,7 @@ cost:
 Then use with CLI:
 
 ```bash
-python issue_42_ai_reasoner.py --config config.yaml cot-reason "Your question"
+python ai_reasoner.py --config config.yaml cot-reason "Your question"
 ```
 
 ## Features
@@ -256,7 +256,7 @@ result = await explorer.explore(
 )
 
 # Visualize the tree
-from issue_42_tree_of_thought import ToTVisualizer
+from tree_of_thought import ToTVisualizer
 ToTVisualizer.print_tree(result)
 ```
 
@@ -272,7 +272,7 @@ ToTVisualizer.print_tree(result)
 **Usage:**
 
 ```python
-from issue_42_context_manager import ContextManager
+from context_manager import ContextManager
 
 manager = ContextManager(
     max_tokens=8000,
@@ -312,7 +312,7 @@ validation = await manager.validate_context()
 **Usage:**
 
 ```python
-from issue_42_evaluator import ReasoningEvaluator
+from evaluator import ReasoningEvaluator
 
 evaluator = ReasoningEvaluator(llm_provider)
 
@@ -345,7 +345,7 @@ consistency = await evaluator.evaluate_self_consistency(
 **Usage:**
 
 ```python
-from issue_42_cost_tracker import CostTracker, CostOptimizer
+from cost_tracker import CostTracker, CostOptimizer
 
 tracker = CostTracker(
     budget_limit=10.0,
@@ -386,7 +386,7 @@ model = CostOptimizer.recommend_model(
 **Usage:**
 
 ```python
-from issue_42_tracer import LangSmithTracer, TracingContext
+from tracer import LangSmithTracer, TracingContext
 
 tracer = LangSmithTracer(
     project_name="my-project",
@@ -421,10 +421,10 @@ Run the provided examples:
 
 ```bash
 # Chain-of-Thought example
-python issue_42_example_cot.py
+python example_cot.py
 
 # Tree-of-Thoughts example
-python issue_42_example_tot.py
+python example_tot.py
 ```
 
 These demonstrate:
@@ -439,13 +439,13 @@ Run the comprehensive test suite:
 
 ```bash
 # Run all tests
-pytest issue_42_test_ai_reasoning.py -v
+pytest test_ai_reasoning.py -v
 
 # With coverage
-pytest issue_42_test_ai_reasoning.py -v --cov=. --cov-report=term-missing
+pytest test_ai_reasoning.py -v --cov=. --cov-report=term-missing
 
 # Run specific test
-pytest issue_42_test_ai_reasoning.py::test_cot_zero_shot_reasoning -v
+pytest test_ai_reasoning.py::test_cot_zero_shot_reasoning -v
 ```
 
 Test coverage: 80%+
@@ -555,15 +555,15 @@ if manager.context_window.is_full():
 ## Architecture
 
 ```
-issue_42_ai_reasoner.py          # Main CLI interface
-├── issue_42_chain_of_thought.py # CoT reasoning engine
-├── issue_42_tree_of_thought.py  # ToT exploration engine
-├── issue_42_context_manager.py  # Context management
-├── issue_42_llm_providers.py    # LLM integrations
-├── issue_42_prompt_templates.py # Template library
-├── issue_42_evaluator.py        # Quality metrics
-├── issue_42_tracer.py           # LangSmith tracing
-└── issue_42_cost_tracker.py     # Cost monitoring
+ai_reasoner.py          # Main CLI interface
+├── chain_of_thought.py # CoT reasoning engine
+├── tree_of_thought.py  # ToT exploration engine
+├── context_manager.py  # Context management
+├── llm_providers.py    # LLM integrations
+├── prompt_templates.py # Template library
+├── evaluator.py        # Quality metrics
+├── tracer.py           # LangSmith tracing
+└── cost_tracker.py     # Cost monitoring
 ```
 
 ## Performance Targets
@@ -577,17 +577,17 @@ issue_42_ai_reasoner.py          # Main CLI interface
 ## Protocol Integration Details
 
 ### P-COG-COT: Chain-of-Thought
-- Implemented in `issue_42_chain_of_thought.py`
+- Implemented in `chain_of_thought.py`
 - Supports zero-shot, few-shot, self-consistency, reflection
 - Automatic step generation and conclusion detection
 
 ### P-COG-TOT: Tree-of-Thought
-- Implemented in `issue_42_tree_of_thought.py`
+- Implemented in `tree_of_thought.py`
 - Multiple search strategies (BFS, DFS, Best-First, Beam)
 - Automatic pruning and path scoring
 
 ### P-CONTEXT-VALIDATION
-- Implemented in `issue_42_context_manager.py`
+- Implemented in `context_manager.py`
 - Token count validation, chronological ordering
 - Duplicate detection, integrity checks
 
@@ -612,18 +612,18 @@ This framework follows the devCrew_s1 development guidelines:
 
 1. Run code quality checks:
 ```bash
-black issue_42_*.py
-isort issue_42_*.py
-flake8 issue_42_*.py
-mypy issue_42_*.py --ignore-missing-imports
+black *.py
+isort *.py
+flake8 *.py
+mypy *.py --ignore-missing-imports
 ```
 
 2. Run tests with coverage:
 ```bash
-pytest issue_42_test_ai_reasoning.py -v --cov=. --cov-report=html
+pytest test_ai_reasoning.py -v --cov=. --cov-report=html
 ```
 
-3. Follow naming convention: `issue_42_*` prefix for all files
+3. Follow project naming conventions for all files
 
 ## License
 

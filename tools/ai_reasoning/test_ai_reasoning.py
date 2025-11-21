@@ -12,25 +12,25 @@ from unittest.mock import Mock, AsyncMock, patch
 from typing import Dict, Any
 
 # Import modules to test
-from issue_42_chain_of_thought import (
+from chain_of_thought import (
     ChainOfThoughtReasoner, ReasoningStrategy, ThoughtStep,
     ReasoningResult, CoTValidator
 )
-from issue_42_tree_of_thought import (
+from tree_of_thought import (
     TreeOfThoughtsExplorer, SearchStrategy, ThoughtNode,
     NodeState, TreePath, ToTResult
 )
-from issue_42_context_manager import ContextManager, ContextEntry
-from issue_42_llm_providers import (
+from context_manager import ContextManager, ContextEntry
+from llm_providers import (
     MockLLMProvider, LLMProviderFactory, LLMProvider,
     OpenAIProvider, AnthropicProvider
 )
-from issue_42_prompt_templates import (
+from prompt_templates import (
     PromptTemplate, PromptTemplateLibrary, TemplateType, FewShotExample
 )
-from issue_42_evaluator import ReasoningEvaluator, MetricType
-from issue_42_tracer import LangSmithTracer, TracingContext, TraceType
-from issue_42_cost_tracker import CostTracker, TokenCounter, CostOptimizer
+from evaluator import ReasoningEvaluator, MetricType
+from tracer import LangSmithTracer, TracingContext, TraceType
+from cost_tracker import CostTracker, TokenCounter, CostOptimizer
 
 
 # Fixtures

@@ -6,10 +6,10 @@ architectural decisions with step-by-step reasoning.
 """
 
 import asyncio
-from issue_42_chain_of_thought import ChainOfThoughtReasoner, ReasoningStrategy
-from issue_42_llm_providers import LLMProviderFactory, LLMProvider
-from issue_42_evaluator import ReasoningEvaluator
-from issue_42_cost_tracker import CostTracker
+from chain_of_thought import ChainOfThoughtReasoner, ReasoningStrategy
+from llm_providers import LLMProviderFactory, LLMProvider
+from evaluator import ReasoningEvaluator
+from cost_tracker import CostTracker
 
 
 async def main():

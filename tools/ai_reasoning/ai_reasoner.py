@@ -14,14 +14,14 @@ from pathlib import Path
 from typing import Optional, Dict, Any
 
 # Import framework modules
-from issue_42_chain_of_thought import ChainOfThoughtReasoner, ReasoningStrategy
-from issue_42_tree_of_thought import TreeOfThoughtsExplorer, SearchStrategy, ToTVisualizer
-from issue_42_context_manager import ContextManager
-from issue_42_llm_providers import LLMProviderFactory, LLMProvider
-from issue_42_prompt_templates import PromptTemplateLibrary
-from issue_42_evaluator import ReasoningEvaluator
-from issue_42_tracer import LangSmithTracer, TracingContext
-from issue_42_cost_tracker import CostTracker
+from chain_of_thought import ChainOfThoughtReasoner, ReasoningStrategy
+from tree_of_thought import TreeOfThoughtsExplorer, SearchStrategy, ToTVisualizer
+from context_manager import ContextManager
+from llm_providers import LLMProviderFactory, LLMProvider
+from prompt_templates import PromptTemplateLibrary
+from evaluator import ReasoningEvaluator
+from tracer import LangSmithTracer, TracingContext
+from cost_tracker import CostTracker
 
 
 logger = logging.getLogger(__name__)
