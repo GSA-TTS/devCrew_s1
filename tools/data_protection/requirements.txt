@@ -1,0 +1,28 @@
+# Data Protection & Encryption Platform Dependencies
+# TOOL-SEC-012 for devCrew_s1
+
+# Core cryptography
+cryptography>=41.0.0
+
+# NaCl/libsodium bindings
+PyNaCl>=1.5.0
+
+# YAML support for SOPS integration
+PyYAML>=6.0
+
+# Optional: HashiCorp Vault client
+hvac>=2.0.0
+
+# Optional: AWS SDK for KMS
+boto3>=1.34.0
+
+# Optional: Azure Key Vault
+azure-identity>=1.15.0
+azure-keyvault-secrets>=4.7.0
+
+# Optional: Google Cloud KMS
+google-cloud-kms>=2.19.0
+
+# Testing
+pytest>=7.4.0
+pytest-cov>=4.1.0
