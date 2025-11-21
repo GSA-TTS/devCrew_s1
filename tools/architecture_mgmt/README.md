@@ -32,10 +32,10 @@ A comprehensive architecture management platform providing ADR (Architecture Dec
 cd /Users/tamnguyen/Documents/GitHub/devCrew_s1
 
 # Install Python dependencies
-pip install -r issue_40_requirements.txt
+pip install -r requirements.txt
 
 # Make the CLI executable
-chmod +x issue_40_arch_manager.py
+chmod +x arch_manager.py
 ```
 
 ### Optional: Install Structurizr CLI
@@ -65,16 +65,16 @@ wget https://sourceforge.net/projects/plantuml/files/plantuml.jar/download -O pl
 
 ```bash
 # Initialize architecture documentation structure
-python issue_40_arch_manager.py init --project-dir .
+python arch_manager.py init --project-dir .
 
 # Check status
-python issue_40_arch_manager.py status
+python arch_manager.py status
 ```
 
 ### Create Your First ADR
 
 ```bash
-python issue_40_arch_manager.py adr create \
+python arch_manager.py adr create \
   --title "Use Microservices Architecture" \
   --context "We need to design a scalable backend that supports independent service deployment" \
   --decision "Adopt microservices architecture with service mesh" \
@@ -87,16 +87,16 @@ python issue_40_arch_manager.py adr create \
 
 ```bash
 # List all ADRs
-python issue_40_arch_manager.py adr list
+python arch_manager.py adr list
 
 # Filter by status
-python issue_40_arch_manager.py adr list --status accepted
+python arch_manager.py adr list --status accepted
 ```
 
 ### Generate ADR Index
 
 ```bash
-python issue_40_arch_manager.py adr index --output docs/adr/INDEX.md
+python arch_manager.py adr index --output docs/adr/INDEX.md
 ```
 
 ## Usage Guide
@@ -106,7 +106,7 @@ python issue_40_arch_manager.py adr index --output docs/adr/INDEX.md
 #### Create ADR
 
 ```bash
-python issue_40_arch_manager.py adr create \
+python arch_manager.py adr create \
   --title "ADR Title" \
   --context "Problem context and background" \
   --decision "The decision made" \
@@ -118,7 +118,7 @@ python issue_40_arch_manager.py adr create \
 #### Supersede ADR
 
 ```bash
-python issue_40_arch_manager.py adr supersede \
+python arch_manager.py adr supersede \
   --adr-number 5 \
   --title "New Decision" \
   --context "Updated context" \
@@ -128,7 +128,7 @@ python issue_40_arch_manager.py adr supersede \
 #### Search ADRs
 
 ```python
-from issue_40_adr_manager import ADRManager
+from adr_manager import ADRManager
 
 manager = ADRManager(adr_dir="docs/adr")
 results = manager.search("microservices")
@@ -166,7 +166,7 @@ relationships:
 Generate diagrams:
 
 ```bash
-python issue_40_arch_manager.py c4 generate \
+python arch_manager.py c4 generate \
   --model model.yml \
   --type context \
   --output-dir diagrams \
@@ -176,7 +176,7 @@ python issue_40_arch_manager.py c4 generate \
 #### From Python Code
 
 ```python
-from issue_40_c4_generator import C4Generator, C4Model
+from c4_generator import C4Generator, C4Model
 
 # Create model
 model = C4Model(name="My System", description="System description")
@@ -242,7 +242,7 @@ rules:
 #### Run Fitness Tests
 
 ```bash
-python issue_40_arch_manager.py fitness test \
+python arch_manager.py fitness test \
   --rules fitness-rules.yml \
   --codebase ./src \
   --report fitness-report.md \
@@ -252,7 +252,7 @@ python issue_40_arch_manager.py fitness test \
 #### Python API
 
 ```python
-from issue_40_fitness_functions import FitnessTester
+from fitness_functions import FitnessTester
 
 # Load and run tests
 tester = FitnessTester(rules_file="fitness-rules.yml")
@@ -280,7 +280,7 @@ report = tester.generate_report(result, "fitness-report.md")
 ```bash
 export GITHUB_TOKEN="your_github_token"
 
-python issue_40_arch_manager.py asr extract \
+python arch_manager.py asr extract \
   --repo GSA-TTS/devCrew_s1 \
   --issue 40 \
   --asr-dir docs/asr
@@ -289,7 +289,7 @@ python issue_40_arch_manager.py asr extract \
 #### Extract ASR from Text
 
 ```python
-from issue_40_asr_tracker import ASRExtractor, ASRTracker
+from asr_tracker import ASRExtractor, ASRTracker
 
 extractor = ASRExtractor()
 asr = extractor.extract_from_text(
@@ -306,19 +306,19 @@ tracker.save_asr(asr)
 
 ```bash
 # List all ASRs
-python issue_40_arch_manager.py asr list
+python arch_manager.py asr list
 
 # Filter by category
-python issue_40_arch_manager.py asr list --category performance
+python arch_manager.py asr list --category performance
 
 # Filter by status
-python issue_40_arch_manager.py asr list --status identified
+python arch_manager.py asr list --status identified
 ```
 
 #### Link ASR to ADR
 
 ```bash
-python issue_40_arch_manager.py asr link \
+python arch_manager.py asr link \
   --asr-id ASR-001 \
   --adr-number 5
 ```
@@ -326,7 +326,7 @@ python issue_40_arch_manager.py asr link \
 #### Generate Traceability Matrix
 
 ```bash
-python issue_40_arch_manager.py asr matrix \
+python arch_manager.py asr matrix \
   --output docs/asr/TRACEABILITY.md
 ```
 
@@ -349,16 +349,16 @@ project/
 │       │   └── context.puml
 │       └── models/             # Architecture models
 │           └── system.yml
-├── issue_40_arch_manager.py    # Main CLI
-├── issue_40_adr_manager.py     # ADR management
-├── issue_40_c4_generator.py    # C4 diagram generation
-├── issue_40_fitness_functions.py  # Fitness testing
-├── issue_40_asr_tracker.py     # ASR tracking
-├── issue_40_templates/         # ADR templates
+├── arch_manager.py    # Main CLI
+├── adr_manager.py     # ADR management
+├── c4_generator.py    # C4 diagram generation
+├── fitness_functions.py  # Fitness testing
+├── asr_tracker.py     # ASR tracking
+├── templates/         # ADR templates
 │   ├── default.md.j2
 │   ├── microservices.md.j2
 │   └── technology.md.j2
-└── issue_40_requirements.txt   # Dependencies
+└── requirements.txt   # Dependencies
 ```
 
 ## ADR Templates
@@ -383,11 +383,11 @@ Template for technology selection decisions with:
 ### Using Templates
 
 ```python
-from issue_40_adr_manager import ADRManager
+from adr_manager import ADRManager
 
 manager = ADRManager(
     adr_dir="docs/adr",
-    template_dir="issue_40_templates"
+    template_dir="templates"
 )
 
 adr = manager.create(
@@ -404,7 +404,7 @@ adr = manager.create(
 ### Example 1: Complete ADR Workflow
 
 ```python
-from issue_40_adr_manager import ADRManager
+from adr_manager import ADRManager
 
 # Initialize manager
 manager = ADRManager(adr_dir="docs/adr")
@@ -443,7 +443,7 @@ manager.generate_index(output_file="docs/adr/INDEX.md")
 ### Example 2: C4 Diagram Generation
 
 ```python
-from issue_40_c4_generator import C4Generator, C4Model
+from c4_generator import C4Generator, C4Model
 
 # Build model
 model = C4Model(name="E-Commerce Platform")
@@ -478,7 +478,7 @@ print(f"Generated {len(results['png'])} PNG diagrams")
 ### Example 3: Fitness Function Validation
 
 ```python
-from issue_40_fitness_functions import FitnessTester, FitnessRule
+from fitness_functions import FitnessTester, FitnessRule
 
 # Create tester
 tester = FitnessTester()
@@ -523,7 +523,7 @@ if result.violation_count > 0:
 ### Example 4: ASR Management
 
 ```python
-from issue_40_asr_tracker import ASRExtractor, ASRTracker
+from asr_tracker import ASRExtractor, ASRTracker
 
 # Extract from GitHub
 extractor = ASRExtractor(github_token="your_token")
@@ -552,10 +552,10 @@ tracker.generate_summary_report("docs/asr/SUMMARY.md")
 cd /Users/tamnguyen/Documents/GitHub/devCrew_s1
 
 # Run tests with pytest
-pytest issue_40_test_arch_manager.py -v
+pytest test_arch_manager.py -v
 
 # Run with coverage
-pytest issue_40_test_arch_manager.py -v --cov=. --cov-report=html
+pytest test_arch_manager.py -v --cov=. --cov-report=html
 ```
 
 ### Test Coverage
@@ -606,7 +606,7 @@ wget https://sourceforge.net/projects/plantuml/files/plantuml.jar
 export GITHUB_TOKEN="your_personal_access_token"
 
 # Or pass directly
-python issue_40_arch_manager.py asr extract \
+python arch_manager.py asr extract \
   --token "your_token" \
   --repo owner/repo \
   --issue 123
@@ -616,7 +616,7 @@ python issue_40_arch_manager.py asr extract \
 
 ```bash
 # Reinstall dependencies
-pip install -r issue_40_requirements.txt --upgrade
+pip install -r requirements.txt --upgrade
 ```
 
 ## Protocol Coverage
@@ -652,11 +652,11 @@ All code follows project standards:
 pip install pre-commit
 
 # Run all checks
-black issue_40_*.py
-isort issue_40_*.py
-flake8 issue_40_*.py
-mypy issue_40_*.py --ignore-missing-imports
-bandit -r issue_40_*.py
+black *.py
+isort *.py
+flake8 *.py
+mypy *.py --ignore-missing-imports
+bandit -r *.py
 ```
 
 ## License
@@ -675,7 +675,7 @@ This implementation follows the devCrew_s1 project license.
 
 For issues or questions:
 1. Check this README
-2. Review test cases in `issue_40_test_arch_manager.py`
+2. Review test cases in `test_arch_manager.py`
 3. Open an issue in the devCrew_s1 repository
 
 ---

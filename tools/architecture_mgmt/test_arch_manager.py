@@ -16,10 +16,10 @@ from pathlib import Path
 import pytest
 import yaml
 
-from issue_40_adr_manager import ADR, ADRManager
-from issue_40_asr_tracker import ASR, ASRExtractor, ASRTracker
-from issue_40_c4_generator import C4Generator, C4Model
-from issue_40_fitness_functions import (
+from adr_manager import ADR, ADRManager
+from asr_tracker import ASR, ASRExtractor, ASRTracker
+from c4_generator import C4Generator, C4Model
+from fitness_functions import (
     ComplexityAnalyzer,
     FitnessResult,
     FitnessRule,

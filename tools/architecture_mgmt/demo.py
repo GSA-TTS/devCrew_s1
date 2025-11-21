@@ -13,10 +13,10 @@ Demonstrates all core features:
 import tempfile
 from pathlib import Path
 
-from issue_40_adr_manager import ADRManager
-from issue_40_asr_tracker import ASRExtractor, ASRTracker
-from issue_40_c4_generator import C4Generator, C4Model
-from issue_40_fitness_functions import FitnessRule, FitnessTester
+from adr_manager import ADRManager
+from asr_tracker import ASRExtractor, ASRTracker
+from c4_generator import C4Generator, C4Model
+from fitness_functions import FitnessRule, FitnessTester
 
 
 def demo_adr_management():
@@ -266,8 +266,8 @@ def main():
         print("\n" + "=" * 70)
         print("ALL DEMOS COMPLETED SUCCESSFULLY!")
         print("=" * 70)
-        print("\nFor more information, see issue_40_README.md")
-        print("Run tests with: pytest issue_40_test_arch_manager.py -v")
+        print("\nFor more information, see README.md")
+        print("Run tests with: pytest test_arch_manager.py -v")
 
     except Exception as e:
         print(f"\n✗ Error: {e}")

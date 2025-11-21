@@ -86,7 +86,7 @@ class ADRManager:
         else:
             # Use default template directory
             script_dir = Path(__file__).parent
-            self.template_dir = script_dir / "issue_40_templates"
+            self.template_dir = script_dir / "templates"
 
         self.template_env = Environment(
             loader=FileSystemLoader(str(self.template_dir))

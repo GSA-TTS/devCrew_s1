@@ -7,10 +7,10 @@ Main CLI interface for architecture management platform.
 Provides commands for ADR management, C4 diagrams, fitness tests, and ASR tracking.
 
 Usage:
-    python issue_40_arch_manager.py adr-create --title "Use Microservices"
-    python issue_40_arch_manager.py c4-generate --model model.yml --type context
-    python issue_40_arch_manager.py fitness-test --rules rules.yml --codebase ./src
-    python issue_40_arch_manager.py asr-extract --repo owner/repo --issue 123
+    python arch_manager.py adr-create --title "Use Microservices"
+    python arch_manager.py c4-generate --model model.yml --type context
+    python arch_manager.py fitness-test --rules rules.yml --codebase ./src
+    python arch_manager.py asr-extract --repo owner/repo --issue 123
 """
 
 import os
@@ -22,10 +22,10 @@ from colorama import Fore, Style, init
 from tabulate import tabulate
 
 # Import our modules
-from issue_40_adr_manager import ADRManager
-from issue_40_asr_tracker import ASRExtractor, ASRTracker
-from issue_40_c4_generator import C4Generator
-from issue_40_fitness_functions import FitnessTester
+from adr_manager import ADRManager
+from asr_tracker import ASRExtractor, ASRTracker
+from c4_generator import C4Generator
+from fitness_functions import FitnessTester
 
 # Initialize colorama
 init(autoreset=True)
