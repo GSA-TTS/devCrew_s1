@@ -13,10 +13,10 @@ from unittest.mock import MagicMock, patch
 import pytest
 
 # Import scanner modules
-from issue_39_bandit_wrapper import BanditScanner
-from issue_39_report_generator import HTMLReportGenerator, SARIFReportGenerator
-from issue_39_sast_scanner import SASTScanner
-from issue_39_semgrep_wrapper import SemgrepScanner
+from bandit_wrapper import BanditScanner
+from report_generator import HTMLReportGenerator, SARIFReportGenerator
+from sast_scanner import SASTScanner
+from semgrep_wrapper import SemgrepScanner
 
 
 # Test fixtures
@@ -111,7 +111,7 @@ def sample_findings():
 class TestSemgrepScanner:
     """Tests for Semgrep scanner wrapper."""
 
-    @patch("issue_39_semgrep_wrapper.subprocess.run")
+    @patch("semgrep_wrapper.subprocess.run")
     def test_semgrep_installation_check(self, mock_run):
         """Test Semgrep installation verification."""
         mock_run.return_value = MagicMock(
@@ -122,7 +122,7 @@ class TestSemgrepScanner:
         assert scanner is not None
         mock_run.assert_called()
 
-    @patch("issue_39_semgrep_wrapper.subprocess.run")
+    @patch("semgrep_wrapper.subprocess.run")
     def test_semgrep_installation_failure(self, mock_run):
         """Test handling of missing Semgrep installation."""
         mock_run.side_effect = FileNotFoundError("semgrep not found")
@@ -130,7 +130,7 @@ class TestSemgrepScanner:
         with pytest.raises(RuntimeError, match="Semgrep installation check failed"):
             SemgrepScanner()
 
-    @patch("issue_39_semgrep_wrapper.subprocess.run")
+    @patch("semgrep_wrapper.subprocess.run")
     def test_semgrep_scan_success(self, mock_run, temp_dir):
         """Test successful Semgrep scan."""
         # Mock version check
@@ -186,7 +186,7 @@ class TestSemgrepScanner:
 class TestBanditScanner:
     """Tests for Bandit scanner wrapper."""
 
-    @patch("issue_39_bandit_wrapper.subprocess.run")
+    @patch("bandit_wrapper.subprocess.run")
     def test_bandit_installation_check(self, mock_run):
         """Test Bandit installation verification."""
         mock_run.return_value = MagicMock(
@@ -196,7 +196,7 @@ class TestBanditScanner:
         scanner = BanditScanner()
         assert scanner is not None
 
-    @patch("issue_39_bandit_wrapper.subprocess.run")
+    @patch("bandit_wrapper.subprocess.run")
     def test_bandit_scan_success(self, mock_run, temp_dir):
         """Test successful Bandit scan."""
         # Mock version check

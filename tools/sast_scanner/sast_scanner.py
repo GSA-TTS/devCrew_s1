@@ -6,10 +6,10 @@ Orchestrates Semgrep and Bandit scanners with result aggregation and reporting.
 TOOL-SEC-001: Static Application Security Testing Scanner
 
 Usage:
-    python issue_39_sast_scanner.py scan --path src/
-    python issue_39_sast_scanner.py scan-python --path src/
-    python issue_39_sast_scanner.py generate-baseline --path src/
-    python issue_39_sast_scanner.py compare-baseline --path src/
+    python sast_scanner.py scan --path src/
+    python sast_scanner.py scan-python --path src/
+    python sast_scanner.py generate-baseline --path src/
+    python sast_scanner.py compare-baseline --path src/
 """
 
 import json
@@ -25,12 +25,12 @@ from rich.table import Table
 
 # Import our scanner modules
 try:
-    from issue_39_bandit_wrapper import BanditScanner
-    from issue_39_report_generator import HTMLReportGenerator, SARIFReportGenerator
-    from issue_39_semgrep_wrapper import SemgrepScanner
+    from bandit_wrapper import BanditScanner
+    from report_generator import HTMLReportGenerator, SARIFReportGenerator
+    from semgrep_wrapper import SemgrepScanner
 except ImportError as e:
     print(f"Error importing scanner modules: {e}")
-    print("Ensure all issue_39_*.py files are in the same directory")
+    print("Ensure all scanner modules are in the same directory")
     sys.exit(1)
 
 # Setup logging

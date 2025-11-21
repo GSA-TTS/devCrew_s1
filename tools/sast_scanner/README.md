@@ -17,20 +17,20 @@ This implementation provides:
 
 ## Files Created
 
-All files are prefixed with `issue_39_` to avoid conflicts:
+The following files are included:
 
-1. **issue_39_sast_scanner.py** - Main CLI and orchestration
-2. **issue_39_semgrep_wrapper.py** - Semgrep scanner integration
-3. **issue_39_bandit_wrapper.py** - Bandit scanner integration (Python-specific)
-4. **issue_39_report_generator.py** - SARIF and HTML report generation
-5. **issue_39_test_sast_scanner.py** - Comprehensive test suite
-6. **issue_39_requirements.txt** - Python dependencies
-7. **issue_39_custom_rules/** - Example custom Semgrep rules
+1. **sast_scanner.py** - Main CLI and orchestration
+2. **semgrep_wrapper.py** - Semgrep scanner integration
+3. **bandit_wrapper.py** - Bandit scanner integration (Python-specific)
+4. **report_generator.py** - SARIF and HTML report generation
+5. **test_sast_scanner.py** - Comprehensive test suite
+6. **requirements.txt** - Python dependencies
+7. **custom_rules/** - Example custom Semgrep rules
    - `sql-injection.yml` - SQL injection detection rules
    - `hardcoded-secrets.yml` - Hardcoded credential detection
    - `xss-vulnerabilities.yml` - Cross-site scripting detection
    - `insecure-crypto.yml` - Weak cryptography detection
-8. **issue_39_README.md** - This documentation
+8. **README.md** - This documentation
 
 ## Installation
 
@@ -46,7 +46,7 @@ All files are prefixed with `issue_39_` to avoid conflicts:
 cd /Users/tamnguyen/Documents/GitHub/devCrew_s1
 
 # Install Python dependencies
-pip install -r issue_39_requirements.txt
+pip install -r requirements.txt
 ```
 
 ### Install Semgrep
@@ -82,7 +82,7 @@ bandit --version
 Scan a directory with default settings (OWASP Top 10):
 
 ```bash
-python issue_39_sast_scanner.py scan --path src/
+python sast_scanner.py scan --path src/
 ```
 
 ### Python-Specific Scan
@@ -90,7 +90,7 @@ python issue_39_sast_scanner.py scan --path src/
 Use both Semgrep and Bandit for Python code:
 
 ```bash
-python issue_39_sast_scanner.py scan-python --path src/ --severity HIGH
+python sast_scanner.py scan-python --path src/ --severity HIGH
 ```
 
 ### Custom Rules
@@ -98,9 +98,9 @@ python issue_39_sast_scanner.py scan-python --path src/ --severity HIGH
 Scan with custom Semgrep rules:
 
 ```bash
-python issue_39_sast_scanner.py scan \
+python sast_scanner.py scan \
     --path src/ \
-    --custom-rules issue_39_custom_rules/ \
+    --custom-rules custom_rules/ \
     --config p/security-audit
 ```
 
@@ -109,7 +109,7 @@ python issue_39_sast_scanner.py scan \
 Export results in SARIF format for GitHub Code Scanning:
 
 ```bash
-python issue_39_sast_scanner.py scan \
+python sast_scanner.py scan \
     --path src/ \
     --output results.sarif \
     --format sarif
@@ -120,7 +120,7 @@ python issue_39_sast_scanner.py scan \
 Create human-readable HTML report:
 
 ```bash
-python issue_39_sast_scanner.py scan \
+python sast_scanner.py scan \
     --path src/ \
     --output report.html \
     --format html
@@ -132,12 +132,12 @@ Generate a baseline to track known issues:
 
 ```bash
 # Generate baseline
-python issue_39_sast_scanner.py generate-baseline \
+python sast_scanner.py generate-baseline \
     --path src/ \
     --output baseline.json
 
 # Compare current scan against baseline
-python issue_39_sast_scanner.py compare-baseline \
+python sast_scanner.py compare-baseline \
     --path src/ \
     --baseline baseline.json \
     --fail-on-new
@@ -146,7 +146,7 @@ python issue_39_sast_scanner.py compare-baseline \
 ### Advanced Options
 
 ```bash
-python issue_39_sast_scanner.py scan \
+python sast_scanner.py scan \
     --path src/ \
     --severity MEDIUM \
     --exclude "*/tests/*" \
@@ -203,7 +203,7 @@ Compare current scan against baseline.
 
 ```python
 from pathlib import Path
-from issue_39_sast_scanner import SASTScanner
+from sast_scanner import SASTScanner
 
 # Initialize scanner
 scanner = SASTScanner()
@@ -225,13 +225,13 @@ for finding in results['findings']:
 ### Semgrep Only
 
 ```python
-from issue_39_semgrep_wrapper import SemgrepScanner
+from semgrep_wrapper import SemgrepScanner
 from pathlib import Path
 
 # Initialize Semgrep scanner
 semgrep = SemgrepScanner(
     config="p/owasp-top-ten",
-    custom_rules=Path("issue_39_custom_rules/")
+    custom_rules=Path("custom_rules/")
 )
 
 # Scan with Semgrep
@@ -247,7 +247,7 @@ print(f"Found {len(results['findings'])} issues")
 ### Bandit Only
 
 ```python
-from issue_39_bandit_wrapper import BanditScanner
+from bandit_wrapper import BanditScanner
 from pathlib import Path
 
 # Initialize Bandit scanner
@@ -268,7 +268,7 @@ print(f"Found {len(results['findings'])} issues")
 ### Export Reports
 
 ```python
-from issue_39_report_generator import SARIFReportGenerator, HTMLReportGenerator
+from report_generator import SARIFReportGenerator, HTMLReportGenerator
 from pathlib import Path
 
 # Generate SARIF report
@@ -292,7 +292,7 @@ html_gen.export_to_file(html_report, Path("report.html"))
 
 ### Creating Custom Semgrep Rules
 
-Create YAML files in the `issue_39_custom_rules/` directory:
+Create YAML files in the `custom_rules/` directory:
 
 ```yaml
 rules:
@@ -316,9 +316,9 @@ rules:
 ### Using Custom Rules
 
 ```bash
-python issue_39_sast_scanner.py scan \
+python sast_scanner.py scan \
     --path src/ \
-    --custom-rules issue_39_custom_rules/
+    --custom-rules custom_rules/
 ```
 
 ## OWASP Top 10 Coverage
@@ -344,13 +344,13 @@ python issue_39_sast_scanner.py scan \
 cd /Users/tamnguyen/Documents/GitHub/devCrew_s1
 
 # Run tests with coverage
-pytest issue_39_test_sast_scanner.py -v --cov=. --cov-report=term-missing
+pytest test_sast_scanner.py -v --cov=. --cov-report=term-missing
 
 # Run specific test class
-pytest issue_39_test_sast_scanner.py::TestSemgrepScanner -v
+pytest test_sast_scanner.py::TestSemgrepScanner -v
 
 # Run with verbose output
-pytest issue_39_test_sast_scanner.py -v -s
+pytest test_sast_scanner.py -v -s
 ```
 
 ### Test Coverage
@@ -385,12 +385,12 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install -r issue_39_requirements.txt
+          pip install -r requirements.txt
           pip install semgrep bandit
 
       - name: Run SAST scan
         run: |
-          python issue_39_sast_scanner.py scan \
+          python sast_scanner.py scan \
             --path src/ \
             --output results.sarif \
             --format sarif \
@@ -409,9 +409,9 @@ sast:
   stage: test
   image: python:3.10
   script:
-    - pip install -r issue_39_requirements.txt
+    - pip install -r requirements.txt
     - pip install semgrep bandit
-    - python issue_39_sast_scanner.py scan --path src/ --output gl-sast-report.json --format json
+    - python sast_scanner.py scan --path src/ --output gl-sast-report.json --format json
   artifacts:
     reports:
       sast: gl-sast-report.json
@@ -459,17 +459,17 @@ export PATH="/path/to/devgru_setup:$PATH"
 
 ```bash
 # Make scanner executable
-chmod +x issue_39_sast_scanner.py
+chmod +x sast_scanner.py
 
 # Run with python explicitly
-python issue_39_sast_scanner.py scan --path src/
+python sast_scanner.py scan --path src/
 ```
 
 ### Large Scan Timeouts
 
 ```python
 # Increase timeout in Python API
-from issue_39_semgrep_wrapper import SemgrepScanner
+from semgrep_wrapper import SemgrepScanner
 
 scanner = SemgrepScanner(timeout=600)  # 10 minutes
 ```
@@ -505,7 +505,7 @@ Potential improvements for production use:
 
 For issues or questions:
 1. Check the troubleshooting section above
-2. Review test cases in `issue_39_test_sast_scanner.py`
+2. Review test cases in `test_sast_scanner.py`
 3. Refer to Issue #39 in the devCrew_s1 repository
 4. Consult Semgrep and Bandit documentation
 
