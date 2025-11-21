@@ -23,12 +23,12 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 # Import custom modules (these would be relative imports in production)
 # For this implementation, we'll use type hints and structure
-# from issue_41_authentication import *
-# from issue_41_audit_logger import *
-# from issue_41_customer_data import *
-# from issue_41_feedback_ingestion import *
-# from issue_41_privacy_compliance import *
-# from issue_41_rate_limiter import *
+# from authentication import *
+# from audit_logger import *
+# from customer_data import *
+# from feedback_ingestion import *
+# from privacy_compliance import *
+# from rate_limiter import *
 
 
 # Application lifespan
@@ -580,7 +580,7 @@ if __name__ == "__main__":
     import uvicorn
 
     uvicorn.run(
-        "issue_41_fastapi_app:app",
+        "fastapi_app:app",
         host="0.0.0.0",
         port=8000,
         reload=True,

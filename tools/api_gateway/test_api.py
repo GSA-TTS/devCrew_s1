@@ -73,7 +73,7 @@ class TestAuthentication:
 
     def test_password_hashing(self):
         """Test password hashing and verification."""
-        # Import would be: from issue_41_authentication import ...
+        # Import would be: from authentication import ...
         # Mock implementation for testing structure
         password = "test_password_123"
         # hashed = get_password_hash(password)

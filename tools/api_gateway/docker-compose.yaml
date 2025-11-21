@@ -7,7 +7,7 @@ services:
   # PostgreSQL Database
   postgres:
     image: postgres:15-alpine
-    container_name: issue_41_postgres
+    container_name: api_gateway_postgres
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
@@ -23,12 +23,12 @@ services:
       timeout: 5s
       retries: 5
     networks:
-      - issue_41_network
+      - api_gateway_network
 
   # Redis Cache
   redis:
     image: redis:7-alpine
-    container_name: issue_41_redis
+    container_name: api_gateway_redis
     ports:
       - "6379:6379"
     volumes:
@@ -39,12 +39,12 @@ services:
       timeout: 3s
       retries: 5
     networks:
-      - issue_41_network
+      - api_gateway_network
 
   # Kong API Gateway Database
   kong_database:
     image: postgres:15-alpine
-    container_name: issue_41_kong_db
+    container_name: api_gateway_kong_db
     environment:
       POSTGRES_USER: kong
       POSTGRES_PASSWORD: kong
@@ -57,12 +57,12 @@ services:
       timeout: 5s
       retries: 5
     networks:
-      - issue_41_network
+      - api_gateway_network
 
   # Kong Migration (run once)
   kong_migration:
     image: kong:3.4-alpine
-    container_name: issue_41_kong_migration
+    container_name: api_gateway_kong_migration
     command: kong migrations bootstrap
     environment:
       KONG_DATABASE: postgres
@@ -74,13 +74,13 @@ services:
       kong_database:
         condition: service_healthy
     networks:
-      - issue_41_network
+      - api_gateway_network
     restart: on-failure
 
   # Kong API Gateway
   kong:
     image: kong:3.4-alpine
-    container_name: issue_41_kong
+    container_name: api_gateway_kong
     environment:
       KONG_DATABASE: postgres
       KONG_PG_HOST: kong_database
@@ -109,14 +109,14 @@ services:
       timeout: 5s
       retries: 5
     networks:
-      - issue_41_network
+      - api_gateway_network
 
   # FastAPI Application
   fastapi_app:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: issue_41_fastapi
+    container_name: api_gateway_fastapi
     environment:
       # Database
       DATABASE_HOST: postgres
@@ -157,13 +157,13 @@ services:
       timeout: 10s
       retries: 3
     networks:
-      - issue_41_network
+      - api_gateway_network
     restart: unless-stopped
 
   # Apache Airflow (for data pipelines)
   airflow:
     image: apache/airflow:2.7.0-python3.11
-    container_name: issue_41_airflow
+    container_name: api_gateway_airflow
     environment:
       AIRFLOW__CORE__EXECUTOR: LocalExecutor
       AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://postgres:postgres@postgres/airflow_db
@@ -199,13 +199,13 @@ services:
       timeout: 10s
       retries: 3
     networks:
-      - issue_41_network
+      - api_gateway_network
     restart: unless-stopped
 
   # pgAdmin (Database Management UI)
   pgadmin:
     image: dpage/pgadmin4:latest
-    container_name: issue_41_pgadmin
+    container_name: api_gateway_pgadmin
     environment:
       PGADMIN_DEFAULT_EMAIL: admin@example.com
       PGADMIN_DEFAULT_PASSWORD: admin
@@ -217,13 +217,13 @@ services:
     depends_on:
       - postgres
     networks:
-      - issue_41_network
+      - api_gateway_network
     restart: unless-stopped
 
   # Redis Commander (Redis Management UI)
   redis_commander:
     image: rediscommander/redis-commander:latest
-    container_name: issue_41_redis_commander
+    container_name: api_gateway_redis_commander
     environment:
       REDIS_HOSTS: local:redis:6379
     ports:
@@ -231,7 +231,7 @@ services:
     depends_on:
       - redis
     networks:
-      - issue_41_network
+      - api_gateway_network
     restart: unless-stopped
 
 volumes:
@@ -245,7 +245,7 @@ volumes:
     driver: local
 
 networks:
-  issue_41_network:
+  api_gateway_network:
     driver: bridge
     ipam:
       config:
