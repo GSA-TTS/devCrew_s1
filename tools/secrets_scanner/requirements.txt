@@ -1,0 +1,31 @@
+# devCrew_s1 Secrets Scanner - TOOL-SEC-006
+# Core dependencies (Python 3.8+)
+
+# No external dependencies required for core functionality
+# The scanner uses only Python standard library modules:
+# - re (regex)
+# - hashlib (hashing)
+# - json (baseline files)
+# - math (entropy)
+# - pathlib (file operations)
+# - subprocess (git operations)
+# - dataclasses (data structures)
+# - typing (type hints)
+# - tempfile (tests)
+# - unittest (tests)
+
+# Optional dependencies for enhanced functionality:
+
+# For running tests with coverage
+pytest>=7.0.0
+pytest-cov>=4.0.0
+
+# For code quality checks
+black>=23.0.0
+isort>=5.12.0
+flake8>=6.0.0
+mypy>=1.0.0
+bandit>=1.7.0
+
+# For type stubs
+types-setuptools>=68.0.0
