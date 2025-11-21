@@ -13,3 +13,4 @@ release/
 .DS_Store
 */.DS_Store
 /.vscode
+/tools/ai_reasoning/__pycache__

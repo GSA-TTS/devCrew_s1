@@ -13,12 +13,12 @@ from pathlib import Path
 from typing import Optional, Dict, Any
 from decimal import Decimal
 
-from issue_38_terraform_wrapper import TerraformWrapper, TerraformError
-from issue_38_cloud_providers import ProviderFactory, ProviderConfig, CloudProviderError
-from issue_38_state_manager import StateManager, StateError
-from issue_38_validator import TerraformValidator, ValidationError, SeverityLevel
-from issue_38_drift_detector import DriftDetector, DriftError
-from issue_38_cost_estimator import CostEstimator, CostEstimationError
+from terraform_wrapper import TerraformWrapper, TerraformError
+from cloud_providers import ProviderFactory, ProviderConfig, CloudProviderError
+from state_manager import StateManager, StateError
+from validator import TerraformValidator, ValidationError, SeverityLevel
+from drift_detector import DriftDetector, DriftError
+from cost_estimator import CostEstimator, CostEstimationError
 
 
 # Configure logging
@@ -497,7 +497,7 @@ def main():
     parser.add_argument(
         "-c", "--config",
         help="Configuration file path",
-        default="issue_38_config.yaml"
+        default="config.yaml"
     )
 
     parser.add_argument(

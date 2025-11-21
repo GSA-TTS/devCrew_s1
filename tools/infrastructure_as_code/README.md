@@ -34,7 +34,7 @@ This IaC platform provides a unified interface for managing infrastructure acros
 
 ## Features
 
-### 1. Terraform Wrapper (`issue_38_terraform_wrapper.py`)
+### 1. Terraform Wrapper (`terraform_wrapper.py`)
 
 - Execute Terraform commands programmatically
 - Parse JSON output for automation
@@ -42,21 +42,21 @@ This IaC platform provides a unified interface for managing infrastructure acros
 - Retry logic for transient failures
 - Workspace management
 
-### 2. Multi-Cloud Providers (`issue_38_cloud_providers.py`)
+### 2. Multi-Cloud Providers (`cloud_providers.py`)
 
 - Unified interface for AWS, Azure, and GCP
 - Credential validation
 - Provider-specific configurations
 - Backend configuration generation
 
-### 3. State Management (`issue_38_state_manager.py`)
+### 3. State Management (`state_manager.py`)
 
 - Remote state operations (S3, Azure Blob, GCS)
 - State locking mechanisms
 - Backup and recovery
 - State migration support
 
-### 4. Security Validation (`issue_38_validator.py`)
+### 4. Security Validation (`validator.py`)
 
 - Checkov integration for security scanning
 - tfsec integration for additional checks
@@ -64,7 +64,7 @@ This IaC platform provides a unified interface for managing infrastructure acros
 - Compliance framework checks
 - Report generation (text, JSON, HTML)
 
-### 5. Drift Detection (`issue_38_drift_detector.py`)
+### 5. Drift Detection (`drift_detector.py`)
 
 - Compare state vs actual infrastructure
 - Identify drifted resources
@@ -72,7 +72,7 @@ This IaC platform provides a unified interface for managing infrastructure acros
 - Remediation recommendations
 - Auto-remediation (with approval)
 
-### 6. Cost Estimation (`issue_38_cost_estimator.py`)
+### 6. Cost Estimation (`cost_estimator.py`)
 
 - Estimate infrastructure costs
 - Budget alerts
@@ -84,7 +84,7 @@ This IaC platform provides a unified interface for managing infrastructure acros
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │                    IaC Manager (CLI)                        │
-│                  issue_38_iac_manager.py                    │
+│                     iac_manager.py                          │
 └───────────────────┬─────────────────────────────────────────┘
                     │
         ┌───────────┼───────────┬───────────┬────────────┐
@@ -140,7 +140,7 @@ This IaC platform provides a unified interface for managing infrastructure acros
 ### Install Python Dependencies
 
 ```bash
-pip install -r issue_38_requirements.txt
+pip install -r requirements.txt
 ```
 
 ### Install Security Scanning Tools
@@ -192,7 +192,7 @@ gcloud auth application-default login
 
 ```bash
 # Copy and customize the configuration file
-cp issue_38_config.yaml my_config.yaml
+cp config.yaml my_config.yaml
 
 # Edit the configuration
 vim my_config.yaml
@@ -202,16 +202,16 @@ vim my_config.yaml
 
 ```bash
 # Validate configuration
-python issue_38_iac_manager.py -c my_config.yaml -d /path/to/terraform validate
+python iac_manager.py -c my_config.yaml -d /path/to/terraform validate
 
 # Estimate costs
-python issue_38_iac_manager.py -c my_config.yaml -d /path/to/terraform estimate-cost
+python iac_manager.py -c my_config.yaml -d /path/to/terraform estimate-cost
 
 # Provision infrastructure
-python issue_38_iac_manager.py -c my_config.yaml -d /path/to/terraform provision
+python iac_manager.py -c my_config.yaml -d /path/to/terraform provision
 
 # With auto-approval (USE WITH CAUTION)
-python issue_38_iac_manager.py -c my_config.yaml -d /path/to/terraform provision --auto-approve
+python iac_manager.py -c my_config.yaml -d /path/to/terraform provision --auto-approve
 ```
 
 ## Usage
@@ -219,10 +219,10 @@ python issue_38_iac_manager.py -c my_config.yaml -d /path/to/terraform provision
 ### Command-Line Interface
 
 ```bash
-python issue_38_iac_manager.py [OPTIONS] COMMAND
+python iac_manager.py [OPTIONS] COMMAND
 
 Options:
-  -c, --config PATH       Configuration file path (default: issue_38_config.yaml)
+  -c, --config PATH       Configuration file path (default: config.yaml)
   -d, --directory PATH    Terraform working directory (default: .)
 
 Commands:
@@ -237,59 +237,59 @@ Commands:
 
 ```bash
 # Interactive mode (prompts for approval)
-python issue_38_iac_manager.py -d /path/to/terraform provision
+python iac_manager.py -d /path/to/terraform provision
 
 # With variable file
-python issue_38_iac_manager.py -d /path/to/terraform provision --var-file=prod.tfvars
+python iac_manager.py -d /path/to/terraform provision --var-file=prod.tfvars
 
 # Auto-approve (skip prompts)
-python issue_38_iac_manager.py -d /path/to/terraform provision --auto-approve
+python iac_manager.py -d /path/to/terraform provision --auto-approve
 ```
 
 ### Validate Configuration
 
 ```bash
 # Text output
-python issue_38_iac_manager.py -d /path/to/terraform validate
+python iac_manager.py -d /path/to/terraform validate
 
 # JSON output
-python issue_38_iac_manager.py -d /path/to/terraform validate --format json
+python iac_manager.py -d /path/to/terraform validate --format json
 
 # Save to file
-python issue_38_iac_manager.py -d /path/to/terraform validate --format html --output report.html
+python iac_manager.py -d /path/to/terraform validate --format html --output report.html
 ```
 
 ### Detect Drift
 
 ```bash
 # Detect drift
-python issue_38_iac_manager.py -d /path/to/terraform detect-drift
+python iac_manager.py -d /path/to/terraform detect-drift
 
 # Auto-remediate drift (USE WITH CAUTION)
-python issue_38_iac_manager.py -d /path/to/terraform detect-drift --auto-remediate
+python iac_manager.py -d /path/to/terraform detect-drift --auto-remediate
 
 # Save drift report
-python issue_38_iac_manager.py -d /path/to/terraform detect-drift --format json --output drift.json
+python iac_manager.py -d /path/to/terraform detect-drift --format json --output drift.json
 ```
 
 ### Estimate Costs
 
 ```bash
 # Estimate costs
-python issue_38_iac_manager.py -d /path/to/terraform estimate-cost
+python iac_manager.py -d /path/to/terraform estimate-cost
 
 # Generate HTML report
-python issue_38_iac_manager.py -d /path/to/terraform estimate-cost --format html --output costs.html
+python iac_manager.py -d /path/to/terraform estimate-cost --format html --output costs.html
 ```
 
 ### Destroy Infrastructure
 
 ```bash
 # Interactive mode (requires typing 'destroy' to confirm)
-python issue_38_iac_manager.py -d /path/to/terraform destroy
+python iac_manager.py -d /path/to/terraform destroy
 
 # Auto-approve (USE WITH EXTREME CAUTION)
-python issue_38_iac_manager.py -d /path/to/terraform destroy --auto-approve
+python iac_manager.py -d /path/to/terraform destroy --auto-approve
 ```
 
 ## Multi-Cloud Examples
@@ -301,7 +301,7 @@ python issue_38_iac_manager.py -d /path/to/terraform destroy --auto-approve
 cd /path/to/devCrew_s1
 
 # Initialize
-python issue_38_iac_manager.py -d . provision
+python iac_manager.py -d . provision
 
 # This will:
 # 1. Create VPC with public/private subnets
@@ -310,7 +310,7 @@ python issue_38_iac_manager.py -d . provision
 # 4. Configure security groups
 ```
 
-See `issue_38_example_aws.tf` for complete configuration.
+See `example_aws.tf` for complete configuration.
 
 ### Azure Example
 
@@ -322,7 +322,7 @@ cd /path/to/devCrew_s1
 export AZURE_SUBSCRIPTION_ID="your-subscription-id"
 
 # Initialize
-python issue_38_iac_manager.py -d . provision
+python iac_manager.py -d . provision
 
 # This will:
 # 1. Create resource group and VNet
@@ -331,7 +331,7 @@ python issue_38_iac_manager.py -d . provision
 # 4. Configure network security groups
 ```
 
-See `issue_38_example_azure.tf` for complete configuration.
+See `example_azure.tf` for complete configuration.
 
 ### GCP Example
 
@@ -343,7 +343,7 @@ cd /path/to/devCrew_s1
 export GOOGLE_CLOUD_PROJECT="your-project-id"
 
 # Initialize
-python issue_38_iac_manager.py -d . provision
+python iac_manager.py -d . provision
 
 # This will:
 # 1. Create VPC network with subnets
@@ -352,7 +352,7 @@ python issue_38_iac_manager.py -d . provision
 # 4. Configure firewall rules
 ```
 
-See `issue_38_example_gcp.tf` for complete configuration.
+See `example_gcp.tf` for complete configuration.
 
 ## Protocol Integration
 
@@ -455,16 +455,16 @@ export GOOGLE_APPLICATION_CREDENTIALS="/path/to/credentials.json"
 
 ```bash
 # Run all tests
-pytest issue_38_test_iac.py -v
+pytest test_iac.py -v
 
 # Run with coverage
-pytest issue_38_test_iac.py -v --cov=. --cov-report=html
+pytest test_iac.py -v --cov=. --cov-report=html
 
 # Run specific test class
-pytest issue_38_test_iac.py::TestTerraformWrapper -v
+pytest test_iac.py::TestTerraformWrapper -v
 
 # Run specific test
-pytest issue_38_test_iac.py::TestTerraformWrapper::test_init_success -v
+pytest test_iac.py::TestTerraformWrapper::test_init_success -v
 ```
 
 ### Test Coverage
@@ -519,7 +519,7 @@ terraform force-unlock <lock-id>
 
 # Or use state manager
 python -c "
-from issue_38_state_manager import StateManager
+from state_manager import StateManager
 manager = StateManager('s3', {'bucket': '...', 'key': '...', 'region': '...'})
 manager.force_unlock()
 "
@@ -551,7 +551,7 @@ brew install tfsec  # macOS
 export TF_LOG=DEBUG
 
 # Run with Python debugging
-python -m pdb issue_38_iac_manager.py provision
+python -m pdb iac_manager.py provision
 ```
 
 ## Best Practices
@@ -610,25 +610,25 @@ python -m pdb issue_38_iac_manager.py provision
 cd /path/to/terraform/config
 
 # 2. Validate configuration
-python issue_38_iac_manager.py -c config.yaml validate
+python iac_manager.py -c config.yaml validate
 
 # 3. Estimate costs
-python issue_38_iac_manager.py -c config.yaml estimate-cost
+python iac_manager.py -c config.yaml estimate-cost
 
 # 4. Review and approve
 # (Review validation and cost reports)
 
 # 5. Provision infrastructure
-python issue_38_iac_manager.py -c config.yaml provision
+python iac_manager.py -c config.yaml provision
 
 # 6. Verify deployment
 terraform output
 
 # 7. Monitor for drift (run periodically)
-python issue_38_iac_manager.py -c config.yaml detect-drift
+python iac_manager.py -c config.yaml detect-drift
 
 # 8. When done, destroy infrastructure
-python issue_38_iac_manager.py -c config.yaml destroy
+python iac_manager.py -c config.yaml destroy
 ```
 
 ### CI/CD Integration
@@ -651,11 +651,11 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
       - name: Install Dependencies
-        run: pip install -r issue_38_requirements.txt
+        run: pip install -r requirements.txt
       - name: Validate
-        run: python issue_38_iac_manager.py validate --format json
+        run: python iac_manager.py validate --format json
       - name: Cost Estimate
-        run: python issue_38_iac_manager.py estimate-cost --format json
+        run: python iac_manager.py estimate-cost --format json
 
   deploy:
     needs: validate
@@ -664,7 +664,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Deploy
-        run: python issue_38_iac_manager.py provision --auto-approve
+        run: python iac_manager.py provision --auto-approve
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}

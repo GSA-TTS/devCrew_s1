@@ -11,13 +11,13 @@ from pathlib import Path
 from unittest.mock import Mock, patch, MagicMock
 from decimal import Decimal
 
-from issue_38_terraform_wrapper import (
+from terraform_wrapper import (
     TerraformWrapper,
     TerraformOutput,
     TerraformError,
     TerraformCommandError
 )
-from issue_38_cloud_providers import (
+from cloud_providers import (
     ProviderFactory,
     ProviderConfig,
     AWSProvider,
@@ -25,10 +25,10 @@ from issue_38_cloud_providers import (
     GCPProvider,
     CloudProviderError
 )
-from issue_38_state_manager import StateManager, StateBackup
-from issue_38_validator import TerraformValidator, ValidationReport, SeverityLevel
-from issue_38_drift_detector import DriftDetector, DriftType
-from issue_38_cost_estimator import CostEstimator, ResourceCost
+from state_manager import StateManager, StateBackup
+from validator import TerraformValidator, ValidationReport, SeverityLevel
+from drift_detector import DriftDetector, DriftType
+from cost_estimator import CostEstimator, ResourceCost
 
 
 class TestTerraformWrapper:
@@ -449,7 +449,7 @@ class TestValidator:
 
     def test_generate_text_report(self, validator):
         """Test text report generation."""
-        from issue_38_validator import ValidationFinding
+        from validator import ValidationFinding
 
         findings = [
             ValidationFinding(
