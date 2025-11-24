@@ -1,0 +1,58 @@
+# Core Dependencies
+pydantic>=2.5.0
+pyyaml>=6.0.0
+click>=8.1.0
+rich>=13.0.0
+
+# Cloud Storage Backends
+boto3>=1.34.0
+azure-storage-blob>=12.0.0
+google-cloud-storage>=2.14.0
+
+# SSH/SFTP Support
+paramiko>=3.4.0
+
+# Scheduling
+croniter>=2.0.0
+python-dateutil>=2.8.0
+
+# HTTP Support
+requests>=2.31.0
+
+# Monitoring & Metrics
+prometheus-client>=0.19.0
+
+# Database Support
+psycopg2-binary>=2.9.0
+PyMySQL>=1.1.0
+
+# Async Support
+aioboto3>=12.0.0
+
+# Compression
+zstandard>=0.22.0
+
+# Utilities
+humanize>=4.9.0
+
+# Testing Dependencies
+pytest>=7.4.0
+pytest-asyncio>=0.21.0
+pytest-cov>=4.1.0
+pytest-mock>=3.12.0
+moto>=4.2.0
+freezegun>=1.4.0
+
+# Code Quality
+black>=23.0.0
+isort>=5.12.0
+flake8>=6.1.0
+mypy>=1.7.0
+pylint>=3.0.0
+bandit>=1.7.5
+
+# Note: restic must be installed separately
+# Install: https://restic.readthedocs.io/en/latest/020_installation.html
+# macOS: brew install restic
+# Ubuntu: apt-get install restic
+# RHEL/CentOS: yum install restic
