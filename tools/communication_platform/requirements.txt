@@ -1,0 +1,54 @@
+# Core dependencies for Communication & Notification Platform
+# Python 3.10+ required
+
+# Slack Integration
+slack-sdk==3.23.0
+
+# Email Service
+sendgrid==6.11.0
+jinja2==3.1.2
+
+# Database and Caching
+redis==5.0.1
+psycopg2-binary==2.9.9
+
+# Data Validation
+pydantic==2.5.3
+pyyaml==6.0.1
+
+# CLI
+click==8.1.7
+tabulate==0.9.0
+
+# Utilities
+python-dateutil==2.8.2
+
+# Optional dependencies (for enhanced features)
+# Microsoft Teams
+# pymsteams==0.2.2
+
+# PagerDuty
+# pdpyras==5.1.2
+
+# Discord
+# discord-webhook==1.3.0
+
+# SMS (Twilio)
+# twilio==8.10.0
+
+# Async processing
+celery[redis]==5.3.4
+
+# Testing dependencies
+pytest==7.4.3
+pytest-asyncio==0.21.1
+pytest-cov==4.1.0
+pytest-mock==3.12.0
+fakeredis==2.20.1
+
+# Code quality
+black==23.12.1
+flake8==7.0.0
+mypy==1.8.0
+isort==5.13.2
+pylint==3.0.3
