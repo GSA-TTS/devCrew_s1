@@ -1,5 +1,5 @@
 # Core Dependencies
-requests==2.31.0  # HTTP library for Figma API calls
+requests==2.32.4  # HTTP library for Figma API calls
 pillow==10.1.0  # Image processing for exports
 pyyaml==6.0.1  # Configuration file parsing
 pydantic==2.5.3  # Data validation and serialization
