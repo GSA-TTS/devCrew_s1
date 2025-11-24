@@ -1,0 +1,64 @@
+# Knowledge Graph Management Platform - Requirements
+# Python 3.10+
+
+# Neo4j Integration
+neo4j>=5.15.0                    # Neo4j Python driver for graph database
+py2neo>=2021.2.4                 # Alternative Neo4j client (optional)
+
+# NLP and Entity Extraction
+spacy>=3.7.0                     # NER and entity extraction
+en-core-web-lg @ https://github.com/explosion/spacy-models/releases/download/en_core_web_lg-3.7.1/en_core_web_lg-3.7.1-py3-none-any.whl  # spaCy English model
+
+# Embeddings and Semantic Search
+sentence-transformers>=2.2.0     # Semantic embeddings
+faiss-cpu>=1.7.4                 # Fast similarity search (CPU version)
+# faiss-gpu>=1.7.4               # Uncomment for GPU support
+
+# LLM and RAG Integration
+langchain>=0.1.0                 # LLM orchestration and RAG
+langchain-community>=0.0.10      # Community integrations
+langchain-openai>=0.0.2          # OpenAI integration
+langchain-anthropic>=0.0.1       # Anthropic Claude integration
+llama-index>=0.9.0               # Alternative RAG framework
+openai>=1.0.0                    # OpenAI API client
+
+# Graph Algorithms
+networkx>=3.2.0                  # Graph analysis algorithms
+python-louvain>=0.16             # Community detection
+
+# Data Processing
+pandas>=2.0.0                    # Data manipulation
+numpy>=1.24.0                    # Numerical operations
+pydantic>=2.5.0                  # Data validation
+
+# Visualization
+plotly>=5.18.0                   # Interactive visualizations
+matplotlib>=3.8.0                # Static plots
+pyvis>=0.3.2                     # Network visualization
+
+# CLI and UI
+click>=8.1.0                     # CLI framework
+rich>=13.0.0                     # Rich terminal output
+tqdm>=4.66.0                     # Progress bars
+
+# Testing
+pytest>=7.4.0                    # Testing framework
+pytest-asyncio>=0.21.0           # Async test support
+pytest-cov>=4.1.0                # Coverage reporting
+pytest-mock>=3.12.0              # Mocking utilities
+responses>=0.24.0                # HTTP request mocking
+
+# Development Tools
+black>=23.0.0                    # Code formatting
+isort>=5.12.0                    # Import sorting
+flake8>=6.1.0                    # Linting
+mypy>=1.7.0                      # Type checking
+bandit>=1.7.5                    # Security linting
+pre-commit>=3.5.0                # Git hooks
+
+# Utilities
+python-dotenv>=1.0.0             # Environment variables
+pyyaml>=6.0.0                    # YAML parsing
+requests>=2.31.0                 # HTTP requests
+tenacity>=8.2.0                  # Retry logic
+typing-extensions>=4.9.0         # Extended type hints
