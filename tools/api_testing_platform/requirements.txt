@@ -1,0 +1,51 @@
+# API Testing & Contract Validation Platform Dependencies
+# devCrew_s1 - Python 3.10+ required
+
+# Core Dependencies
+openapi-spec-validator>=0.7.0  # OpenAPI 3.0/3.1 validation
+pyyaml>=6.0                    # YAML parsing
+jsonschema>=4.20.0             # JSON Schema validation
+prance>=23.6.0                 # OpenAPI $ref resolution
+deepdiff>=6.7.0                # Deep object comparison for regression testing
+
+# Test Generation
+schemathesis>=3.19.0           # Property-based API testing from OpenAPI specs
+hypothesis>=6.92.0             # Property-based testing strategies
+jinja2>=3.1.0                  # Template engine for test generation
+
+# HTTP Client
+requests>=2.31.0               # HTTP client library
+requests-oauthlib>=1.3.0       # OAuth2 support
+urllib3>=2.0.0                 # Connection pooling and retry logic
+
+# Contract Testing (Pact)
+pact-python>=2.1.0             # Consumer-driven contract testing
+
+# CLI Framework
+click>=8.1.0                   # Command-line interface framework
+rich>=13.0.0                   # Terminal formatting and progress bars
+tabulate>=0.9.0                # Table formatting for output
+
+# Optional OpenAPI Core Integration
+openapi-core>=0.18.0           # OpenAPI schema validation (optional)
+
+# Development Dependencies (for testing)
+pytest>=7.4.0                  # Testing framework
+pytest-cov>=4.1.0              # Coverage reporting
+pytest-mock>=3.11.0            # Mocking support
+responses>=0.24.0              # HTTP response mocking
+HTTPretty>=1.1.0               # HTTP request mocking (alternative)
+
+# Optional Performance Testing
+locust>=2.17.0                 # Load testing and performance benchmarking (optional)
+
+# Optional API Collection Runners
+newman>=1.0.0                  # Postman collection runner (optional, requires Node.js)
+
+# Optional Advanced Test Reporting
+pytest-html>=4.1.0             # HTML test reports (optional)
+pytest-xdist>=3.5.0            # Parallel test execution (optional)
+allure-pytest>=2.13.0          # Advanced test reporting with Allure (optional)
+
+# Optional YAML-based API Testing
+tavern>=2.7.0                  # Declarative YAML-based API testing (optional)
