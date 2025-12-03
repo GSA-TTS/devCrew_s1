@@ -13,4 +13,14 @@ release/
 .DS_Store
 */.DS_Store
 /.vscode
-/tools/ai_reasoning/__pycache__
+
+## Python ##
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+*.egg
