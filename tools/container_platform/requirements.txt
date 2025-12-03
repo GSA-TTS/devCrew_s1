@@ -1,0 +1,106 @@
+# Container Platform Management - Requirements
+# Core Python Package Dependencies
+#
+# Installation:
+#   pip install -r requirements.txt
+#
+# For development:
+#   pip install -r requirements.txt -r requirements-dev.txt
+
+# ============================================================================
+# Core Dependencies
+# ============================================================================
+
+# Docker SDK for Python - Container operations
+docker>=7.0.0
+
+# Click - CLI framework
+click>=8.1.0
+
+# Rich - Beautiful terminal output
+rich>=13.7.0
+
+# Pydantic - Data validation and settings management
+pydantic>=2.5.0
+
+# PyYAML - YAML configuration parsing
+PyYAML>=6.0.1
+
+# Requests - HTTP library for registry operations
+requests>=2.31.0
+
+# ============================================================================
+# Cloud Provider SDKs (Optional - for registry support)
+# ============================================================================
+
+# AWS ECR support
+boto3>=1.34.0
+botocore>=1.34.0
+
+# Google GCR support
+google-cloud-storage>=2.14.0
+google-auth>=2.27.0
+
+# Azure ACR support
+azure-identity>=1.15.0
+azure-mgmt-containerregistry>=10.3.0
+
+# ============================================================================
+# Security and Scanning Tools
+# ============================================================================
+
+# Note: Trivy and Grype are external tools that must be installed separately
+# Trivy: https://aquasecurity.github.io/trivy/
+# Grype: https://github.com/anchore/grype
+
+# ============================================================================
+# Development Dependencies (optional)
+# ============================================================================
+# Install with: pip install -r requirements-dev.txt
+
+# pytest>=8.0.0
+# pytest-cov>=4.1.0
+# pytest-asyncio>=0.23.0
+# pytest-mock>=3.12.0
+# black>=24.1.0
+# isort>=5.13.0
+# flake8>=7.0.0
+# mypy>=1.8.0
+# bandit>=1.7.6
+# pre-commit>=3.6.0
+
+# ============================================================================
+# Platform-Specific Notes
+# ============================================================================
+
+# macOS:
+#   - Install Docker Desktop: https://www.docker.com/products/docker-desktop
+#   - Install hadolint: brew install hadolint
+#   - Install dive: brew install dive
+#   - Install trivy: brew install trivy
+#   - Install grype: brew tap anchore/grype && brew install grype
+
+# Linux:
+#   - Install Docker Engine: https://docs.docker.com/engine/install/
+#   - Install hadolint: See https://github.com/hadolint/hadolint#install
+#   - Install dive: See https://github.com/wagoodman/dive#installation
+#   - Install trivy: See https://aquasecurity.github.io/trivy/latest/getting-started/installation/
+#   - Install grype: See https://github.com/anchore/grype#installation
+
+# Windows:
+#   - Install Docker Desktop: https://www.docker.com/products/docker-desktop
+#   - Install scoop: https://scoop.sh/
+#   - scoop bucket add main
+#   - scoop install hadolint dive
+
+# ============================================================================
+# Minimum Python Version
+# ============================================================================
+# Requires Python 3.9 or higher
+
+# ============================================================================
+# Docker Requirements
+# ============================================================================
+# - Docker Engine 20.10+ or Docker Desktop
+# - BuildKit support (Docker 20.10+)
+# - For multi-platform builds: docker buildx

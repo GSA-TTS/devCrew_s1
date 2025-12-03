@@ -1,0 +1,431 @@
+# Container Platform Configuration
+# Example configuration file for the Container Platform Management tool
+#
+# Location: ~/.container-platform/config.yaml (default)
+# Override: Use --config flag to specify custom location
+#
+# Usage:
+#   container-cli --config /path/to/config.yaml <command>
+
+# ============================================================================
+# Registry Configuration
+# ============================================================================
+
+registry:
+  # Default registry URL (Docker Hub, ECR, GCR, ACR, Harbor, or custom)
+  url: "docker.io"
+
+  # Registry type: dockerhub, ecr, gcr, acr, harbor, generic
+  type: "dockerhub"
+
+  # Authentication credentials
+  username: ""
+  password: ""
+
+  # AWS ECR specific settings
+  ecr:
+    region: "us-east-1"
+    account_id: ""
+
+  # Google GCR specific settings
+  gcr:
+    project_id: ""
+    key_file: ""
+
+  # Azure ACR specific settings
+  acr:
+    resource_group: ""
+    registry_name: ""
+
+  # Connection settings
+  timeout: 300
+  max_retries: 3
+  insecure: false
+
+# ============================================================================
+# Build Configuration
+# ============================================================================
+
+build:
+  # Build backend: docker, buildkit, podman
+  backend: "buildkit"
+
+  # Default platforms for multi-platform builds
+  platforms:
+    - "linux/amd64"
+    # - "linux/arm64"
+    # - "linux/arm/v7"
+
+  # Build timeout in seconds
+  timeout: 600
+
+  # Maximum parallel builds
+  max_parallel_builds: 4
+
+  # Build cache settings
+  cache:
+    enabled: true
+    # Cache sources (registry, local, etc.)
+    from:
+      # - "type=registry,ref=myregistry.com/myimage:buildcache"
+      # - "type=local,src=/tmp/cache"
+
+    # Cache destination
+    to: ""
+      # "type=registry,ref=myregistry.com/myimage:buildcache,mode=max"
+
+  # Default build arguments
+  build_args:
+    # VERSION: "1.0.0"
+    # ENVIRONMENT: "production"
+
+  # Default labels (OCI standard)
+  labels:
+    # org.opencontainers.image.title: "My Application"
+    # org.opencontainers.image.description: "Application description"
+    # org.opencontainers.image.authors: "DevCrew Team"
+    # org.opencontainers.image.vendor: "MyCompany"
+
+  # Pull base images before build
+  pull: true
+
+  # Remove intermediate containers after build
+  rm: true
+
+  # Disable build cache
+  no_cache: false
+
+# ============================================================================
+# Security Scanning Configuration
+# ============================================================================
+
+security:
+  # Scanner to use: trivy, grype, both
+  scanner: "trivy"
+
+  # Minimum severity threshold: CRITICAL, HIGH, MEDIUM, LOW, NEGLIGIBLE
+  severity_threshold: "MEDIUM"
+
+  # Scan timeout in seconds
+  timeout: 600
+
+  # Ignore vulnerabilities without fixes
+  ignore_unfixed: false
+
+  # Skip vulnerability database update
+  skip_db_update: false
+
+  # Enable result caching
+  enable_cache: true
+
+  # Cache TTL in seconds
+  cache_ttl: 3600
+
+  # Output directory for scan reports
+  output_dir: "./scan-reports"
+
+  # CVE IDs to ignore (false positives)
+  ignore_list:
+    # - "CVE-2023-12345"
+    # - "CVE-2023-67890"
+
+  # Scan for misconfigurations
+  scan_misconfig: true
+
+  # Scan for secrets
+  scan_secrets: true
+
+  # Scan for license compliance
+  scan_licenses: false
+
+  # Exit with error on critical findings
+  fail_on_critical: true
+
+  # SBOM generation
+  sbom:
+    enabled: false
+    format: "spdx-json"  # spdx, spdx-json, cyclonedx, cyclonedx-json
+
+# ============================================================================
+# Optimization Configuration
+# ============================================================================
+
+optimization:
+  # Use dive tool for deep analysis
+  use_dive: true
+
+  # Optimization level: conservative, balanced, aggressive
+  level: "balanced"
+
+  # Efficiency threshold (percentage)
+  efficiency_threshold: 95.0
+
+  # Wasted space threshold (bytes)
+  wasted_space_threshold: 10485760  # 10 MB
+
+  # Recommended base images
+  base_images:
+    python:
+      alpine: "python:3.11-alpine"
+      slim: "python:3.11-slim"
+      full: "python:3.11"
+    node:
+      alpine: "node:18-alpine"
+      slim: "node:18-slim"
+      full: "node:18"
+    golang:
+      alpine: "golang:1.21-alpine"
+      scratch: "scratch"
+
+# ============================================================================
+# Linting Configuration
+# ============================================================================
+
+linting:
+  # Use hadolint for Dockerfile linting
+  use_hadolint: true
+
+  # Strict mode (warnings become errors)
+  strict_mode: false
+
+  # Required OCI labels
+  required_labels:
+    - "org.opencontainers.image.title"
+    - "org.opencontainers.image.version"
+    - "org.opencontainers.image.created"
+    - "org.opencontainers.image.authors"
+
+  # Custom rules
+  custom_rules:
+    # Check for root user
+    check_root_user: true
+    # Check for hardcoded secrets
+    check_secrets: true
+    # Check for latest tags
+    check_latest_tags: true
+    # Check for layer optimization
+    check_layer_optimization: true
+
+# ============================================================================
+# Container Management Configuration
+# ============================================================================
+
+container:
+  # Default resource limits
+  resources:
+    # Memory limit in bytes (512MB)
+    memory: 536870912
+    # CPU shares
+    cpu_shares: 512
+    # Memory swappiness (0-100)
+    memory_swappiness: 60
+
+  # Default restart policy: no, on-failure, always, unless-stopped
+  restart_policy: "unless-stopped"
+
+  # Logging driver: json-file, syslog, journald, gelf, fluentd, none
+  log_driver: "json-file"
+
+  # Log driver options
+  log_options:
+    max-size: "10m"
+    max-file: "3"
+
+  # Health check defaults
+  health_check:
+    interval: 30
+    timeout: 3
+    retries: 3
+    start_period: 0
+
+  # Network mode: bridge, host, none
+  network_mode: "bridge"
+
+  # Auto-remove containers on exit
+  auto_remove: false
+
+# ============================================================================
+# Image Promotion Configuration
+# ============================================================================
+
+promotion:
+  # Image promotion workflow stages
+  stages:
+    - name: "dev"
+      registry: "dev-registry.company.com"
+      namespace: "development"
+    - name: "staging"
+      registry: "staging-registry.company.com"
+      namespace: "staging"
+    - name: "prod"
+      registry: "prod-registry.company.com"
+      namespace: "production"
+
+  # Require security scan before promotion
+  require_scan: true
+
+  # Require optimization analysis before promotion
+  require_optimization: false
+
+  # Minimum efficiency score for production
+  min_efficiency_score: 90.0
+
+  # Maximum critical vulnerabilities allowed
+  max_critical_vulns: 0
+  max_high_vulns: 5
+
+# ============================================================================
+# CLI Configuration
+# ============================================================================
+
+cli:
+  # Default output format: text, json, yaml
+  output_format: "text"
+
+  # Enable colored output
+  color: true
+
+  # Progress indicators
+  progress: true
+
+  # Verbose logging
+  verbose: false
+
+  # Log level: DEBUG, INFO, WARNING, ERROR, CRITICAL
+  log_level: "INFO"
+
+  # Log file
+  log_file: ""
+
+# ============================================================================
+# Advanced Configuration
+# ============================================================================
+
+advanced:
+  # Docker daemon URL
+  docker_url: "unix:///var/run/docker.sock"
+
+  # TLS verification
+  tls_verify: false
+
+  # Maximum connection pool size
+  max_pool_size: 10
+
+  # Request timeout
+  request_timeout: 60
+
+  # Enable experimental features
+  experimental: false
+
+  # Telemetry (disable for privacy)
+  telemetry: false
+
+# ============================================================================
+# Notification Configuration
+# ============================================================================
+
+notifications:
+  # Enable notifications
+  enabled: false
+
+  # Notification channels
+  channels:
+    # Slack webhook
+    slack:
+      enabled: false
+      webhook_url: ""
+    # Email
+    email:
+      enabled: false
+      smtp_host: ""
+      smtp_port: 587
+      from_address: ""
+      to_addresses: []
+    # Webhook
+    webhook:
+      enabled: false
+      url: ""
+      headers: {}
+
+  # Events to notify
+  events:
+    - "build_success"
+    - "build_failure"
+    - "scan_critical"
+    - "promotion_success"
+
+# ============================================================================
+# CI/CD Integration
+# ============================================================================
+
+cicd:
+  # GitHub Actions integration
+  github:
+    enabled: false
+    # Create GitHub releases
+    create_release: false
+    # Update PR comments with scan results
+    pr_comments: true
+
+  # GitLab CI integration
+  gitlab:
+    enabled: false
+    # Publish artifacts
+    publish_artifacts: true
+
+  # Jenkins integration
+  jenkins:
+    enabled: false
+    # Publish test results
+    publish_results: true
+
+  # Generic webhook for CI/CD systems
+  webhook:
+    enabled: false
+    url: ""
+
+# ============================================================================
+# Examples
+# ============================================================================
+
+# Example 1: Development Environment
+# -----------------------------------
+# registry:
+#   url: "docker.io"
+#   username: "developer"
+# build:
+#   backend: "buildkit"
+#   no_cache: true
+# security:
+#   scanner: "trivy"
+#   severity_threshold: "HIGH"
+
+# Example 2: Production Environment
+# ----------------------------------
+# registry:
+#   url: "prod-registry.company.com"
+#   type: "harbor"
+# build:
+#   backend: "buildkit"
+#   platforms:
+#     - "linux/amd64"
+#     - "linux/arm64"
+# security:
+#   scanner: "both"
+#   severity_threshold: "MEDIUM"
+#   fail_on_critical: true
+# linting:
+#   strict_mode: true
+
+# Example 3: Multi-Registry Setup
+# --------------------------------
+# registry:
+#   url: "docker.io"
+# promotion:
+#   stages:
+#     - name: "dev"
+#       registry: "dev.company.com"
+#     - name: "prod"
+#       registry: "prod.company.com"
+#   require_scan: true
+#   max_critical_vulns: 0
