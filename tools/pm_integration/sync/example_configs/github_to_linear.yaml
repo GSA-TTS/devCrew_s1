@@ -1,0 +1,131 @@
+# GitHub to Linear Synchronization Configuration
+# Syncs GitHub issues to Linear
+
+name: "github-linear-sync"
+source_platform: "github"
+target_platform: "linear"
+direction: "source_to_target"
+
+# Conflict resolution strategy
+conflict_strategy: "source_wins"
+
+# Batch processing settings
+batch_size: 100
+sync_interval: 180  # 3 minutes
+
+# Retry configuration
+enable_retry: true
+max_retries: 5
+retry_delay: 3
+
+# Audit logging
+enable_audit: true
+
+# Field mappings
+field_mappings:
+  # Basic fields
+  - source_field: "number"
+    target_field: "id"
+    source_type: "number"
+    target_type: "string"
+    transform: "number_to_string"
+    bidirectional: false
+    required: true
+
+  - source_field: "title"
+    target_field: "title"
+    source_type: "string"
+    target_type: "string"
+    bidirectional: false
+    required: true
+
+  - source_field: "body"
+    target_field: "description"
+    source_type: "string"
+    target_type: "string"
+    bidirectional: false
+
+  # Status mapping
+  - source_field: "state"
+    target_field: "state"
+    source_type: "string"
+    target_type: "string"
+    transform: "github_state_to_linear"
+    bidirectional: false
+    required: true
+    default_value: "Backlog"
+
+  # Priority from labels
+  - source_field: "labels"
+    target_field: "priority"
+    source_type: "array"
+    target_type: "number"
+    transform: "github_labels_to_priority"
+    bidirectional: false
+    default_value: 3
+
+  # Assignee
+  - source_field: "assignee.login"
+    target_field: "assignee"
+    source_type: "string"
+    target_type: "string"
+    bidirectional: false
+
+  # Labels
+  - source_field: "labels"
+    target_field: "labels"
+    source_type: "array"
+    target_type: "array"
+    transform: "github_labels_to_linear"
+    bidirectional: false
+
+  # Dates
+  - source_field: "created_at"
+    target_field: "createdAt"
+    source_type: "datetime"
+    target_type: "datetime"
+    bidirectional: false
+
+  - source_field: "updated_at"
+    target_field: "updatedAt"
+    source_type: "datetime"
+    target_type: "datetime"
+    bidirectional: false
+
+  # Milestone as cycle
+  - source_field: "milestone.title"
+    target_field: "cycle"
+    source_type: "string"
+    target_type: "string"
+    bidirectional: false
+
+  # Repository as project
+  - source_field: "repository.name"
+    target_field: "project"
+    source_type: "string"
+    target_type: "string"
+    bidirectional: false
+
+  # URL reference
+  - source_field: "html_url"
+    target_field: "url"
+    source_type: "string"
+    target_type: "string"
+    bidirectional: false
+
+# Sync filters
+filters:
+  # Only sync from specific repositories
+  repositories:
+    - "devCrew_s1"
+    - "main-product"
+
+  # Only sync specific labels
+  required_labels:
+    - "sync-to-linear"
+
+  # Exclude pull requests
+  exclude_pull_requests: true
+
+  # Only open issues
+  state: "open"

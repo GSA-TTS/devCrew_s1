@@ -1,0 +1,520 @@
+# Field Mappings Configuration
+# Define how fields are mapped between different PM platforms
+
+# ============================================================================
+# Jira to GitHub Mappings
+# ============================================================================
+
+jira_to_github:
+  mappings:
+    # Basic fields
+    - source_field: summary
+      target_field: title
+      field_type: STRING
+      required: true
+      description: "Issue title/summary"
+    
+    - source_field: description
+      target_field: body
+      field_type: TEXT
+      transform: markdown
+      description: "Issue description with markdown conversion"
+    
+    - source_field: status
+      target_field: state
+      field_type: ENUM
+      value_mapping:
+        "To Do": "open"
+        "In Progress": "open"
+        "In Review": "open"
+        "Done": "closed"
+        "Closed": "closed"
+      description: "Status to state mapping"
+    
+    - source_field: assignee
+      target_field: assignees
+      field_type: USER
+      transform: array
+      user_mapping:
+        john.doe: johndoe
+        jane.smith: janesmith
+      description: "Assignee mapping (Jira username to GitHub username)"
+    
+    - source_field: labels
+      target_field: labels
+      field_type: ARRAY
+      transform: lowercase
+      description: "Label synchronization"
+    
+    # Priority mapping to labels
+    - source_field: priority
+      target_field: labels
+      field_type: ENUM
+      value_mapping:
+        "Blocker": "priority:critical"
+        "Critical": "priority:critical"
+        "Major": "priority:high"
+        "Minor": "priority:low"
+        "Trivial": "priority:low"
+      append: true
+      description: "Priority as GitHub label"
+    
+    # Custom fields
+    - source_field: customfield_10001
+      target_field: labels
+      field_type: NUMBER
+      value_transform: "sp:{value}"
+      append: true
+      description: "Story points as label"
+    
+    - source_field: customfield_10002
+      target_field: body
+      field_type: STRING
+      value_transform: "\n\nEpic: {value}"
+      append: true
+      description: "Epic link appended to body"
+
+# ============================================================================
+# GitHub to Jira Mappings
+# ============================================================================
+
+github_to_jira:
+  mappings:
+    - source_field: title
+      target_field: summary
+      field_type: STRING
+      required: true
+      max_length: 255
+    
+    - source_field: body
+      target_field: description
+      field_type: TEXT
+      transform: jira_markup
+    
+    - source_field: state
+      target_field: status
+      field_type: ENUM
+      value_mapping:
+        "open": "To Do"
+        "closed": "Done"
+    
+    - source_field: assignees
+      target_field: assignee
+      field_type: USER
+      transform: first_item
+      user_mapping:
+        johndoe: john.doe
+        janesmith: jane.smith
+    
+    - source_field: labels
+      target_field: labels
+      field_type: ARRAY
+      filter_pattern: "^(?!priority:|sp:).*"  # Exclude priority and sp labels
+    
+    # Extract priority from labels
+    - source_field: labels
+      target_field: priority
+      field_type: ENUM
+      filter_pattern: "^priority:"
+      value_mapping:
+        "priority:critical": "Blocker"
+        "priority:high": "Major"
+        "priority:medium": "Minor"
+        "priority:low": "Trivial"
+      default_value: "Minor"
+
+# ============================================================================
+# Jira to Linear Mappings
+# ============================================================================
+
+jira_to_linear:
+  mappings:
+    - source_field: summary
+      target_field: title
+      field_type: STRING
+      required: true
+    
+    - source_field: description
+      target_field: description
+      field_type: TEXT
+      transform: markdown
+    
+    - source_field: status
+      target_field: state
+      field_type: ENUM
+      value_mapping:
+        "To Do": "Backlog"
+        "In Progress": "In Progress"
+        "In Review": "In Review"
+        "Done": "Done"
+        "Closed": "Canceled"
+    
+    - source_field: priority
+      target_field: priority
+      field_type: ENUM
+      value_mapping:
+        "Blocker": 1
+        "Critical": 1
+        "Major": 2
+        "Minor": 3
+        "Trivial": 4
+      default_value: 3
+    
+    - source_field: assignee
+      target_field: assigneeId
+      field_type: USER
+      user_mapping:
+        john.doe: "user-id-123"
+        jane.smith: "user-id-456"
+    
+    - source_field: labels
+      target_field: labels
+      field_type: ARRAY
+    
+    - source_field: customfield_10001
+      target_field: estimate
+      field_type: NUMBER
+      description: "Story points to estimate"
+
+# ============================================================================
+# Linear to Jira Mappings
+# ============================================================================
+
+linear_to_jira:
+  mappings:
+    - source_field: title
+      target_field: summary
+      field_type: STRING
+      required: true
+      max_length: 255
+    
+    - source_field: description
+      target_field: description
+      field_type: TEXT
+      transform: jira_markup
+    
+    - source_field: state
+      target_field: status
+      field_type: ENUM
+      value_mapping:
+        "Backlog": "To Do"
+        "Todo": "To Do"
+        "In Progress": "In Progress"
+        "In Review": "In Review"
+        "Done": "Done"
+        "Canceled": "Closed"
+    
+    - source_field: priority
+      target_field: priority
+      field_type: ENUM
+      value_mapping:
+        1: "Critical"
+        2: "Major"
+        3: "Minor"
+        4: "Trivial"
+      default_value: "Minor"
+    
+    - source_field: assigneeId
+      target_field: assignee
+      field_type: USER
+      user_mapping:
+        "user-id-123": john.doe
+        "user-id-456": jane.smith
+    
+    - source_field: labels
+      target_field: labels
+      field_type: ARRAY
+    
+    - source_field: estimate
+      target_field: customfield_10001
+      field_type: NUMBER
+
+# ============================================================================
+# Linear to GitHub Mappings
+# ============================================================================
+
+linear_to_github:
+  mappings:
+    - source_field: title
+      target_field: title
+      field_type: STRING
+      required: true
+    
+    - source_field: description
+      target_field: body
+      field_type: TEXT
+    
+    - source_field: state
+      target_field: state
+      field_type: ENUM
+      value_mapping:
+        "Backlog": "open"
+        "Todo": "open"
+        "In Progress": "open"
+        "In Review": "open"
+        "Done": "closed"
+        "Canceled": "closed"
+    
+    - source_field: priority
+      target_field: labels
+      field_type: ENUM
+      value_mapping:
+        1: "priority:urgent"
+        2: "priority:high"
+        3: "priority:medium"
+        4: "priority:low"
+      append: true
+    
+    - source_field: assigneeId
+      target_field: assignees
+      field_type: USER
+      transform: array
+      user_mapping:
+        "user-id-123": johndoe
+        "user-id-456": janesmith
+    
+    - source_field: labels
+      target_field: labels
+      field_type: ARRAY
+    
+    - source_field: estimate
+      target_field: labels
+      field_type: NUMBER
+      value_transform: "estimate:{value}"
+      append: true
+
+# ============================================================================
+# GitHub to Linear Mappings
+# ============================================================================
+
+github_to_linear:
+  mappings:
+    - source_field: title
+      target_field: title
+      field_type: STRING
+      required: true
+    
+    - source_field: body
+      target_field: description
+      field_type: TEXT
+    
+    - source_field: state
+      target_field: state
+      field_type: ENUM
+      value_mapping:
+        "open": "In Progress"
+        "closed": "Done"
+    
+    - source_field: labels
+      target_field: priority
+      field_type: ENUM
+      filter_pattern: "^priority:"
+      value_mapping:
+        "priority:urgent": 1
+        "priority:high": 2
+        "priority:medium": 3
+        "priority:low": 4
+      default_value: 3
+    
+    - source_field: assignees
+      target_field: assigneeId
+      field_type: USER
+      transform: first_item
+      user_mapping:
+        johndoe: "user-id-123"
+        janesmith: "user-id-456"
+    
+    - source_field: labels
+      target_field: labels
+      field_type: ARRAY
+      filter_pattern: "^(?!priority:|estimate:).*"
+
+# ============================================================================
+# Transformation Rules
+# ============================================================================
+
+transformations:
+  # Markdown to Jira markup
+  markdown_to_jira:
+    - pattern: "^# (.*)"
+      replace: "h1. \\1"
+    - pattern: "^## (.*)"
+      replace: "h2. \\1"
+    - pattern: "^### (.*)"
+      replace: "h3. \\1"
+    - pattern: "\\*\\*(.*?)\\*\\*"
+      replace: "*\\1*"
+    - pattern: "\\*(.*?)\\*"
+      replace: "_\\1_"
+    - pattern: "```([\\s\\S]*?)```"
+      replace: "{code}\\1{code}"
+  
+  # Jira markup to markdown
+  jira_to_markdown:
+    - pattern: "h1\\. (.*)"
+      replace: "# \\1"
+    - pattern: "h2\\. (.*)"
+      replace: "## \\1"
+    - pattern: "h3\\. (.*)"
+      replace: "### \\1"
+    - pattern: "\\*(.*?)\\*"
+      replace: "**\\1**"
+    - pattern: "_(.*?)_"
+      replace: "*\\1*"
+    - pattern: "\\{code\\}([\\s\\S]*?)\\{code\\}"
+      replace: "```\\1```"
+
+# ============================================================================
+# Value Mappings
+# ============================================================================
+
+# Issue type mappings
+issue_types:
+  jira_to_linear:
+    "Story": "Feature"
+    "Task": "Task"
+    "Bug": "Bug"
+    "Epic": "Initiative"
+  
+  jira_to_github:
+    "Story": "enhancement"
+    "Task": "task"
+    "Bug": "bug"
+  
+  linear_to_jira:
+    "Feature": "Story"
+    "Bug": "Bug"
+    "Task": "Task"
+    "Initiative": "Epic"
+
+# Priority mappings (already covered above, but can be customized here)
+priority_mappings:
+  normalize:
+    # Normalize all platforms to 1-5 scale
+    jira:
+      "Blocker": 1
+      "Critical": 2
+      "Major": 3
+      "Minor": 4
+      "Trivial": 5
+    
+    linear:
+      1: 1  # Urgent
+      2: 2  # High
+      3: 3  # Medium
+      4: 4  # Low
+    
+    github:
+      "priority:critical": 1
+      "priority:high": 2
+      "priority:medium": 3
+      "priority:low": 4
+
+# ============================================================================
+# Validation Rules
+# ============================================================================
+
+validation:
+  # Required fields per platform
+  required_fields:
+    jira:
+      - summary
+      - project
+      - issuetype
+    
+    linear:
+      - title
+      - teamId
+    
+    github:
+      - title
+  
+  # Field constraints
+  constraints:
+    summary:
+      max_length: 255
+      min_length: 5
+    
+    title:
+      max_length: 255
+      min_length: 5
+    
+    description:
+      max_length: 65535
+    
+    labels:
+      max_count: 20
+      pattern: "^[a-z0-9-_]+$"
+
+# ============================================================================
+# Special Handling
+# ============================================================================
+
+special_handling:
+  # How to handle missing values
+  missing_values:
+    # Use default value
+    use_default: true
+    
+    # Default values per field type
+    defaults:
+      STRING: ""
+      TEXT: ""
+      NUMBER: 0
+      ENUM: null
+      USER: null
+      ARRAY: []
+      BOOLEAN: false
+  
+  # How to handle unsupported fields
+  unsupported_fields:
+    # Skip silently, log warning, or raise error
+    action: log_warning
+  
+  # How to handle field type mismatches
+  type_mismatches:
+    # Try to convert or skip
+    action: try_convert
+    
+    # Conversion rules
+    conversions:
+      NUMBER_to_STRING: "str"
+      STRING_to_NUMBER: "int"
+      ARRAY_to_STRING: "join"
+      STRING_to_ARRAY: "split"
+
+# ============================================================================
+# Notes
+# ============================================================================
+
+# Tips for customizing field mappings:
+#
+# 1. Field Types:
+#    - STRING: Short text (< 255 chars)
+#    - TEXT: Long text with formatting
+#    - NUMBER: Numeric values
+#    - DATE: Date/datetime values
+#    - ENUM: Fixed set of values
+#    - USER: User references
+#    - ARRAY: Lists of values
+#    - BOOLEAN: True/false
+#
+# 2. Transforms:
+#    - markdown: Convert to markdown
+#    - jira_markup: Convert to Jira markup
+#    - lowercase: Convert to lowercase
+#    - uppercase: Convert to uppercase
+#    - array: Convert to array
+#    - first_item: Take first item from array
+#
+# 3. Value Mapping:
+#    - Maps source values to target values
+#    - Use default_value for unmapped values
+#
+# 4. User Mapping:
+#    - Maps usernames between platforms
+#    - Required for assignee/reporter fields
+#
+# 5. Filters:
+#    - Use regex patterns to filter values
+#    - Useful for extracting specific labels

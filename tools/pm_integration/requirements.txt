@@ -1,0 +1,117 @@
+# Project Management Integration Platform - Dependencies
+# Core platform for unified PM operations across Jira, Linear, and GitHub
+
+# ============================================================================
+# Core Dependencies
+# ============================================================================
+
+# API Clients
+jira>=3.5.0                    # Jira REST API client
+PyGithub>=2.1.1                # GitHub API v3 wrapper
+gql[requests]>=3.4.1           # GraphQL client for Linear API
+requests>=2.31.0               # HTTP library
+
+# Data Processing
+pandas>=2.1.0                  # Data analysis and manipulation
+numpy>=1.24.0                  # Numerical computing
+
+# Visualization
+matplotlib>=3.8.0              # Plotting and charts
+seaborn>=0.12.0                # Statistical data visualization
+
+# CLI Framework
+click>=8.1.7                   # Command-line interface framework
+rich>=13.6.0                   # Rich terminal output and formatting
+
+# Configuration
+PyYAML>=6.0.1                  # YAML parser and emitter
+python-dotenv>=1.0.0           # Environment variable management
+
+# Scheduling & Async
+APScheduler>=3.10.4            # Task scheduling
+aiohttp>=3.9.0                 # Async HTTP client
+
+# Data Validation
+pydantic>=2.5.0                # Data validation using type hints
+
+# Utilities
+python-dateutil>=2.8.2         # Date/time utilities
+pytz>=2023.3                   # Timezone support
+
+# ============================================================================
+# Optional Dependencies
+# ============================================================================
+
+# Database (for caching and state management)
+sqlalchemy>=2.0.23             # SQL toolkit and ORM
+alembic>=1.12.1                # Database migration tool
+
+# Redis (for distributed caching)
+redis>=5.0.1                   # Redis client
+hiredis>=2.2.3                 # Redis C parser (performance)
+
+# Monitoring & Telemetry
+prometheus-client>=0.19.0      # Prometheus metrics
+
+# Export Formats
+openpyxl>=3.1.2                # Excel file support
+jinja2>=3.1.2                  # Template engine for reports
+
+# ============================================================================
+# Development Dependencies
+# ============================================================================
+
+# Testing
+pytest>=7.4.3                  # Testing framework
+pytest-cov>=4.1.0              # Coverage plugin
+pytest-mock>=3.12.0            # Mock/stub plugin
+pytest-asyncio>=0.21.1         # Async test support
+responses>=0.24.1              # Mock HTTP requests
+
+# Code Quality
+black>=23.11.0                 # Code formatter
+isort>=5.12.0                  # Import sorter
+flake8>=6.1.0                  # Style guide enforcement
+pylint>=3.0.2                  # Static code analyzer
+mypy>=1.7.0                    # Static type checker
+bandit>=1.7.5                  # Security linter
+
+# Pre-commit
+pre-commit>=3.5.0              # Git hook manager
+
+# Documentation
+sphinx>=7.2.6                  # Documentation generator
+sphinx-rtd-theme>=2.0.0        # Read the Docs theme
+
+# ============================================================================
+# Platform-Specific Notes
+# ============================================================================
+
+# macOS: May need to install graphviz separately
+#   brew install graphviz
+
+# Linux: May need additional system packages
+#   apt-get install python3-dev build-essential
+
+# Windows: Some packages may require Visual C++ Build Tools
+#   https://visualstudio.microsoft.com/visual-cpp-build-tools/
+
+# ============================================================================
+# Installation Instructions
+# ============================================================================
+
+# Install all dependencies:
+#   pip install -r requirements.txt
+
+# Install without optional dependencies:
+#   pip install $(grep -v '^#' requirements.txt | grep -v '^$' | head -21)
+
+# Install development dependencies only:
+#   pip install pytest pytest-cov pytest-mock black isort flake8 pylint mypy bandit pre-commit
+
+# ============================================================================
+# Version Compatibility
+# ============================================================================
+
+# Python: >= 3.9
+# Tested on: 3.9, 3.10, 3.11, 3.12

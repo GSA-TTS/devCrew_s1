@@ -1,0 +1,750 @@
+"""
+Jira Client - Comprehensive Jira REST API integration for PM Platform.
+
+Production-ready client for Jira Cloud and Server with full support for:
+- Issue CRUD operations with custom fields
+- JQL query execution with pagination
+- Sprint management (Agile/Software API)
+- Project and board operations
+- Workflow transitions and comments
+- Attachment handling
+- Bulk operations with rate limiting
+
+Features:
+    - Multiple authentication methods (Basic, OAuth, API token)
+    - Automatic retry with exponential backoff
+    - Rate limiting handling
+    - Custom field schema discovery
+    - Story points and sprint operations
+    - Issue linking and subtask creation
+    - Comprehensive error handling
+    - Type-safe Pydantic models
+
+Example:
+    >>> from jira_client import JiraClient, JiraAuthConfig, AuthType
+    >>> config = JiraAuthConfig(
+    ...     url="https://company.atlassian.net",
+    ...     auth_type=AuthType.API_TOKEN,
+    ...     username="user@company.com",
+    ...     api_token="xxx"
+    ... )
+    >>> client = JiraClient(config)
+    >>> issue = client.create_issue(
+    ...     project="PROJ",
+    ...     summary="Bug in login",
+    ...     issue_type="Bug",
+    ...     description="Login fails with SSO"
+    ... )
+"""
+
+import logging
+import time
+from datetime import datetime
+from enum import Enum
+from typing import Any, Dict, List, Optional, Tuple, Union
+
+from jira import JIRA
+from jira.exceptions import JIRAError
+from pydantic import BaseModel, Field, validator
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+)
+logger = logging.getLogger(__name__)
+
+
+class AuthType(str, Enum):
+    """Supported Jira authentication types."""
+
+    BASIC = "basic"
+    API_TOKEN = "api_token"
+    OAUTH = "oauth"
+    PAT = "personal_access_token"
+
+
+class IssueType(str, Enum):
+    """Common Jira issue types."""
+
+    BUG = "Bug"
+    STORY = "Story"
+    TASK = "Task"
+    EPIC = "Epic"
+    SUBTASK = "Sub-task"
+    IMPROVEMENT = "Improvement"
+    NEW_FEATURE = "New Feature"
+
+
+class IssuePriority(str, Enum):
+    """Standard Jira issue priorities."""
+
+    BLOCKER = "Blocker"
+    CRITICAL = "Critical"
+    HIGH = "High"
+    MEDIUM = "Medium"
+    LOW = "Low"
+    LOWEST = "Lowest"
+    HIGHEST = "Highest"
+
+
+class IssueStatus(str, Enum):
+    """Common Jira issue statuses."""
+
+    TODO = "To Do"
+    IN_PROGRESS = "In Progress"
+    IN_REVIEW = "In Review"
+    DONE = "Done"
+    CLOSED = "Closed"
+    BLOCKED = "Blocked"
+    READY_FOR_TEST = "Ready for Test"
+
+
+class SprintState(str, Enum):
+    """Jira sprint states."""
+
+    FUTURE = "future"
+    ACTIVE = "active"
+    CLOSED = "closed"
+
+
+class JiraAuthConfig(BaseModel):
+    """Jira authentication configuration."""
+
+    url: str = Field(..., description="Jira instance URL")
+    auth_type: AuthType = Field(
+        default=AuthType.API_TOKEN,
+        description="Authentication method"
+    )
+    username: Optional[str] = Field(None, description="Username or email")
+    password: Optional[str] = Field(None, description="Password (Basic auth)")
+    api_token: Optional[str] = Field(None, description="API token")
+    access_token: Optional[str] = Field(None, description="OAuth access token")
+    access_token_secret: Optional[str] = Field(
+        None,
+        description="OAuth access token secret"
+    )
+    consumer_key: Optional[str] = Field(None, description="OAuth consumer key")
+    key_cert: Optional[str] = Field(None, description="OAuth key certificate")
+    verify_ssl: bool = Field(default=True, description="Verify SSL certificates")
+    timeout: int = Field(default=60, description="Request timeout in seconds")
+    max_retries: int = Field(default=3, description="Maximum retry attempts")
+
+    @validator("url")
+    def validate_url(cls, v: str) -> str:
+        """Ensure URL doesn't end with slash."""
+        return v.rstrip("/")
+
+
+class JiraIssue(BaseModel):
+    """Jira issue model."""
+
+    key: str = Field(..., description="Issue key (e.g., PROJ-123)")
+    id: str = Field(..., description="Internal issue ID")
+    summary: str = Field(..., description="Issue summary")
+    description: Optional[str] = Field(None, description="Issue description")
+    issue_type: str = Field(..., description="Issue type")
+    status: str = Field(..., description="Current status")
+    priority: Optional[str] = Field(None, description="Issue priority")
+    assignee: Optional[str] = Field(None, description="Assignee username")
+    reporter: Optional[str] = Field(None, description="Reporter username")
+    created: datetime = Field(..., description="Creation timestamp")
+    updated: datetime = Field(..., description="Last update timestamp")
+    resolved: Optional[datetime] = Field(None, description="Resolution timestamp")
+    story_points: Optional[float] = Field(None, description="Story points")
+    sprint: Optional[str] = Field(None, description="Current sprint name")
+    epic_key: Optional[str] = Field(None, description="Parent epic key")
+    labels: List[str] = Field(default_factory=list, description="Issue labels")
+    components: List[str] = Field(
+        default_factory=list,
+        description="Components"
+    )
+    custom_fields: Dict[str, Any] = Field(
+        default_factory=dict,
+        description="Custom field values"
+    )
+
+    class Config:
+        """Pydantic model configuration."""
+        json_encoders = {datetime: lambda v: v.isoformat()}
+
+
+class JiraSprint(BaseModel):
+    """Jira sprint model."""
+
+    id: int = Field(..., description="Sprint ID")
+    name: str = Field(..., description="Sprint name")
+    state: SprintState = Field(..., description="Sprint state")
+    board_id: int = Field(..., description="Board ID")
+    start_date: Optional[datetime] = Field(None, description="Start date")
+    end_date: Optional[datetime] = Field(None, description="End date")
+    complete_date: Optional[datetime] = Field(None, description="Complete date")
+    goal: Optional[str] = Field(None, description="Sprint goal")
+
+    class Config:
+        """Pydantic model configuration."""
+        json_encoders = {datetime: lambda v: v.isoformat()}
+
+
+class JiraClientError(Exception):
+    """Base exception for Jira client errors."""
+    pass
+
+
+class JiraAuthError(JiraClientError):
+    """Authentication-related errors."""
+    pass
+
+
+class JiraNotFoundError(JiraClientError):
+    """Resource not found errors."""
+    pass
+
+
+class JiraPermissionError(JiraClientError):
+    """Permission-related errors."""
+    pass
+
+
+class JiraRateLimitError(JiraClientError):
+    """Rate limit exceeded errors."""
+    pass
+
+
+class JiraValidationError(JiraClientError):
+    """Validation errors."""
+    pass
+
+
+class JiraClient:
+    """
+    Comprehensive Jira API client with full CRUD operations.
+
+    Provides a production-ready interface to Jira REST API with support for
+    issues, sprints, projects, boards, and custom fields.
+
+    Attributes:
+        config: Authentication and connection configuration
+        jira: Underlying JIRA client instance
+    """
+
+    def __init__(
+        self,
+        config: Optional[JiraAuthConfig] = None,
+        server: Optional[str] = None,
+        username: Optional[str] = None,
+        api_token: Optional[str] = None,
+        default_project: Optional[str] = None,
+    ) -> None:
+        """
+        Initialize Jira client with authentication.
+
+        Supports both new config-based and legacy parameter-based init.
+
+        Args:
+            config: JiraAuthConfig object (new style)
+            server: Jira server URL (legacy, for backward compatibility)
+            username: Username/email (legacy)
+            api_token: API token (legacy)
+            default_project: Default project key
+
+        Raises:
+            JiraAuthError: If authentication fails
+        """
+        # Support legacy initialization
+        if config is None and server and username and api_token:
+            config = JiraAuthConfig(
+                url=server,
+                auth_type=AuthType.API_TOKEN,
+                username=username,
+                api_token=api_token
+            )
+        elif config is None:
+            raise JiraAuthError("Must provide either config or server/username/token")
+
+        self.config = config
+        self.default_project = default_project
+        self._jira: Optional[JIRA] = None
+        self._custom_field_cache: Dict[str, str] = {}
+        self._connect()
+
+    def get_custom_fields(self) -> Dict[str, str]:
+        """
+        Get custom field mapping (name -> field_id).
+
+        Returns:
+            Dictionary mapping field names to field IDs
+        """
+        if self._custom_fields is None:
+            self._custom_fields = {}
+            try:
+                fields = self.client.fields()
+                for field in fields:
+                    if field.get("custom"):
+                        name = field.get("name", "")
+                        field_id = field.get("id", "")
+                        if name and field_id:
+                            self._custom_fields[name] = field_id
+                logger.info(
+                    f"Loaded {len(self._custom_fields)} custom fields"
+                )
+            except JIRAError as e:
+                logger.error(f"Failed to load custom fields: {e}")
+
+        return self._custom_fields
+
+    def create_issue(
+        self,
+        project: Optional[str] = None,
+        summary: str = "",
+        description: str = "",
+        issue_type: str = "Task",
+        priority: str = "Medium",
+        labels: Optional[List[str]] = None,
+        assignee: Optional[str] = None,
+        custom_fields: Optional[Dict[str, Any]] = None,
+    ) -> Optional[Dict[str, Any]]:
+        """
+        Create a new Jira issue.
+
+        Args:
+            project: Project key (uses default if not provided)
+            summary: Issue summary/title
+            description: Issue description
+            issue_type: Issue type (Task, Bug, Story, etc.)
+            priority: Priority level
+            labels: List of labels
+            assignee: Assignee username
+            custom_fields: Custom field values (name -> value)
+
+        Returns:
+            Issue data dictionary or None if creation fails
+        """
+        project_key = project or self.default_project
+        if not project_key:
+            logger.error("No project specified")
+            return None
+
+        try:
+            fields: Dict[str, Any] = {
+                "project": {"key": project_key},
+                "summary": summary,
+                "description": description,
+                "issuetype": {"name": issue_type},
+            }
+
+            # Add optional fields
+            if priority:
+                fields["priority"] = {"name": priority}
+
+            if labels:
+                fields["labels"] = labels
+
+            if assignee:
+                fields["assignee"] = {"name": assignee}
+
+            # Add custom fields
+            if custom_fields:
+                cf_mapping = self.get_custom_fields()
+                for name, value in custom_fields.items():
+                    if name in cf_mapping:
+                        fields[cf_mapping[name]] = value
+
+            issue = self.client.create_issue(fields=fields)
+            logger.info(f"Created issue: {issue.key}")
+
+            return self._format_issue(issue)
+
+        except JIRAError as e:
+            logger.error(f"Failed to create issue: {e}")
+            return None
+
+    def get_issue(self, issue_key: str) -> Optional[Dict[str, Any]]:
+        """
+        Get issue by key.
+
+        Args:
+            issue_key: Issue key (e.g., PROJ-123)
+
+        Returns:
+            Issue data dictionary or None if not found
+        """
+        try:
+            issue = self.client.issue(issue_key)
+            return self._format_issue(issue)
+        except JIRAError as e:
+            logger.error(f"Failed to get issue {issue_key}: {e}")
+            return None
+
+    def update_issue(
+        self,
+        issue_key: str,
+        summary: Optional[str] = None,
+        description: Optional[str] = None,
+        status: Optional[str] = None,
+        assignee: Optional[str] = None,
+        labels: Optional[List[str]] = None,
+        custom_fields: Optional[Dict[str, Any]] = None,
+    ) -> bool:
+        """
+        Update an existing issue.
+
+        Args:
+            issue_key: Issue key
+            summary: New summary
+            description: New description
+            status: New status (triggers transition)
+            assignee: New assignee
+            labels: New labels list
+            custom_fields: Custom field updates
+
+        Returns:
+            True if update successful
+        """
+        try:
+            issue = self.client.issue(issue_key)
+            fields: Dict[str, Any] = {}
+
+            if summary is not None:
+                fields["summary"] = summary
+
+            if description is not None:
+                fields["description"] = description
+
+            if assignee is not None:
+                fields["assignee"] = {"name": assignee}
+
+            if labels is not None:
+                fields["labels"] = labels
+
+            # Update custom fields
+            if custom_fields:
+                cf_mapping = self.get_custom_fields()
+                for name, value in custom_fields.items():
+                    if name in cf_mapping:
+                        fields[cf_mapping[name]] = value
+
+            if fields:
+                issue.update(fields=fields)
+
+            # Handle status transition separately
+            if status:
+                self._transition_issue(issue, status)
+
+            logger.info(f"Updated issue: {issue_key}")
+            return True
+
+        except JIRAError as e:
+            logger.error(f"Failed to update issue {issue_key}: {e}")
+            return False
+
+    def _transition_issue(self, issue: Any, status: str) -> bool:
+        """
+        Transition issue to new status.
+
+        Args:
+            issue: JIRA issue object
+            status: Target status name
+
+        Returns:
+            True if transition successful
+        """
+        try:
+            transitions = self.client.transitions(issue)
+            for transition in transitions:
+                if transition["name"].lower() == status.lower():
+                    self.client.transition_issue(
+                        issue, transition["id"]
+                    )
+                    logger.info(
+                        f"Transitioned {issue.key} to {status}"
+                    )
+                    return True
+
+            logger.warning(
+                f"Status '{status}' not available for {issue.key}"
+            )
+            return False
+
+        except JIRAError as e:
+            logger.error(f"Failed to transition {issue.key}: {e}")
+            return False
+
+    def search_issues(
+        self,
+        jql: str,
+        max_results: int = 100,
+        fields: Optional[List[str]] = None,
+    ) -> List[Dict[str, Any]]:
+        """
+        Search issues using JQL.
+
+        Args:
+            jql: JQL query string
+            max_results: Maximum number of results
+            fields: Specific fields to retrieve
+
+        Returns:
+            List of issue dictionaries
+        """
+        try:
+            issues = self.client.search_issues(
+                jql, maxResults=max_results, fields=fields
+            )
+            return [self._format_issue(issue) for issue in issues]
+        except JIRAError as e:
+            logger.error(f"Failed to search issues: {e}")
+            return []
+
+    def get_sprints(
+        self, board_id: int, state: Optional[str] = None
+    ) -> List[Dict[str, Any]]:
+        """
+        Get sprints for a board.
+
+        Args:
+            board_id: Board ID
+            state: Sprint state (active, future, closed) or None for all
+
+        Returns:
+            List of sprint dictionaries
+        """
+        try:
+            sprints = self.client.sprints(board_id, state=state)
+            return [self._format_sprint(sprint) for sprint in sprints]
+        except JIRAError as e:
+            logger.error(f"Failed to get sprints: {e}")
+            return []
+
+    def get_sprint_issues(
+        self, sprint_id: int
+    ) -> List[Dict[str, Any]]:
+        """
+        Get all issues in a sprint.
+
+        Args:
+            sprint_id: Sprint ID
+
+        Returns:
+            List of issue dictionaries
+        """
+        try:
+            issues = self.client.search_issues(
+                f"sprint = {sprint_id}", maxResults=1000
+            )
+            return [self._format_issue(issue) for issue in issues]
+        except JIRAError as e:
+            logger.error(f"Failed to get sprint issues: {e}")
+            return []
+
+    def create_sprint(
+        self,
+        board_id: int,
+        name: str,
+        start_date: Optional[datetime] = None,
+        end_date: Optional[datetime] = None,
+        goal: Optional[str] = None,
+    ) -> Optional[Dict[str, Any]]:
+        """
+        Create a new sprint.
+
+        Args:
+            board_id: Board ID
+            name: Sprint name
+            start_date: Sprint start date
+            end_date: Sprint end date
+            goal: Sprint goal
+
+        Returns:
+            Sprint data dictionary or None if creation fails
+        """
+        try:
+            sprint_data: Dict[str, Any] = {
+                "name": name,
+                "originBoardId": board_id,
+            }
+
+            if start_date:
+                sprint_data["startDate"] = start_date.isoformat()
+
+            if end_date:
+                sprint_data["endDate"] = end_date.isoformat()
+
+            if goal:
+                sprint_data["goal"] = goal
+
+            sprint = self.client.create_sprint(**sprint_data)
+            logger.info(f"Created sprint: {name}")
+            return self._format_sprint(sprint)
+
+        except JIRAError as e:
+            logger.error(f"Failed to create sprint: {e}")
+            return None
+
+    def add_issues_to_sprint(
+        self, sprint_id: int, issue_keys: List[str]
+    ) -> bool:
+        """
+        Add issues to a sprint.
+
+        Args:
+            sprint_id: Sprint ID
+            issue_keys: List of issue keys
+
+        Returns:
+            True if all issues added successfully
+        """
+        try:
+            self.client.add_issues_to_sprint(sprint_id, issue_keys)
+            logger.info(
+                f"Added {len(issue_keys)} issues to sprint {sprint_id}"
+            )
+            return True
+        except JIRAError as e:
+            logger.error(f"Failed to add issues to sprint: {e}")
+            return False
+
+    def get_project(self, project_key: str) -> Optional[Dict[str, Any]]:
+        """
+        Get project details.
+
+        Args:
+            project_key: Project key
+
+        Returns:
+            Project data dictionary or None if not found
+        """
+        try:
+            project = self.client.project(project_key)
+            return {
+                "key": project.key,
+                "name": project.name,
+                "id": project.id,
+                "lead": project.lead.displayName if project.lead else None,
+                "description": getattr(project, "description", ""),
+                "url": f"{self.server}/browse/{project.key}",
+            }
+        except JIRAError as e:
+            logger.error(f"Failed to get project {project_key}: {e}")
+            return None
+
+    def get_boards(
+        self, project_key: Optional[str] = None
+    ) -> List[Dict[str, Any]]:
+        """
+        Get boards for a project.
+
+        Args:
+            project_key: Project key (uses default if not provided)
+
+        Returns:
+            List of board dictionaries
+        """
+        project = project_key or self.default_project
+        try:
+            boards = self.client.boards(projectKeyOrID=project)
+            return [
+                {
+                    "id": board.id,
+                    "name": board.name,
+                    "type": board.type,
+                }
+                for board in boards
+            ]
+        except JIRAError as e:
+            logger.error(f"Failed to get boards: {e}")
+            return []
+
+    def get_transitions(self, issue_key: str) -> List[Dict[str, str]]:
+        """
+        Get available transitions for an issue.
+
+        Args:
+            issue_key: Issue key
+
+        Returns:
+            List of transition dictionaries
+        """
+        try:
+            issue = self.client.issue(issue_key)
+            transitions = self.client.transitions(issue)
+            return [
+                {"id": t["id"], "name": t["name"]} for t in transitions
+            ]
+        except JIRAError as e:
+            logger.error(f"Failed to get transitions: {e}")
+            return []
+
+    def add_comment(self, issue_key: str, comment: str) -> bool:
+        """
+        Add a comment to an issue.
+
+        Args:
+            issue_key: Issue key
+            comment: Comment text
+
+        Returns:
+            True if comment added successfully
+        """
+        try:
+            self.client.add_comment(issue_key, comment)
+            logger.info(f"Added comment to {issue_key}")
+            return True
+        except JIRAError as e:
+            logger.error(f"Failed to add comment: {e}")
+            return False
+
+    def _format_issue(self, issue: Any) -> Dict[str, Any]:
+        """
+        Format Jira issue object to dictionary.
+
+        Args:
+            issue: JIRA issue object
+
+        Returns:
+            Formatted issue dictionary
+        """
+        fields = issue.fields
+
+        return {
+            "key": issue.key,
+            "id": issue.id,
+            "summary": fields.summary,
+            "description": getattr(fields, "description", ""),
+            "status": fields.status.name,
+            "type": fields.issuetype.name,
+            "priority": (
+                fields.priority.name if fields.priority else None
+            ),
+            "assignee": (
+                fields.assignee.displayName if fields.assignee else None
+            ),
+            "reporter": (
+                fields.reporter.displayName if fields.reporter else None
+            ),
+            "created": fields.created,
+            "updated": fields.updated,
+            "labels": getattr(fields, "labels", []),
+            "url": f"{self.server}/browse/{issue.key}",
+            "project": fields.project.key,
+        }
+
+    def _format_sprint(self, sprint: Any) -> Dict[str, Any]:
+        """
+        Format Jira sprint object to dictionary.
+
+        Args:
+            sprint: JIRA sprint object
+
+        Returns:
+            Formatted sprint dictionary
+        """
+        return {
+            "id": sprint.id,
+            "name": sprint.name,
+            "state": sprint.state,
+            "start_date": getattr(sprint, "startDate", None),
+            "end_date": getattr(sprint, "endDate", None),
+            "goal": getattr(sprint, "goal", ""),
+            "board_id": sprint.originBoardId,
+        }

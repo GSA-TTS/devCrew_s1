@@ -1,0 +1,141 @@
+# Linear to Jira Synchronization Configuration
+# Syncs Linear issues to Jira
+
+name: "linear-jira-sync"
+source_platform: "linear"
+target_platform: "jira"
+direction: "bidirectional"
+
+# Conflict resolution strategy
+conflict_strategy: "last_write_wins"
+
+# Batch processing settings
+batch_size: 30
+sync_interval: 600  # 10 minutes
+
+# Retry configuration
+enable_retry: true
+max_retries: 3
+retry_delay: 10
+
+# Audit logging
+enable_audit: true
+
+# Field mappings
+field_mappings:
+  # Basic fields
+  - source_field: "id"
+    target_field: "key"
+    source_type: "string"
+    target_type: "string"
+    bidirectional: true
+    required: true
+
+  - source_field: "title"
+    target_field: "summary"
+    source_type: "string"
+    target_type: "string"
+    bidirectional: true
+    required: true
+
+  - source_field: "description"
+    target_field: "description"
+    source_type: "string"
+    target_type: "string"
+    bidirectional: true
+
+  # Status mapping
+  - source_field: "state.name"
+    target_field: "status"
+    source_type: "string"
+    target_type: "string"
+    transform: "linear_state_to_jira"
+    bidirectional: true
+    required: true
+    default_value: "To Do"
+
+  # Priority mapping
+  - source_field: "priority"
+    target_field: "priority"
+    source_type: "number"
+    target_type: "string"
+    transform: "linear_priority_to_jira"
+    bidirectional: true
+
+  # Assignee
+  - source_field: "assignee.email"
+    target_field: "assignee"
+    source_type: "string"
+    target_type: "string"
+    bidirectional: true
+
+  # Labels
+  - source_field: "labels"
+    target_field: "labels"
+    source_type: "array"
+    target_type: "array"
+    bidirectional: true
+
+  # Dates
+  - source_field: "createdAt"
+    target_field: "created"
+    source_type: "datetime"
+    target_type: "datetime"
+    bidirectional: false
+
+  - source_field: "updatedAt"
+    target_field: "updated"
+    source_type: "datetime"
+    target_type: "datetime"
+    bidirectional: false
+
+  - source_field: "dueDate"
+    target_field: "duedate"
+    source_type: "date"
+    target_type: "date"
+    bidirectional: true
+
+  # Estimate
+  - source_field: "estimate"
+    target_field: "customfield_10001"  # Story points in Jira
+    source_type: "number"
+    target_type: "number"
+    bidirectional: true
+
+  # Project/Team
+  - source_field: "team.name"
+    target_field: "project"
+    source_type: "string"
+    target_type: "string"
+    bidirectional: false
+
+  # Cycle (Sprint)
+  - source_field: "cycle.name"
+    target_field: "customfield_10002"  # Sprint in Jira
+    source_type: "string"
+    target_type: "string"
+    bidirectional: true
+
+  # URL reference
+  - source_field: "url"
+    target_field: "customfield_10003"  # Linear URL custom field
+    source_type: "string"
+    target_type: "string"
+    bidirectional: false
+
+# Sync filters
+filters:
+  # Only sync from specific teams
+  teams:
+    - "Engineering"
+    - "Product"
+
+  # Only sync issues with specific states
+  states:
+    - "Backlog"
+    - "Todo"
+    - "In Progress"
+    - "In Review"
+
+  # Minimum priority (0-4, 0 is highest in Linear)
+  min_priority: 2

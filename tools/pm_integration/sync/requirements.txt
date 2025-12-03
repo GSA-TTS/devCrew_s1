@@ -1,0 +1,16 @@
+# Synchronization Engine Requirements
+
+# Core dependencies
+pydantic>=2.0.0,<3.0.0
+pyyaml>=6.0,<7.0
+
+# Testing
+pytest>=7.0.0,<8.0.0
+pytest-asyncio>=0.21.0,<1.0.0
+pytest-cov>=4.0.0,<5.0.0
+
+# Code quality (optional)
+flake8>=6.0.0,<7.0.0
+black>=23.0.0,<24.0.0
+mypy>=1.0.0,<2.0.0
+isort>=5.12.0,<6.0.0

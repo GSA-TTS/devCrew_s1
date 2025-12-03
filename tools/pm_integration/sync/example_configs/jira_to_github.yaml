@@ -1,0 +1,131 @@
+# Jira to GitHub Synchronization Configuration
+# Syncs Jira issues to GitHub Projects
+
+name: "jira-github-sync"
+source_platform: "jira"
+target_platform: "github"
+direction: "bidirectional"
+
+# Conflict resolution strategy
+# Options: last_write_wins, manual, source_wins, target_wins, custom
+conflict_strategy: "last_write_wins"
+
+# Batch processing settings
+batch_size: 50
+sync_interval: 300  # 5 minutes
+
+# Retry configuration
+enable_retry: true
+max_retries: 3
+retry_delay: 5  # seconds
+
+# Audit logging
+enable_audit: true
+
+# Field mappings
+field_mappings:
+  # Basic fields
+  - source_field: "key"
+    target_field: "id"
+    source_type: "string"
+    target_type: "string"
+    bidirectional: true
+    required: true
+
+  - source_field: "summary"
+    target_field: "title"
+    source_type: "string"
+    target_type: "string"
+    bidirectional: true
+    required: true
+
+  - source_field: "description"
+    target_field: "body"
+    source_type: "string"
+    target_type: "string"
+    bidirectional: true
+
+  # Status mapping
+  - source_field: "status.name"
+    target_field: "state"
+    source_type: "string"
+    target_type: "string"
+    transform: "jira_status_to_github"
+    bidirectional: true
+
+  # Priority mapping
+  - source_field: "priority.name"
+    target_field: "priority"
+    source_type: "string"
+    target_type: "string"
+    transform: "jira_priority_to_github"
+    bidirectional: true
+
+  # Assignee
+  - source_field: "assignee.emailAddress"
+    target_field: "assignee"
+    source_type: "string"
+    target_type: "string"
+    bidirectional: true
+
+  # Labels
+  - source_field: "labels"
+    target_field: "labels"
+    source_type: "array"
+    target_type: "array"
+    bidirectional: true
+
+  # Dates
+  - source_field: "created"
+    target_field: "created_at"
+    source_type: "datetime"
+    target_type: "datetime"
+    bidirectional: false
+
+  - source_field: "updated"
+    target_field: "updated_at"
+    source_type: "datetime"
+    target_type: "datetime"
+    bidirectional: false
+
+  - source_field: "duedate"
+    target_field: "due_date"
+    source_type: "date"
+    target_type: "date"
+    bidirectional: true
+
+  # Custom fields
+  - source_field: "customfield_10001"  # Story points
+    target_field: "story_points"
+    source_type: "number"
+    target_type: "number"
+    bidirectional: true
+
+  - source_field: "customfield_10002"  # Sprint
+    target_field: "sprint"
+    source_type: "string"
+    target_type: "string"
+    bidirectional: true
+
+  - source_field: "components"
+    target_field: "components"
+    source_type: "array"
+    target_type: "string"
+    transform: "array_to_string"
+    bidirectional: true
+
+# Sync filters
+filters:
+  # Only sync issues from specific projects
+  projects:
+    - "PROJ"
+    - "TEAM"
+
+  # Only sync specific issue types
+  issue_types:
+    - "Story"
+    - "Bug"
+    - "Task"
+
+  # Exclude closed issues older than 30 days
+  exclude_closed_older_than: 30

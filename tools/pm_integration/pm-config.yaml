@@ -1,0 +1,348 @@
+# Project Management Integration Platform - Configuration Example
+# Copy this file to ~/.pm-cli/config.yaml and customize for your environment
+
+# ============================================================================
+# Platform Credentials
+# ============================================================================
+
+# Jira Configuration
+jira:
+  # Jira server URL (Cloud or Server)
+  server: https://yourcompany.atlassian.net
+  
+  # Username (email for Cloud, username for Server)
+  username: your.email@company.com
+  
+  # API token (generate at https://id.atlassian.com/manage-profile/security/api-tokens)
+  api_token: YOUR_JIRA_API_TOKEN
+  
+  # Default project key
+  default_project: PROJ
+  
+  # Optional: Default board ID for sprint operations
+  default_board_id: 1
+  
+  # Optional: Custom field mappings
+  custom_fields:
+    story_points: customfield_10001
+    epic_link: customfield_10002
+    sprint: customfield_10003
+
+# Linear Configuration
+linear:
+  # Linear API key (generate at https://linear.app/settings/api)
+  api_key: lin_api_YOUR_KEY_HERE
+  
+  # Default team ID (from Linear URL: linear.app/<workspace>/<team-key>)
+  default_team_id: YOUR_TEAM_ID
+  
+  # Optional: Workspace ID
+  workspace_id: YOUR_WORKSPACE_ID
+
+# GitHub Configuration
+github:
+  # Personal access token (generate at https://github.com/settings/tokens)
+  # Required scopes: repo, project, read:org
+  token: ghp_YOUR_TOKEN_HERE
+  
+  # Default repository (owner/repo format)
+  default_repo: your-org/your-repo
+  
+  # Optional: Default project number (for Projects V2)
+  default_project: 1
+  
+  # Optional: Organization name
+  organization: your-org
+
+# ============================================================================
+# Sync Configuration
+# ============================================================================
+
+sync:
+  # Default sync direction: one-way or bidirectional
+  direction: one-way
+  
+  # Conflict resolution strategy: newest, source, target, or manual
+  conflict_resolution: newest
+  
+  # Sync options
+  options:
+    # Create missing issues on target platform
+    create_missing: true
+    
+    # Update existing issues
+    update_existing: true
+    
+    # Sync comments between platforms
+    sync_comments: true
+    
+    # Sync attachments (warning: may be slow)
+    sync_attachments: false
+    
+    # Preserve original timestamps
+    preserve_timestamps: true
+    
+    # Skip issues modified within last N seconds (to avoid conflicts)
+    modification_threshold: 60
+  
+  # Scheduled sync (optional)
+  schedule:
+    # Enable scheduled syncs
+    enabled: false
+    
+    # Interval in seconds (3600 = 1 hour)
+    interval: 3600
+    
+    # Sync pairs to run on schedule
+    pairs:
+      - source: jira
+        target: github
+        project: PROJ
+      
+      - source: linear
+        target: github
+        direction: bidirectional
+  
+  # Filters for each platform
+  filters:
+    jira:
+      # JQL query to filter issues
+      jql: "project = PROJ AND status != Closed AND updated >= -7d"
+      
+      # Only sync specific issue types
+      issue_types:
+        - Story
+        - Bug
+        - Task
+      
+      # Exclude specific statuses
+      exclude_statuses:
+        - Done
+        - Closed
+    
+    linear:
+      # Filter by state
+      states:
+        - Backlog
+        - Todo
+        - In Progress
+        - In Review
+      
+      # Filter by labels
+      labels:
+        - needs-sync
+      
+      # Exclude archived issues
+      exclude_archived: true
+    
+    github:
+      # Issue state filter
+      state: open
+      
+      # Only sync issues with specific labels
+      labels:
+        - needs-jira-sync
+      
+      # Exclude pull requests
+      exclude_pull_requests: true
+
+# ============================================================================
+# Field Mappings
+# ============================================================================
+
+# Path to field mappings file
+field_mappings_file: ./field-mappings.yaml
+
+# ============================================================================
+# Classification Configuration
+# ============================================================================
+
+classifier:
+  # Auto-label threshold (0.0-1.0)
+  # Only apply labels if confidence is above this threshold
+  auto_label_threshold: 0.75
+  
+  # Enable/disable auto-labeling by type
+  auto_label_types:
+    bug: true
+    feature: true
+    documentation: true
+    question: false
+    performance: true
+    security: true
+  
+  # Custom classification patterns
+  custom_patterns:
+    deployment:
+      - "\\bdeploy\\b"
+      - "\\brelease\\b"
+      - "\\brollback\\b"
+    
+    database:
+      - "\\bsql\\b"
+      - "\\bdatabase\\b"
+      - "\\bmigration\\b"
+  
+  # Team assignment rules
+  team_assignments:
+    bug:
+      - backend-team
+    
+    feature:
+      - product-team
+    
+    security:
+      - security-team
+  
+  # Label prefix for auto-generated labels
+  label_prefix: "auto:"
+
+# ============================================================================
+# Analytics Configuration
+# ============================================================================
+
+analytics:
+  # Default metrics to include in reports
+  metrics:
+    - completion_rate
+    - velocity
+    - cycle_time
+    - lead_time
+    - throughput
+    - bug_ratio
+  
+  # Velocity calculation method: story_points or issue_count
+  velocity_method: story_points
+  
+  # Working days per week (for cycle time calculations)
+  working_days: 5
+  
+  # Sprint/cycle length in days (for velocity normalization)
+  sprint_length: 14
+  
+  # Report output format: table, json, html
+  default_format: table
+  
+  # Save reports automatically
+  auto_save:
+    enabled: true
+    directory: ./reports
+    filename_pattern: "report_{platform}_{date}.{format}"
+
+# ============================================================================
+# Logging Configuration
+# ============================================================================
+
+logging:
+  # Log level: DEBUG, INFO, WARNING, ERROR, CRITICAL
+  level: INFO
+  
+  # Log file path
+  file: pm-cli.log
+  
+  # Log rotation
+  rotation:
+    enabled: true
+    max_bytes: 10485760  # 10MB
+    backup_count: 5
+  
+  # Log format
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  
+  # Enable API request/response logging (verbose)
+  log_api_calls: false
+
+# ============================================================================
+# Performance Configuration
+# ============================================================================
+
+performance:
+  # Enable caching for frequently accessed data
+  cache:
+    enabled: true
+    ttl: 3600  # Time to live in seconds
+  
+  # Batch size for bulk operations
+  batch_size: 50
+  
+  # Maximum concurrent API requests
+  max_concurrent_requests: 10
+  
+  # Request timeout in seconds
+  timeout: 30
+  
+  # Retry configuration
+  retry:
+    enabled: true
+    max_attempts: 3
+    backoff_factor: 2  # Exponential backoff
+
+# ============================================================================
+# Notification Configuration (Optional)
+# ============================================================================
+
+notifications:
+  # Enable notifications
+  enabled: false
+  
+  # Notification channels
+  channels:
+    # Email notifications
+    email:
+      enabled: false
+      smtp_host: smtp.gmail.com
+      smtp_port: 587
+      smtp_user: your-email@gmail.com
+      smtp_password: YOUR_APP_PASSWORD
+      from_address: pm-integration@company.com
+      to_addresses:
+        - team@company.com
+    
+    # Slack notifications
+    slack:
+      enabled: false
+      webhook_url: https://hooks.slack.com/services/YOUR/WEBHOOK/URL
+      channel: "#pm-integration"
+    
+    # Microsoft Teams notifications
+    teams:
+      enabled: false
+      webhook_url: https://outlook.office.com/webhook/YOUR_WEBHOOK_URL
+  
+  # Events to notify about
+  events:
+    - sync_completed
+    - sync_failed
+    - high_priority_issue
+    - classification_completed
+
+# ============================================================================
+# Advanced Configuration
+# ============================================================================
+
+advanced:
+  # User agent for API requests
+  user_agent: "PM-Integration-Platform/1.0"
+  
+  # Enable experimental features
+  experimental_features:
+    enabled: false
+  
+  # Debug mode
+  debug:
+    enabled: false
+    # Dump API requests/responses to files
+    dump_requests: false
+    dump_directory: ./debug
+  
+  # Proxy configuration (if needed)
+  proxy:
+    enabled: false
+    http: http://proxy.company.com:8080
+    https: https://proxy.company.com:8080
+    no_proxy:
+      - localhost
+      - 127.0.0.1
+  
+  # SSL verification (set to false only for testing)
+  verify_ssl: true
