@@ -1,0 +1,36 @@
+# API Documentation Generator Dependencies
+# devCrew_s1 - Python 3.10+ required
+
+# Core FastAPI/Pydantic
+fastapi>=0.104.0              # FastAPI framework for OpenAPI generation
+pydantic>=2.5.0               # Data validation and schema generation
+
+# OpenAPI Spec Generation
+apispec>=6.3.0                # OpenAPI specification generation utilities
+pyyaml>=6.0                   # YAML parsing and generation
+
+# Template Rendering
+jinja2>=3.1.0                 # Template engine for HTML generation
+
+# CLI Framework
+click>=8.1.0                  # Command-line interface framework
+rich>=13.0.0                  # Terminal formatting and progress bars
+
+# Web Server (for serve command)
+uvicorn[standard]>=0.24.0     # ASGI server with WebSocket support
+
+# Development Dependencies (for testing)
+pytest>=7.4.0                 # Testing framework
+pytest-cov>=4.1.0             # Coverage reporting
+pytest-mock>=3.11.0           # Mocking support
+
+# Code Quality Tools
+black>=23.0.0                 # Code formatter
+isort>=5.12.0                 # Import sorting
+flake8>=6.1.0                 # Linting
+mypy>=1.7.0                   # Static type checking
+bandit>=1.7.0                 # Security linting
+
+# Optional: Additional framework support
+# flask>=3.0.0                # Flask framework support (optional)
+# django>=4.2.0               # Django framework support (optional)
