@@ -1,0 +1,127 @@
+[
+  {
+    "id": "T1566",
+    "name": "Phishing",
+    "description": "Adversaries may send phishing messages to gain access to victim systems",
+    "tactics": ["initial-access"],
+    "platforms": ["Linux", "macOS", "Windows", "Office 365", "SaaS", "Google Workspace"],
+    "data_sources": [
+      "Application Log: Application Log Content",
+      "Network Traffic: Network Traffic Content",
+      "Network Traffic: Network Traffic Flow"
+    ],
+    "detection": "Network and/or mail server analysis, email gateway filtering",
+    "mitigations": [
+      {
+        "id": "M1049",
+        "name": "Antivirus/Antimalware",
+        "description": "Use anti-virus signatures and detection for phishing content"
+      },
+      {
+        "id": "M1031",
+        "name": "Network Intrusion Prevention",
+        "description": "Use network signatures to identify phishing traffic"
+      }
+    ],
+    "url": "https://attack.mitre.org/techniques/T1566",
+    "sub_techniques": ["T1566.001", "T1566.002", "T1566.003"]
+  },
+  {
+    "id": "T1059",
+    "name": "Command and Scripting Interpreter",
+    "description": "Adversaries may abuse command and script interpreters to execute commands",
+    "tactics": ["execution"],
+    "platforms": ["Linux", "macOS", "Windows", "Network", "IaaS", "Containers"],
+    "data_sources": [
+      "Command: Command Execution",
+      "Process: Process Creation",
+      "Script: Script Execution"
+    ],
+    "detection": "Monitor executed commands and arguments, script execution logs",
+    "mitigations": [
+      {
+        "id": "M1038",
+        "name": "Execution Prevention",
+        "description": "Block execution of potentially malicious scripts"
+      },
+      {
+        "id": "M1026",
+        "name": "Privileged Account Management",
+        "description": "Restrict script execution to privileged accounts only"
+      }
+    ],
+    "url": "https://attack.mitre.org/techniques/T1059",
+    "sub_techniques": ["T1059.001", "T1059.002", "T1059.003", "T1059.004", "T1059.005"]
+  },
+  {
+    "id": "T1053",
+    "name": "Scheduled Task/Job",
+    "description": "Adversaries may abuse task scheduling to execute programs at system startup",
+    "tactics": ["execution", "persistence", "privilege-escalation"],
+    "platforms": ["Windows", "Linux", "macOS", "Containers"],
+    "data_sources": [
+      "Command: Command Execution",
+      "File: File Creation",
+      "Process: Process Creation",
+      "Scheduled Job: Scheduled Job Creation"
+    ],
+    "detection": "Monitor scheduled task creation, modifications to task scheduler",
+    "mitigations": [
+      {
+        "id": "M1047",
+        "name": "Audit",
+        "description": "Audit scheduled tasks regularly"
+      },
+      {
+        "id": "M1028",
+        "name": "Operating System Configuration",
+        "description": "Configure OS to prevent unauthorized task scheduling"
+      }
+    ],
+    "url": "https://attack.mitre.org/techniques/T1053",
+    "sub_techniques": ["T1053.001", "T1053.002", "T1053.003", "T1053.005", "T1053.006"]
+  },
+  {
+    "id": "T1087",
+    "name": "Account Discovery",
+    "description": "Adversaries may attempt to get a listing of accounts on a system or domain",
+    "tactics": ["discovery"],
+    "platforms": ["Linux", "macOS", "Windows", "Azure AD", "Office 365", "SaaS", "Google Workspace", "IaaS"],
+    "data_sources": [
+      "Command: Command Execution",
+      "Process: OS API Execution",
+      "Process: Process Creation"
+    ],
+    "detection": "Monitor process and command-line arguments for account discovery actions",
+    "mitigations": [
+      {
+        "id": "M1028",
+        "name": "Operating System Configuration",
+        "description": "Prevent access to account listing commands"
+      }
+    ],
+    "url": "https://attack.mitre.org/techniques/T1087",
+    "sub_techniques": ["T1087.001", "T1087.002", "T1087.003", "T1087.004"]
+  },
+  {
+    "id": "T1071",
+    "name": "Application Layer Protocol",
+    "description": "Adversaries may communicate using application layer protocols",
+    "tactics": ["command-and-control"],
+    "platforms": ["Linux", "macOS", "Windows", "Network"],
+    "data_sources": [
+      "Network Traffic: Network Traffic Content",
+      "Network Traffic: Network Traffic Flow"
+    ],
+    "detection": "Analyze network data for uncommon data flows, protocol misuse",
+    "mitigations": [
+      {
+        "id": "M1031",
+        "name": "Network Intrusion Prevention",
+        "description": "Use network intrusion prevention to detect malicious protocol usage"
+      }
+    ],
+    "url": "https://attack.mitre.org/techniques/T1071",
+    "sub_techniques": ["T1071.001", "T1071.002", "T1071.003", "T1071.004"]
+  }
+]

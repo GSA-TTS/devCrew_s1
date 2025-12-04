@@ -1,0 +1,100 @@
+# Threat Intelligence Platform Requirements
+# Python 3.10+
+
+# Core Dependencies
+pydantic>=2.5.0
+pyyaml>=6.0.0
+click>=8.1.0
+rich>=13.0.0
+python-dotenv>=1.0.0
+
+# STIX/TAXII Support
+stix2>=3.0.0
+taxii2-client>=2.3.0
+stix2-patterns>=2.0.0
+
+# CVE and Vulnerability Data
+nvdlib>=0.7.4
+cve-search-api>=1.0.0
+
+# MITRE ATT&CK
+mitreattack-python>=3.0.5
+attackcti>=0.3.4
+
+# Storage Backends
+elasticsearch>=8.11.0
+elasticsearch-dsl>=8.11.0
+redis>=5.0.0
+psycopg2-binary>=2.9.9
+
+# Data Processing
+pandas>=2.1.0
+numpy>=1.26.0
+
+# HTTP and Network
+requests>=2.31.0
+urllib3>=2.0.0
+dnspython>=2.4.0
+
+# Date/Time Utilities
+python-dateutil>=2.8.2
+pytz>=2023.3
+
+# IOC Management
+ioc-parser>=1.4.0
+python-whois>=0.8.0
+validators>=0.22.0
+
+# Enrichment Services (Optional)
+virustotal-python>=1.0.0
+shodan>=1.31.0
+
+# VEX Support
+packageurl-python>=0.11.0
+cyclonedx-python-lib>=5.2.0
+spdx-tools>=0.8.0
+
+# SIEM Integration
+splunk-sdk>=1.7.4
+
+# Security and Crypto
+cryptography>=41.0.0
+python-jose>=3.3.0
+
+# API and Web
+fastapi>=0.104.0
+uvicorn>=0.24.0
+
+# Utilities
+tqdm>=4.66.0
+
+# Testing Dependencies
+pytest>=7.4.0
+pytest-asyncio>=0.21.0
+pytest-cov>=4.1.0
+pytest-mock>=3.12.0
+responses>=0.24.0
+
+# Code Quality
+black>=23.0.0
+isort>=5.12.0
+flake8>=6.1.0
+mypy>=1.7.0
+pylint>=3.0.0
+bandit>=1.7.5
+
+# Type Stubs
+types-requests>=2.31.0
+types-redis>=4.6.0
+types-PyYAML>=6.0.0
+
+# Development Tools
+pre-commit>=3.6.0
+ipython>=8.18.0
+ipdb>=0.13.0
+
+# Optional: Advanced Features
+# Uncomment if needed:
+# scikit-learn>=1.3.0  # For ML-based threat analysis
+# networkx>=3.2.0  # For graph analysis
+# spacy>=3.7.0  # For NLP in threat reports

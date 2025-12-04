@@ -1,0 +1,105 @@
+{
+  "spdxVersion": "SPDX-2.3",
+  "dataLicense": "CC0-1.0",
+  "SPDXID": "SPDXRef-DOCUMENT",
+  "name": "example-application",
+  "documentNamespace": "https://example.com/spdx/example-app-1.0",
+  "creationInfo": {
+    "created": "2024-01-15T00:00:00Z",
+    "creators": ["Tool: sbom-generator-1.0", "Organization: Example Corp"],
+    "licenseListVersion": "3.21"
+  },
+  "packages": [
+    {
+      "SPDXID": "SPDXRef-Package-1",
+      "name": "example-software",
+      "versionInfo": "1.2.0",
+      "supplier": "Organization: Example Corp",
+      "downloadLocation": "https://example.com/example-software-1.2.0.tar.gz",
+      "filesAnalyzed": false,
+      "licenseConcluded": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/example-software@1.2.0"
+        },
+        {
+          "referenceCategory": "SECURITY",
+          "referenceType": "cpe23Type",
+          "referenceLocator": "cpe:2.3:a:example:example_software:1.2.0:*:*:*:*:*:*:*"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-Package-2",
+      "name": "db-engine",
+      "versionInfo": "2.1.0",
+      "supplier": "Organization: Database Co",
+      "downloadLocation": "https://example.com/db-engine-2.1.0.tar.gz",
+      "filesAnalyzed": false,
+      "licenseConcluded": "Apache-2.0",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/db-engine@2.1.0"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-Package-3",
+      "name": "web-framework",
+      "versionInfo": "3.2.0",
+      "supplier": "Organization: WebFramework Inc",
+      "downloadLocation": "https://example.com/web-framework-3.2.0.tar.gz",
+      "filesAnalyzed": false,
+      "licenseConcluded": "BSD-3-Clause",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/web-framework@3.2.0"
+        }
+      ]
+    },
+    {
+      "SPDXID": "SPDXRef-Package-4",
+      "name": "secure-lib",
+      "versionInfo": "4.0.0",
+      "supplier": "Organization: Security Co",
+      "downloadLocation": "https://example.com/secure-lib-4.0.0.tar.gz",
+      "filesAnalyzed": false,
+      "licenseConcluded": "MIT",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceType": "purl",
+          "referenceLocator": "pkg:npm/secure-lib@4.0.0"
+        }
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "spdxElementId": "SPDXRef-DOCUMENT",
+      "relationshipType": "DESCRIBES",
+      "relatedSpdxElement": "SPDXRef-Package-1"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-1",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-Package-2"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-1",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-Package-3"
+    },
+    {
+      "spdxElementId": "SPDXRef-Package-1",
+      "relationshipType": "DEPENDS_ON",
+      "relatedSpdxElement": "SPDXRef-Package-4"
+    }
+  ]
+}

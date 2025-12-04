@@ -1,0 +1,82 @@
+[
+  {
+    "type": "ipv4",
+    "value": "192.0.2.100",
+    "first_seen": "2024-01-15T00:00:00Z",
+    "last_seen": "2024-01-20T00:00:00Z",
+    "confidence": 90,
+    "tags": ["malware", "c2", "apt28"],
+    "source": "threat-feed-alpha",
+    "threat_types": ["malicious-activity"],
+    "description": "Command and control server for Emotet malware",
+    "geolocation": {
+      "country": "RU",
+      "city": "Moscow",
+      "coordinates": [37.6156, 55.7522]
+    },
+    "asn": {
+      "number": 12345,
+      "organization": "Example ISP"
+    }
+  },
+  {
+    "type": "domain",
+    "value": "malicious.example.com",
+    "first_seen": "2024-01-16T00:00:00Z",
+    "last_seen": "2024-01-22T00:00:00Z",
+    "confidence": 85,
+    "tags": ["phishing", "credential-theft"],
+    "source": "threat-feed-beta",
+    "threat_types": ["phishing"],
+    "description": "Phishing domain impersonating banking site",
+    "dns_records": [
+      {
+        "type": "A",
+        "value": "192.0.2.101"
+      }
+    ],
+    "registrar": "Example Registrar",
+    "creation_date": "2024-01-10T00:00:00Z"
+  },
+  {
+    "type": "sha256",
+    "value": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "first_seen": "2024-01-17T00:00:00Z",
+    "last_seen": "2024-01-23T00:00:00Z",
+    "confidence": 95,
+    "tags": ["malware", "ransomware", "lockbit"],
+    "source": "threat-feed-gamma",
+    "threat_types": ["malicious-activity"],
+    "description": "LockBit ransomware sample",
+    "file_name": "invoice_2024.exe",
+    "file_size": 1024000,
+    "file_type": "PE32",
+    "signatures": ["LockBit 3.0", "Ransomware"],
+    "yara_matches": ["ransomware_lockbit"]
+  },
+  {
+    "type": "url",
+    "value": "http://malicious.example.org/payload.exe",
+    "first_seen": "2024-01-18T00:00:00Z",
+    "last_seen": "2024-01-24T00:00:00Z",
+    "confidence": 80,
+    "tags": ["malware-distribution", "drive-by"],
+    "source": "threat-feed-delta",
+    "threat_types": ["malicious-activity"],
+    "description": "Malware distribution URL",
+    "http_status": 200,
+    "content_type": "application/octet-stream"
+  },
+  {
+    "type": "email",
+    "value": "attacker@malicious.example.net",
+    "first_seen": "2024-01-19T00:00:00Z",
+    "last_seen": "2024-01-25T00:00:00Z",
+    "confidence": 75,
+    "tags": ["phishing", "social-engineering"],
+    "source": "threat-feed-epsilon",
+    "threat_types": ["phishing"],
+    "description": "Phishing email sender address",
+    "subject_patterns": ["Invoice", "Payment Required", "Account Verification"]
+  }
+]

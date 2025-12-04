@@ -1,0 +1,88 @@
+[
+  {
+    "cve_id": "CVE-2024-1234",
+    "description": "Remote code execution vulnerability in Example Software allows attackers to execute arbitrary code",
+    "published_date": "2024-01-15T00:00:00Z",
+    "last_modified": "2024-01-20T00:00:00Z",
+    "cvss_v3_score": 9.8,
+    "cvss_v3_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+    "severity": "CRITICAL",
+    "cwe_ids": ["CWE-94"],
+    "references": [
+      {
+        "url": "https://example.com/advisory-1234",
+        "source": "vendor",
+        "type": "advisory"
+      },
+      {
+        "url": "https://nvd.nist.gov/vuln/detail/CVE-2024-1234",
+        "source": "NVD",
+        "type": "reference"
+      }
+    ],
+    "affected_products": [
+      {
+        "vendor": "Example Corp",
+        "product": "Example Software",
+        "versions": ["1.0", "1.1", "1.2"],
+        "purl": "pkg:npm/example-software@1.2.0"
+      }
+    ],
+    "exploitability": "high",
+    "patch_available": true
+  },
+  {
+    "cve_id": "CVE-2024-5678",
+    "description": "SQL injection vulnerability in database component",
+    "published_date": "2024-02-01T00:00:00Z",
+    "last_modified": "2024-02-05T00:00:00Z",
+    "cvss_v3_score": 8.1,
+    "cvss_v3_vector": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H",
+    "severity": "HIGH",
+    "cwe_ids": ["CWE-89"],
+    "references": [
+      {
+        "url": "https://example.com/advisory-5678",
+        "source": "vendor",
+        "type": "advisory"
+      }
+    ],
+    "affected_products": [
+      {
+        "vendor": "Database Co",
+        "product": "DB Engine",
+        "versions": ["2.0", "2.1"],
+        "purl": "pkg:npm/db-engine@2.1.0"
+      }
+    ],
+    "exploitability": "medium",
+    "patch_available": true
+  },
+  {
+    "cve_id": "CVE-2024-9012",
+    "description": "Cross-site scripting (XSS) vulnerability in web framework",
+    "published_date": "2024-03-10T00:00:00Z",
+    "last_modified": "2024-03-12T00:00:00Z",
+    "cvss_v3_score": 6.1,
+    "cvss_v3_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
+    "severity": "MEDIUM",
+    "cwe_ids": ["CWE-79"],
+    "references": [
+      {
+        "url": "https://example.com/advisory-9012",
+        "source": "vendor",
+        "type": "advisory"
+      }
+    ],
+    "affected_products": [
+      {
+        "vendor": "WebFramework Inc",
+        "product": "Web Framework",
+        "versions": ["3.0", "3.1", "3.2"],
+        "purl": "pkg:npm/web-framework@3.2.0"
+      }
+    ],
+    "exploitability": "low",
+    "patch_available": true
+  }
+]

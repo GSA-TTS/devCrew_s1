@@ -1,0 +1,123 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.5",
+  "serialNumber": "urn:uuid:3e671687-395b-41f5-a30f-a58921a69b79",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2024-01-15T00:00:00Z",
+    "tools": [
+      {
+        "vendor": "Example Corp",
+        "name": "sbom-generator",
+        "version": "1.0.0"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "example-app",
+      "name": "example-application",
+      "version": "1.0.0",
+      "description": "Example application for testing"
+    }
+  },
+  "components": [
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/example-software@1.2.0",
+      "name": "example-software",
+      "version": "1.2.0",
+      "purl": "pkg:npm/example-software@1.2.0",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "website",
+          "url": "https://example.com/example-software"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/db-engine@2.1.0",
+      "name": "db-engine",
+      "version": "2.1.0",
+      "purl": "pkg:npm/db-engine@2.1.0",
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/web-framework@3.2.0",
+      "name": "web-framework",
+      "version": "3.2.0",
+      "purl": "pkg:npm/web-framework@3.2.0",
+      "licenses": [
+        {
+          "license": {
+            "id": "BSD-3-Clause"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:npm/secure-lib@4.0.0",
+      "name": "secure-lib",
+      "version": "4.0.0",
+      "purl": "pkg:npm/secure-lib@4.0.0",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5"
+        }
+      ]
+    }
+  ],
+  "dependencies": [
+    {
+      "ref": "example-app",
+      "dependsOn": [
+        "pkg:npm/example-software@1.2.0",
+        "pkg:npm/db-engine@2.1.0",
+        "pkg:npm/web-framework@3.2.0",
+        "pkg:npm/secure-lib@4.0.0"
+      ]
+    }
+  ],
+  "vulnerabilities": []
+}

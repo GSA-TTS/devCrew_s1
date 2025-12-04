@@ -1,0 +1,60 @@
+# Test dependencies for Threat Intelligence Platform
+# Install with: pip install -r requirements-test.txt
+
+# Core testing framework
+pytest>=7.4.3
+pytest-asyncio>=0.23.0
+pytest-mock>=3.12.0
+pytest-cov>=4.1.0
+pytest-timeout>=2.2.0
+
+# Performance testing
+pytest-benchmark>=4.0.0
+pytest-xdist>=3.5.0  # Parallel test execution
+
+# HTTP mocking
+responses>=0.24.0
+requests-mock>=1.11.0
+
+# Database testing
+fakeredis>=2.21.0
+pytest-elasticsearch>=3.0.0
+
+# Data manipulation and validation
+pyyaml>=6.0.1
+jsonschema>=4.20.0
+
+# Code quality during testing
+coverage>=7.4.0
+pytest-flake8>=1.1.1
+pytest-mypy>=0.10.3
+
+# Fixtures and test data generation
+faker>=22.0.0
+factory-boy>=3.3.0
+
+# Async testing support
+aioresponses>=0.7.6
+asynctest>=0.13.0
+
+# Additional testing utilities
+freezegun>=1.4.0  # Time mocking
+hypothesis>=6.96.0  # Property-based testing
+
+# Report generation
+pytest-html>=4.1.1
+pytest-json-report>=1.5.0
+
+# Security testing
+bandit>=1.7.6
+
+# Stubs and type hints for testing
+types-requests>=2.31.0
+types-PyYAML>=6.0.12
+
+# STIX/TAXII testing (if needed for integration tests)
+stix2>=3.0.1
+taxii2-client>=2.3.0
+
+# Optional: For load testing
+locust>=2.20.0

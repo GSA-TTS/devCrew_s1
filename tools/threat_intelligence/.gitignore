@@ -1,0 +1,205 @@
+# Threat Intelligence Platform - .gitignore
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Virtual Environments
+venv/
+ENV/
+env/
+.venv
+
+# Testing
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.log
+.hypothesis/
+.pytest_cache/
+cover/
+htmlcov/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+.project
+.pydevproject
+.settings/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+*.ipynb
+
+# MyPy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre
+.pyre/
+
+# Pytype
+.pytype/
+
+# Security - NEVER commit these files
+.env
+.env.local
+.env.*.local
+*.key
+*.pem
+*.crt
+*.p12
+*.pfx
+secrets.yaml
+credentials.json
+api_keys.txt
+passwords.txt
+
+# Configuration - May contain secrets
+threat-config.yaml
+config.local.yaml
+*.secret.yaml
+
+# Threat Intelligence Data
+data/
+feeds/data/
+*.stix
+*.json.gz
+*.jsonl
+iocs.json
+threats.json
+correlations.json
+
+# Logs
+logs/
+*.log
+*.log.*
+/var/log/threat-intel/
+
+# Database Files
+*.db
+*.sqlite
+*.sqlite3
+
+# Elasticsearch
+elasticsearch-data/
+
+# Redis
+dump.rdb
+redis-data/
+
+# PostgreSQL
+postgres-data/
+
+# Cache
+.cache/
+cache/
+*.cache
+
+# Reports and Outputs
+reports/
+output/
+exports/
+*.pdf
+*.html
+*.xlsx
+vex_*.json
+csaf_*.json
+navigator_*.json
+
+# Archives
+*.tar.gz
+*.zip
+*.tar
+*.gz
+backups/
+archives/
+
+# Temporary Files
+tmp/
+temp/
+*.tmp
+*.bak
+*.swp
+
+# OS Files
+Thumbs.db
+.DS_Store
+desktop.ini
+
+# Documentation Build
+docs/_build/
+docs/_static/
+docs/_templates/
+site/
+
+# Package Files
+*.deb
+*.rpm
+*.msi
+*.dmg
+
+# Performance Profiling
+*.prof
+*.lprof
+*.pyprof
+
+# Large Data Files
+*.csv.gz
+*.ndjson
+sbom_*.json
+feed_dump_*.json
+
+# Development
+.scratch/
+.dev/
+TODO.md
+NOTES.md
+
+# CI/CD
+.github/workflows/secrets/
+
+# Docker
+.dockerignore
+docker-compose.override.yml
+
+# Keep example files
+!*example*
+!*.example
+!examples/
+
+# Keep template files
+!*.template
+!templates/
