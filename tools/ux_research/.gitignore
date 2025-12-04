@@ -1,0 +1,303 @@
+# UX Research Platform - Git Ignore
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual Environments
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+.venv/
+virtualenv/
+
+# PyCharm
+.idea/
+*.iml
+*.iws
+.idea_modules/
+
+# VS Code
+.vscode/
+*.code-workspace
+.history/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+*.ipynb
+
+# pytest
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+coverage.xml
+*.cover
+*.log
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Type checking
+.pytype/
+
+# Pyre type checker
+.pyre/
+
+# Pylint
+pylint-report.txt
+
+# Accessibility Audit Reports
+reports/
+audit-reports/
+accessibility-reports/
+*.audit.json
+*.audit.html
+*.audit.pdf
+*.audit.csv
+
+# Screenshots
+screenshots/
+*.png
+*.jpg
+*.jpeg
+!docs/**/*.png
+!docs/**/*.jpg
+
+# Test outputs
+test-reports/
+test-results/
+tmp/
+temp/
+.tmp/
+
+# Logs
+logs/
+*.log
+*.log.*
+audit.log
+debug.log
+error.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment Variables
+.env
+.env.local
+.env.*.local
+*.env
+secrets.yaml
+credentials.json
+service-account.json
+api-keys.txt
+
+# API Keys and Tokens
+*-api-key.txt
+*-token.txt
+.secrets/
+
+# Databases
+*.db
+*.sqlite
+*.sqlite3
+*.db-journal
+
+# Cache
+.cache/
+*.cache
+.diskcache/
+.redis/
+__cache__/
+
+# Node.js (for pa11y, Lighthouse)
+node_modules/
+package-lock.json
+yarn.lock
+.npm/
+.node_repl_history
+
+# Playwright browsers
+.ms-playwright/
+playwright/.local-browsers/
+
+# Browser artifacts
+*.crx
+*.xpi
+
+# OS Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+$RECYCLE.BIN/
+
+# Backup files
+*.bak
+*.backup
+*.swp
+*.swo
+*~
+
+# Compressed files
+*.zip
+*.tar.gz
+*.rar
+*.7z
+
+# Large datasets
+data/raw/
+data/processed/
+*.csv.gz
+*.parquet
+
+# Model files
+models/
+*.pkl
+*.joblib
+*.h5
+*.pt
+*.pth
+
+# Temporary files
+.temp/
+tmp/
+*.tmp
+*.temp
+
+# Documentation builds
+docs/_build/
+docs/.doctrees/
+site/
+
+# Coverage reports
+.coverage
+coverage/
+htmlcov/
+
+# Benchmark results
+benchmarks/results/
+*.benchmark
+
+# Profile results
+*.prof
+*.lprof
+
+# Docker
+.dockerignore
+docker-compose.override.yml
+
+# CI/CD artifacts
+.github/workflows/*.log
+.gitlab-ci.log
+.circleci/*.log
+
+# IDE specific
+*.swp
+*.swo
+*~
+.project
+.classpath
+.settings/
+.loadpath
+.buildpath
+
+# Ignore generated config files
+*-generated.yaml
+auto-config.yaml
+
+# Ignore baseline reports (keep in version control separately)
+baseline-*.json
+
+# Ignore user-specific reports
+user-reports/
+personal-reports/
+
+# Ignore downloaded dependencies
+vendor/
+third-party/
+
+# Ignore compiled documentation
+*.aux
+*.out
+*.toc
+*.pdf
+!docs/**/*.pdf
+
+# Ignore performance profiling
+*.pyprof
+profile_*.txt
+
+# Ignore local testing artifacts
+local-test/
+sandbox/
+playground/
+
+# Ignore large feedback datasets
+feedback-data/
+feedback-archive/
+*.feedback.json
+
+# Ignore analytics exports
+analytics-data/
+ga-export/
+hotjar-export/
+
+# Ignore issue exports
+issues-export/
+jira-export/
+github-issues/
+
+# Keep these files
+!.gitkeep
+!README.md
+!CHANGELOG.md
+!LICENSE
+!requirements.txt
+!setup.py
+!pyproject.toml
+
+# Keep example configs
+!*-example.yaml
+!*-sample.yaml
+!*-template.yaml
+
+# Keep documentation assets
+!docs/**/*.md
+!docs/images/
+!docs/diagrams/
+
+# Keep test fixtures
+!tests/fixtures/
+!tests/data/

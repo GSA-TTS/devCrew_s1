@@ -1,0 +1,341 @@
+# Nielsen's 10 Usability Heuristics Checklist
+# Based on Jakob Nielsen's principles (https://www.nngroup.com/articles/ten-usability-heuristics/)
+
+nielsen_10:
+  - id: "H1"
+    name: "Visibility of system status"
+    description: "The design should always keep users informed about what is going on, through appropriate feedback within a reasonable amount of time."
+    weight: 5
+    checks:
+      - id: "H1.1"
+        description: "Loading indicators are present for operations taking >1 second"
+        automated: true
+        selector: ".loading, .spinner, [role='progressbar']"
+
+      - id: "H1.2"
+        description: "Form field validation provides immediate feedback"
+        automated: true
+        selector: "input:invalid, .error-message, .validation-error"
+
+      - id: "H1.3"
+        description: "Current page/location is clearly indicated in navigation"
+        automated: true
+        selector: "[aria-current='page'], .active, .current"
+
+      - id: "H1.4"
+        description: "Progress indicators show multi-step process status"
+        automated: true
+        selector: ".progress, .steps, [role='progressbar']"
+
+      - id: "H1.5"
+        description: "System status messages are visible and clear"
+        automated: false
+        manual_check: "Verify that status messages appear for all user actions"
+
+  - id: "H2"
+    name: "Match between system and the real world"
+    description: "The design should speak the users' language. Use words, phrases, and concepts familiar to the user, rather than internal jargon."
+    weight: 4
+    checks:
+      - id: "H2.1"
+        description: "Language and terminology is user-friendly and familiar"
+        automated: false
+        manual_check: "Review all text content for jargon and technical terms"
+
+      - id: "H2.2"
+        description: "Icons have appropriate labels or tooltips"
+        automated: true
+        selector: "button[aria-label], [title], [data-tooltip]"
+
+      - id: "H2.3"
+        description: "Date formats follow user's locale conventions"
+        automated: false
+        manual_check: "Verify date/time formats match user locale"
+
+      - id: "H2.4"
+        description: "Information architecture follows user mental models"
+        automated: false
+        manual_check: "Test navigation structure with users"
+
+  - id: "H3"
+    name: "User control and freedom"
+    description: "Users need a clearly marked 'emergency exit' to leave an unwanted action without going through extended processes."
+    weight: 5
+    checks:
+      - id: "H3.1"
+        description: "Cancel buttons available in dialogs and forms"
+        automated: true
+        selector: "button[type='button']:contains('Cancel'), .cancel, [aria-label*='cancel' i]"
+
+      - id: "H3.2"
+        description: "Undo functionality available for destructive actions"
+        automated: true
+        selector: ".undo, button:contains('Undo'), [aria-label*='undo' i]"
+
+      - id: "H3.3"
+        description: "Close buttons visible on modals and overlays"
+        automated: true
+        selector: ".modal [aria-label='Close'], .close, button.close"
+
+      - id: "H3.4"
+        description: "Navigation breadcrumbs allow quick backtracking"
+        automated: true
+        selector: "[aria-label='Breadcrumb'], .breadcrumbs, nav.breadcrumb"
+
+      - id: "H3.5"
+        description: "Escape key closes modals and overlays"
+        automated: false
+        manual_check: "Test ESC key functionality on all overlays"
+
+  - id: "H4"
+    name: "Consistency and standards"
+    description: "Users should not have to wonder whether different words, situations, or actions mean the same thing. Follow platform and industry conventions."
+    weight: 4
+    checks:
+      - id: "H4.1"
+        description: "UI components follow consistent design patterns"
+        automated: false
+        manual_check: "Verify button styles, form fields match design system"
+
+      - id: "H4.2"
+        description: "Navigation structure is consistent across pages"
+        automated: true
+        selector: "nav, header nav, [role='navigation']"
+
+      - id: "H4.3"
+        description: "Color usage follows established meaning (red=error, green=success)"
+        automated: false
+        manual_check: "Audit color usage for semantic consistency"
+
+      - id: "H4.4"
+        description: "Interactive elements follow platform conventions"
+        automated: false
+        manual_check: "Test links, buttons follow OS/browser standards"
+
+  - id: "H5"
+    name: "Error prevention"
+    description: "Good error messages are important, but the best designs carefully prevent problems from occurring in the first place."
+    weight: 5
+    checks:
+      - id: "H5.1"
+        description: "Confirmation dialogs for destructive actions"
+        automated: true
+        selector: "[role='alertdialog'], .confirm-dialog, .confirmation"
+
+      - id: "H5.2"
+        description: "Input validation prevents invalid data entry"
+        automated: true
+        selector: "input[pattern], input[type='email'], input[type='number'], input[required]"
+
+      - id: "H5.3"
+        description: "Helpful constraints guide user input (date picker, autocomplete)"
+        automated: true
+        selector: "input[type='date'], [role='combobox'], input[list]"
+
+      - id: "H5.4"
+        description: "Form fields have appropriate input types and validation"
+        automated: true
+        selector: "input, textarea, select"
+
+      - id: "H5.5"
+        description: "Inline help text prevents common errors"
+        automated: true
+        selector: ".help-text, [aria-describedby], .hint"
+
+  - id: "H6"
+    name: "Recognition rather than recall"
+    description: "Minimize the user's memory load by making elements, actions, and options visible. Instructions should be easily retrievable."
+    weight: 4
+    checks:
+      - id: "H6.1"
+        description: "Recently used items are visible and accessible"
+        automated: true
+        selector: ".recent, .history, [aria-label*='recent' i]"
+
+      - id: "H6.2"
+        description: "Search functionality available with suggestions"
+        automated: true
+        selector: "input[type='search'], [role='search'], .search"
+
+      - id: "H6.3"
+        description: "Form fields remember previous entries (autocomplete)"
+        automated: true
+        selector: "input[autocomplete], input[list]"
+
+      - id: "H6.4"
+        description: "Icons accompanied by text labels"
+        automated: true
+        selector: "button, a[href]"
+
+      - id: "H6.5"
+        description: "Tooltips provide context for interface elements"
+        automated: true
+        selector: "[title], [data-tooltip], [aria-label]"
+
+  - id: "H7"
+    name: "Flexibility and efficiency of use"
+    description: "Shortcuts may speed up the interaction for expert users so that the design can cater to both inexperienced and experienced users."
+    weight: 3
+    checks:
+      - id: "H7.1"
+        description: "Keyboard shortcuts available for common actions"
+        automated: true
+        selector: "[accesskey], [data-hotkey]"
+
+      - id: "H7.2"
+        description: "Customization options for frequent users"
+        automated: false
+        manual_check: "Verify personalization/settings options exist"
+
+      - id: "H7.3"
+        description: "Bulk actions available for data-heavy interfaces"
+        automated: true
+        selector: "input[type='checkbox'], .select-all, .bulk-action"
+
+      - id: "H7.4"
+        description: "Search filters help users narrow results quickly"
+        automated: true
+        selector: ".filter, [role='search'] select, .facet"
+
+  - id: "H8"
+    name: "Aesthetic and minimalist design"
+    description: "Interfaces should not contain information that is irrelevant or rarely needed. Every extra unit of information competes with relevant units."
+    weight: 3
+    checks:
+      - id: "H8.1"
+        description: "Content hierarchy is clear with proper heading structure"
+        automated: true
+        selector: "h1, h2, h3, h4, h5, h6"
+
+      - id: "H8.2"
+        description: "White space used effectively to separate content"
+        automated: false
+        manual_check: "Assess visual spacing and layout density"
+
+      - id: "H8.3"
+        description: "No unnecessary decorative elements"
+        automated: false
+        manual_check: "Review design for extraneous visual elements"
+
+      - id: "H8.4"
+        description: "Text is concise and scannable"
+        automated: false
+        manual_check: "Check content for readability and brevity"
+
+  - id: "H9"
+    name: "Help users recognize, diagnose, and recover from errors"
+    description: "Error messages should be expressed in plain language, precisely indicate the problem, and constructively suggest a solution."
+    weight: 5
+    checks:
+      - id: "H9.1"
+        description: "Error messages are clear and human-readable"
+        automated: true
+        selector: ".error, [role='alert'], .error-message"
+
+      - id: "H9.2"
+        description: "Error messages suggest how to fix the problem"
+        automated: false
+        manual_check: "Review error messages for actionable guidance"
+
+      - id: "H9.3"
+        description: "Form validation errors shown inline near input"
+        automated: true
+        selector: "input:invalid + .error, .field-error, [aria-invalid='true']"
+
+      - id: "H9.4"
+        description: "Error states are visually distinctive"
+        automated: true
+        selector: ".error, [aria-invalid='true'], input:invalid"
+
+      - id: "H9.5"
+        description: "404 pages provide helpful navigation options"
+        automated: false
+        manual_check: "Test 404 error page for useful links"
+
+  - id: "H10"
+    name: "Help and documentation"
+    description: "It's best if the system doesn't need additional explanation. However, provide documentation to help users understand how to complete their tasks."
+    weight: 3
+    checks:
+      - id: "H10.1"
+        description: "Help/documentation link visible in main navigation"
+        automated: true
+        selector: "a[href*='help'], a[href*='faq'], a[href*='support']"
+
+      - id: "H10.2"
+        description: "Context-sensitive help available on complex pages"
+        automated: true
+        selector: ".help-icon, [aria-label*='help' i], button:contains('Help')"
+
+      - id: "H10.3"
+        description: "Search functionality available in help content"
+        automated: true
+        selector: ".help [type='search'], .documentation [role='search']"
+
+      - id: "H10.4"
+        description: "Documentation is easy to search and navigate"
+        automated: false
+        manual_check: "Test help documentation for findability"
+
+      - id: "H10.5"
+        description: "Onboarding/tutorial available for new users"
+        automated: false
+        manual_check: "Verify first-time user guidance exists"
+
+# Custom Heuristics (Organization-specific)
+custom_heuristics:
+  - id: "C1"
+    name: "Mobile-first design"
+    description: "Interface should be optimized for mobile devices and touch interactions"
+    weight: 4
+    checks:
+      - id: "C1.1"
+        description: "Touch targets are at least 44x44 pixels"
+        automated: true
+        selector: "button, a, input, [role='button']"
+
+      - id: "C1.2"
+        description: "Responsive design works on mobile viewports"
+        automated: true
+        viewport_test: true
+
+      - id: "C1.3"
+        description: "No hover-dependent interactions"
+        automated: false
+        manual_check: "Test all interactions work without hover"
+
+  - id: "C2"
+    name: "Performance and speed"
+    description: "Interface should load quickly and respond immediately to user actions"
+    weight: 4
+    checks:
+      - id: "C2.1"
+        description: "Page load time under 3 seconds"
+        automated: true
+        performance_test: true
+
+      - id: "C2.2"
+        description: "Time to interactive under 5 seconds"
+        automated: true
+        performance_test: true
+
+      - id: "C2.3"
+        description: "No layout shift during page load"
+        automated: true
+        performance_test: true
+
+# Scoring Configuration
+scoring:
+  # Weight for automated vs manual checks
+  automated_weight: 0.7
+  manual_weight: 0.3
+
+  # Pass threshold (percentage)
+  pass_threshold: 75
+
+  # Severity levels based on score
+  severity:
+    excellent: 90
+    good: 75
+    fair: 60
+    poor: 0

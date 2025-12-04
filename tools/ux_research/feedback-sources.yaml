@@ -1,0 +1,346 @@
+# Feedback Sources Configuration
+# Configure various user feedback platforms and data sources
+
+# Survey Platforms
+surveys:
+  # Typeform integration
+  typeform:
+    enabled: false
+    api_token: null
+    form_ids: []
+
+  # Google Forms
+  google_forms:
+    enabled: false
+    credentials_file: null
+    form_ids: []
+
+  # SurveyMonkey
+  surveymonkey:
+    enabled: false
+    access_token: null
+    survey_ids: []
+
+  # Qualtrics
+  qualtrics:
+    enabled: false
+    api_token: null
+    datacenter: null
+    survey_ids: []
+
+  # CSV/Excel Files
+  csv_files:
+    enabled: true
+    files:
+      - path: "surveys/nps_survey.csv"
+        type: "nps"
+        columns:
+          id: "response_id"
+          score: "nps_score"
+          comment: "feedback"
+          timestamp: "submitted_at"
+
+      - path: "surveys/usability_feedback.csv"
+        type: "usability"
+        columns:
+          id: "id"
+          rating: "overall_rating"
+          feedback: "comments"
+          task: "task_name"
+
+# User Testing Platforms
+user_testing:
+  # UserTesting.com
+  usertesting:
+    enabled: false
+    api_key: null
+    test_ids: []
+
+  # Maze
+  maze:
+    enabled: false
+    api_token: null
+    project_ids: []
+
+  # UserZoom
+  userzoom:
+    enabled: false
+    api_key: null
+    study_ids: []
+
+# Behavioral Analytics
+behavioral:
+  # Hotjar
+  hotjar:
+    enabled: false
+    site_id: null
+    api_key: null
+    data_types:
+      - heatmaps
+      - recordings
+      - polls
+      - surveys
+    filters:
+      date_from: "30daysAgo"
+      date_to: "today"
+      pages: []
+
+  # FullStory
+  fullstory:
+    enabled: false
+    org_id: null
+    api_key: null
+
+  # Crazy Egg
+  crazy_egg:
+    enabled: false
+    api_key: null
+    snapshot_ids: []
+
+  # MouseFlow
+  mouseflow:
+    enabled: false
+    website_id: null
+    api_token: null
+
+# Support & Help Desk
+support:
+  # Zendesk
+  zendesk:
+    enabled: false
+    subdomain: null
+    email: null
+    api_token: null
+    query:
+      type: "ticket"
+      status: ["open", "pending", "solved"]
+      tags: ["ux", "usability", "bug"]
+      created_at: "30daysAgo"
+
+  # Intercom
+  intercom:
+    enabled: false
+    access_token: null
+    filters:
+      tags: ["feature-request", "bug", "ux"]
+
+  # Help Scout
+  helpscout:
+    enabled: false
+    api_key: null
+    mailbox_ids: []
+
+  # Freshdesk
+  freshdesk:
+    enabled: false
+    domain: null
+    api_key: null
+
+# Social Media & Reviews
+social:
+  # Twitter/X
+  twitter:
+    enabled: false
+    bearer_token: null
+    search_queries:
+      - "your_product feedback"
+      - "your_product usability"
+
+  # App Store Reviews (iOS)
+  app_store:
+    enabled: false
+    app_id: null
+    country: "us"
+
+  # Google Play Reviews (Android)
+  play_store:
+    enabled: false
+    package_name: null
+
+  # Trustpilot
+  trustpilot:
+    enabled: false
+    api_key: null
+    business_unit_id: null
+
+  # G2 Reviews
+  g2:
+    enabled: false
+    product_id: null
+
+# In-App Feedback
+in_app:
+  # Custom feedback widget API
+  custom_api:
+    enabled: false
+    endpoint: null
+    api_key: null
+    headers: {}
+
+  # UserVoice
+  uservoice:
+    enabled: false
+    subdomain: null
+    api_key: null
+    api_secret: null
+
+  # Canny
+  canny:
+    enabled: false
+    api_key: null
+    board_tokens: []
+
+# Analytics Platforms
+analytics:
+  # Google Analytics 4
+  google_analytics:
+    enabled: false
+    property_id: null
+    credentials_file: null
+    metrics:
+      - bounce_rate
+      - session_duration
+      - pages_per_session
+      - exit_rate
+    dimensions:
+      - page_path
+      - device_category
+      - country
+
+  # Adobe Analytics
+  adobe_analytics:
+    enabled: false
+    company_id: null
+    api_key: null
+    report_suite_id: null
+
+  # Mixpanel
+  mixpanel:
+    enabled: false
+    project_id: null
+    api_secret: null
+    events:
+      - page_view
+      - button_click
+      - form_submit
+
+# Database Sources
+databases:
+  # PostgreSQL
+  postgresql:
+    enabled: false
+    host: null
+    port: 5432
+    database: null
+    username: null
+    password: null
+    queries:
+      feedback: "SELECT * FROM user_feedback WHERE created_at > NOW() - INTERVAL '30 days'"
+      ratings: "SELECT * FROM product_ratings WHERE created_at > NOW() - INTERVAL '30 days'"
+
+  # MongoDB
+  mongodb:
+    enabled: false
+    connection_string: null
+    database: null
+    collections:
+      - name: "feedback"
+        query: {"created_at": {"$gte": "30daysAgo"}}
+      - name: "ratings"
+        query: {"timestamp": {"$gte": "30daysAgo"}}
+
+# Email Feedback
+email:
+  # IMAP
+  imap:
+    enabled: false
+    server: null
+    port: 993
+    username: null
+    password: null
+    folders: ["feedback", "support"]
+    filters:
+      from: []
+      subject_contains: ["feedback", "suggestion", "issue"]
+
+# Data Processing
+processing:
+  # Deduplication
+  deduplication:
+    enabled: true
+    similarity_threshold: 0.8
+    fields: ["email", "text_content"]
+
+  # Language detection
+  language_detection:
+    enabled: true
+    supported_languages:
+      - en
+      - es
+      - fr
+      - de
+      - it
+
+  # Text cleaning
+  text_cleaning:
+    enabled: true
+    remove_html: true
+    remove_urls: true
+    remove_emails: true
+    lowercase: false
+    remove_stopwords: false
+
+  # Spam filtering
+  spam_filtering:
+    enabled: true
+    min_length: 10
+    max_length: 5000
+    blocked_keywords:
+      - "viagra"
+      - "casino"
+      - "lottery"
+
+# Export Configuration
+export:
+  # Output formats
+  formats:
+    - json
+    - csv
+    - excel
+
+  # Output directory
+  output_dir: "./feedback_data"
+
+  # File naming pattern
+  file_pattern: "feedback_{source}_{date}.{format}"
+
+  # Batch size for large datasets
+  batch_size: 1000
+
+# Rate Limiting
+rate_limiting:
+  # Requests per minute by source
+  max_requests_per_minute:
+    default: 60
+    hotjar: 30
+    usertesting: 20
+    zendesk: 100
+
+  # Retry configuration
+  retry:
+    max_attempts: 3
+    backoff_factor: 2
+
+# Scheduling
+scheduling:
+  # Automatic data collection schedule
+  enabled: false
+
+  # Cron expression (e.g., "0 2 * * *" for daily at 2 AM)
+  cron: "0 2 * * *"
+
+  # Sources to collect from
+  sources:
+    - surveys
+    - support
+    - behavioral

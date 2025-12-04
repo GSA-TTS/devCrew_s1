@@ -1,0 +1,103 @@
+# UX Research & Design Feedback Platform - Requirements
+# Python 3.10+ required
+
+# Core Dependencies
+pydantic>=2.5.0
+pyyaml>=6.0.0
+click>=8.1.0
+rich>=13.0.0
+python-dotenv>=1.0.0
+colorama>=0.4.6
+
+# Browser Automation & Accessibility Testing
+playwright>=1.40.0
+axe-selenium-python>=2.1.6
+axe-playwright-python>=0.1.5
+selenium>=4.16.0
+
+# HTTP Support & Web Scraping
+requests>=2.31.0
+beautifulsoup4>=4.12.0
+lxml>=4.9.0
+aiohttp>=3.9.0
+httpx>=0.25.0
+
+# NLP for Sentiment Analysis
+nltk>=3.8.0
+textblob>=0.17.0
+scikit-learn>=1.3.0
+transformers>=4.36.0
+torch>=2.1.0
+
+# Data Analysis
+pandas>=2.1.0
+numpy>=1.26.0
+openpyxl>=3.1.0  # Excel support
+xlrd>=2.0.0  # Legacy Excel support
+
+# Reporting & Visualization
+jinja2>=3.1.0
+matplotlib>=3.8.0
+seaborn>=0.13.0
+plotly>=5.18.0
+pillow>=10.1.0
+weasyprint>=60.0  # PDF generation
+
+# Analytics Integration
+google-analytics-data>=0.17.0
+google-auth>=2.25.0
+google-auth-oauthlib>=1.2.0
+google-auth-httplib2>=0.2.0
+
+# Issue Tracking Integration
+PyGithub>=2.1.0
+jira>=3.6.0
+python-gitlab>=4.3.0
+
+# Support Ticket Integration
+zenpy>=2.0.44  # Zendesk
+freshdesk-api>=1.0.5
+
+# Communication
+slack-sdk>=3.26.0
+
+# Database & Caching
+sqlalchemy>=2.0.23
+redis>=5.0.0
+diskcache>=5.6.0
+
+# Utilities
+python-dateutil>=2.8.0
+pytz>=2023.3
+tqdm>=4.66.0
+jsonschema>=4.20.0
+validators>=0.22.0
+fuzzywuzzy>=0.18.0
+python-levenshtein>=0.23.0
+
+# Testing Dependencies
+pytest>=7.4.0
+pytest-asyncio>=0.21.0
+pytest-cov>=4.1.0
+pytest-mock>=3.12.0
+responses>=0.24.0
+faker>=21.0.0
+
+# Code Quality
+black>=23.0.0
+isort>=5.12.0
+flake8>=6.1.0
+mypy>=1.7.0
+pylint>=3.0.0
+bandit>=1.7.5
+
+# Type Hints
+types-requests>=2.31.0
+types-pyyaml>=6.0.12
+types-colorama>=0.4.15
+
+# Note: Additional tools require separate installation:
+# - Node.js 18+: Required for pa11y and Lighthouse
+# - Lighthouse: npm install -g lighthouse
+# - pa11y: npm install -g pa11y pa11y-ci
+# - Playwright browsers: playwright install

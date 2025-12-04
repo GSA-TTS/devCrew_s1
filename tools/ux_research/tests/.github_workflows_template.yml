@@ -1,0 +1,282 @@
+# GitHub Actions workflow for UX Research Platform tests
+# Copy this file to .github/workflows/ux_research_tests.yml
+
+name: UX Research Platform Tests
+
+on:
+  push:
+    branches: [ master, main, develop ]
+    paths:
+      - 'tools/ux_research/**'
+      - '.github/workflows/ux_research_tests.yml'
+  pull_request:
+    branches: [ master, main, develop ]
+    paths:
+      - 'tools/ux_research/**'
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: Test Suite
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        python-version: ['3.10', '3.11', '3.12']
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ matrix.python-version }}
+        cache: 'pip'
+
+    - name: Install system dependencies (Ubuntu)
+      if: runner.os == 'Linux'
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y \
+          libnss3 \
+          libnspr4 \
+          libatk1.0-0 \
+          libatk-bridge2.0-0 \
+          libcups2 \
+          libdrm2 \
+          libdbus-1-3 \
+          libxkbcommon0 \
+          libxcomposite1 \
+          libxdamage1 \
+          libxfixes3 \
+          libxrandr2 \
+          libgbm1 \
+          libasound2
+
+    - name: Install Python dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r tools/ux_research/requirements.txt
+        pip install -r tools/ux_research/tests/requirements-test.txt
+
+    - name: Install Playwright browsers
+      run: |
+        playwright install chromium
+        playwright install-deps chromium
+
+    - name: Lint with flake8
+      run: |
+        # Stop the build if there are Python syntax errors or undefined names
+        flake8 tools/ux_research --count --select=E9,F63,F7,F82 --show-source --statistics
+        # Exit-zero treats all errors as warnings
+        flake8 tools/ux_research --count --exit-zero --max-complexity=10 --max-line-length=88 --statistics
+
+    - name: Check code formatting with black
+      run: |
+        black --check tools/ux_research
+
+    - name: Check import sorting with isort
+      run: |
+        isort --check-only tools/ux_research
+
+    - name: Type checking with mypy
+      continue-on-error: true
+      run: |
+        mypy tools/ux_research --ignore-missing-imports
+
+    - name: Security check with bandit
+      run: |
+        bandit -r tools/ux_research -ll
+
+    - name: Run unit tests
+      run: |
+        pytest tools/ux_research/tests/ \
+          -v \
+          -m "not slow" \
+          --tb=short \
+          --color=yes
+
+    - name: Run integration tests
+      run: |
+        pytest tools/ux_research/tests/test_integration.py \
+          -v \
+          --tb=short \
+          --color=yes
+
+    - name: Run performance tests
+      run: |
+        pytest tools/ux_research/tests/test_performance.py \
+          -v \
+          --tb=short \
+          --color=yes
+
+    - name: Run tests with coverage
+      run: |
+        pytest tools/ux_research/tests/ \
+          --cov=tools/ux_research \
+          --cov-report=xml \
+          --cov-report=term-missing \
+          --cov-fail-under=85
+
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v4
+      with:
+        file: ./coverage.xml
+        flags: ux_research
+        name: codecov-${{ matrix.os }}-py${{ matrix.python-version }}
+        fail_ci_if_error: false
+
+    - name: Generate coverage badge
+      if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.10'
+      run: |
+        coverage-badge -o tools/ux_research/coverage.svg -f
+
+    - name: Archive test results
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: test-results-${{ matrix.os }}-py${{ matrix.python-version }}
+        path: |
+          htmlcov/
+          .coverage
+          coverage.xml
+
+    - name: Archive test logs
+      if: failure()
+      uses: actions/upload-artifact@v4
+      with:
+        name: test-logs-${{ matrix.os }}-py${{ matrix.python-version }}
+        path: |
+          pytest.log
+          *.log
+
+  benchmark:
+    name: Performance Benchmarks
+    runs-on: ubuntu-latest
+    needs: test
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.10'
+        cache: 'pip'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r tools/ux_research/requirements.txt
+        pip install -r tools/ux_research/tests/requirements-test.txt
+
+    - name: Run benchmarks
+      run: |
+        pytest tools/ux_research/tests/test_performance.py \
+          --benchmark-only \
+          --benchmark-sort=mean \
+          --benchmark-json=benchmark.json
+
+    - name: Store benchmark results
+      uses: benchmark-action/github-action-benchmark@v1
+      with:
+        tool: 'pytest'
+        output-file-path: benchmark.json
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        auto-push: true
+
+  security:
+    name: Security Scan
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.10'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install bandit safety
+
+    - name: Run Bandit security scan
+      run: |
+        bandit -r tools/ux_research \
+          -f json \
+          -o bandit-report.json
+
+    - name: Run Safety dependency check
+      continue-on-error: true
+      run: |
+        safety check \
+          --file tools/ux_research/requirements.txt \
+          --json \
+          --output safety-report.json
+
+    - name: Upload security reports
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: security-reports
+        path: |
+          bandit-report.json
+          safety-report.json
+
+  quality:
+    name: Code Quality
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.10'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pylint radon
+
+    - name: Run pylint
+      continue-on-error: true
+      run: |
+        pylint tools/ux_research \
+          --output-format=json \
+          --reports=y \
+          > pylint-report.json
+
+    - name: Calculate complexity
+      run: |
+        radon cc tools/ux_research -a -s > complexity-report.txt
+        radon mi tools/ux_research -s > maintainability-report.txt
+
+    - name: Upload quality reports
+      uses: actions/upload-artifact@v4
+      with:
+        name: quality-reports
+        path: |
+          pylint-report.json
+          complexity-report.txt
+          maintainability-report.txt
+
+  notify:
+    name: Notify on Failure
+    runs-on: ubuntu-latest
+    needs: [test, benchmark, security, quality]
+    if: failure()
+
+    steps:
+    - name: Send notification
+      run: |
+        echo "Tests failed for UX Research Platform"
+        echo "Check the workflow run for details"

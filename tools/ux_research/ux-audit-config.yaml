@@ -1,0 +1,197 @@
+# UX Research & Design Feedback Platform Configuration
+
+# Accessibility Audit Configuration
+audit:
+  # WCAG compliance level (A, AA, AAA)
+  wcag_level: "AA"
+
+  # Browsers to test
+  browsers:
+    - chromium
+    - firefox
+    - webkit
+
+  # Viewport configurations
+  viewports:
+    mobile: [375, 667]
+    tablet: [768, 1024]
+    desktop: [1920, 1080]
+
+  # Browser timeout in milliseconds
+  timeout: 30000
+
+  # Capture screenshots during audit
+  screenshot: true
+
+  # Screenshot directory
+  screenshot_dir: "./screenshots"
+
+  # Additional axe-core options
+  axe_options:
+    runOnly:
+      type: "tag"
+      values:
+        - wcag2a
+        - wcag2aa
+        - wcag21a
+        - wcag21aa
+    rules: {}
+
+# Feedback Collection Configuration
+feedback:
+  # Feedback source configurations
+  sources:
+    # CSV file for survey data
+    surveys: "surveys.csv"
+
+    # Hotjar configuration
+    hotjar_site_id: null  # Set your Hotjar site ID
+    hotjar_api_key: null  # Set your Hotjar API key
+
+    # Support ticket integration
+    zendesk_subdomain: null
+    zendesk_email: null
+    zendesk_api_token: null
+
+    # User testing platforms
+    usertesting_api_key: null
+
+  # Sentiment analysis configuration
+  min_confidence: 0.7
+  language: "en"
+
+  # NPS calculation settings
+  nps:
+    promoter_threshold: 9
+    detractor_threshold: 6
+
+# Analytics Integration Configuration
+analytics:
+  # Google Analytics configuration
+  google_analytics:
+    property_id: null  # Set your GA4 property ID
+    credentials_file: null  # Path to service account credentials
+    start_date: "30daysAgo"
+    end_date: "today"
+
+  # Hotjar configuration
+  hotjar:
+    site_id: null
+    api_key: null
+
+  # Mixpanel configuration
+  mixpanel:
+    project_id: null
+    api_secret: null
+
+# Usability Heuristics Configuration
+heuristics:
+  # Checklist file path
+  checklist_file: "heuristics-checklist.yaml"
+
+  # Scoring weights (1-5, 5 being most important)
+  weights:
+    visibility_of_system_status: 5
+    match_system_real_world: 4
+    user_control_freedom: 5
+    consistency_standards: 4
+    error_prevention: 5
+    recognition_recall: 4
+    flexibility_efficiency: 3
+    aesthetic_minimalist: 3
+    error_recovery: 5
+    help_documentation: 3
+
+# Monitoring Configuration
+monitoring:
+  # Monitoring interval in seconds
+  interval: 3600
+
+  # Alert thresholds
+  thresholds:
+    critical: 5
+    serious: 10
+    moderate: 20
+
+  # Alert channels
+  alerts:
+    email:
+      enabled: false
+      recipients: []
+      smtp_server: null
+      smtp_port: 587
+      smtp_username: null
+      smtp_password: null
+
+    webhook:
+      enabled: false
+      url: null
+      headers: {}
+
+    slack:
+      enabled: false
+      webhook_url: null
+
+# Report Generation Configuration
+reports:
+  # Default output directory
+  output_dir: "./reports"
+
+  # Report formats
+  formats:
+    - json
+    - html
+    - pdf
+
+  # Include screenshots in reports
+  include_screenshots: true
+
+  # Report templates directory
+  templates_dir: "./templates"
+
+  # PDF generation options
+  pdf_options:
+    format: "A4"
+    margin:
+      top: "1cm"
+      right: "1cm"
+      bottom: "1cm"
+      left: "1cm"
+
+# Remediation Guide Configuration
+remediation:
+  # Include code examples
+  include_code_examples: true
+
+  # Programming languages for examples
+  languages:
+    - html
+    - css
+    - javascript
+    - react
+
+  # Create GitHub issues for violations
+  github_integration:
+    enabled: false
+    repository: null
+    access_token: null
+    labels:
+      - accessibility
+      - ux
+
+# Performance Configuration
+performance:
+  # Maximum concurrent browser instances
+  max_concurrent_browsers: 3
+
+  # Result caching
+  cache:
+    enabled: true
+    ttl: 3600  # Time to live in seconds
+    directory: "./.cache"
+
+# Logging Configuration
+logging:
+  level: "INFO"  # DEBUG, INFO, WARNING, ERROR, CRITICAL
+  file: "ux-tool.log"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
