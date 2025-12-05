@@ -47,13 +47,13 @@ Research shows AI agents can **boost team productivity by 60%** while humans mai
 |-------|------|---------------|
 | **[ADR-Writer](agent-ADR-Writer-vDEC25.md)** | Architecture documentation | P-ADR-CREATION, P-ASR-ADR-ALIGNMENT, P-QGATE |
 | **[ASR-Writer](agent-ASR-Writer-vDEC25.md)** | Requirements analysis | GH-1, P-ASR-EXTRACTION, P-ASR-ADR-ALIGNMENT |
-| **[Backend-Engineer](agent-Backend-Engineer-vSEP25.md)** | Server-side development | GH-1, P-TDD, P-RECOVERY |
+| **[Backend-Engineer](agents_vSEP25/agent-Backend-Engineer-vSEP25.md)** | Server-side development | GH-1, P-TDD, P-RECOVERY |
 | **[Blueprint-Writer](agent-Blueprint-Writer-vDEC25.md)** | Implementation planning | P-USER-STORY-MAPPING, P-ASR-ADR-ALIGNMENT, P-CFR-INTEGRATION |
 | **[Business-Analyst](agent-Business-Analyst-vDEC25.md)** | Data-driven insights | P-USER-RESEARCH, P-RICE-SCORING, P-FEEDBACK-INGEST |
-| **[Code-Reviewer](agent-Code-Reviewer-vSEP25.md)** | Quality assurance | Code Review, Security Scan, Feedback Generation |
-| **[Product-Owner](agent-Product-Owner-vSEP25.md)** | Product strategy | RICE Scoring, User Story Mapping, Roadmap Sync |
-| **[QA-Tester](agent-QA-Tester-vSEP25.md)** | Testing automation | P-TDD, Test Generation, Validation |
-| **[System-Architect](agent-System-Architect-vSEP25.md)** | Architecture governance | ADR Creation, ASR Extraction, Technology Radar |
+| **[Code-Reviewer](agents_vSEP25/agent-Code-Reviewer-vSEP25.md)** | Quality assurance | Code Review, Security Scan, Feedback Generation |
+| **[Product-Owner](agents_vSEP25/agent-Product-Owner-vSEP25.md)** | Product strategy | RICE Scoring, User Story Mapping, Roadmap Sync |
+| **[QA-Tester](agents_vSEP25/agent-QA-Tester-vSEP25.md)** | Testing automation | P-TDD, Test Generation, Validation |
+| **[System-Architect](agents_vSEP25/agent-System-Architect-vSEP25.md)** | Architecture governance | ADR Creation, ASR Extraction, Technology Radar |
 
 
 ## 🔄 Core Protocols
@@ -89,11 +89,11 @@ DevCrew specifications can be implemented using various platforms:
 2. **Study the core agent specifications**
    - [agent-ADR-Writer-vDEC25.md](agent-ADR-Writer-vDEC25.md) - Architecture documentation
    - [agent-ASR-Writer-vDEC25.md](agent-ASR-Writer-vDEC25.md) - Requirements analysis
-   - [agent-Backend-Engineer-vSEP25.md](agent-Backend-Engineer-vSEP25.md) - Development workflows
+   - [agent-Backend-Engineer-vSEP25.md](agents_vSEP25/agent-Backend-Engineer-vSEP25.md) - Development workflows
    - [agent-Blueprint-Writer-vDEC25.md](agent-Blueprint-Writer-vDEC25.md) - Implementation planning
    - [agent-Business-Analyst-vDEC25.md](agent-Business-Analyst-vDEC25.md) - Data-driven insights
-   - [agent-System-Architect-vSEP25.md](agent-System-Architect-vSEP25.md) - Architecture governance
-   - [agent-QA-Tester-vSEP25.md](agent-QA-Tester-vSEP25.md) - Test automation
+   - [agent-System-Architect-vSEP25.md](agents_vSEP25/agent-System-Architect-vSEP25.md) - Architecture governance
+   - [agent-QA-Tester-vSEP25.md](agents_vSEP25/agent-QA-Tester-vSEP25.md) - Test automation
 
 3. **Understand the protocol structure**
    - Begin with [GH-1 GitHub Issue Triage](protocols/Development/GH-1-Github-Issue-Triage-Protocol.md)
