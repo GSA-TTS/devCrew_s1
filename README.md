@@ -52,6 +52,7 @@ Research shows AI agents can **boost team productivity by 60%** while humans mai
 | **[Business-Analyst](agent-Business-Analyst-vDEC25.md)** | Data-driven insights | P-USER-RESEARCH, P-RICE-SCORING, P-FEEDBACK-INGEST |
 | **[Cloud-Architect](agent-Cloud-Architect-vDEC25.md)** | Cloud infrastructure design | P-CLOUD-VALIDATION, P-FINOPS-COST-MONITOR, P-DEVSECOPS |
 | **[Code-Reviewer](agents_vSEP25/agent-Code-Reviewer-vSEP25.md)** | Quality assurance | Code Review, Security Scan, Feedback Generation |
+| **[DevOps-Engineer](agent-DevOps-Engineer-vDEC25.md)** | CI/CD automation | P-DEVSECOPS, P-DEPLOYMENT-VALIDATION, SCM-SBOM |
 | **[Frontend-Engineer](agent-Frontend-Engineer-vDEC25.md)** | Client-side development | P-TDD, P-FRONTEND-DEV, P-ACCESSIBILITY-GATE |
 | **[Product-Owner](agents_vSEP25/agent-Product-Owner-vSEP25.md)** | Product strategy | RICE Scoring, User Story Mapping, Roadmap Sync |
 | **[Project-Manager](agent-Project-Manager-vDEC25.md)** | Project coordination | P-RISK-ASSESS, P-PLAN-VALIDATION, P-RESOURCE |
@@ -97,6 +98,7 @@ DevCrew specifications can be implemented using various platforms:
    - [agent-Blueprint-Writer-vDEC25.md](agent-Blueprint-Writer-vDEC25.md) - Implementation planning
    - [agent-Business-Analyst-vDEC25.md](agent-Business-Analyst-vDEC25.md) - Data-driven insights
    - [agent-Cloud-Architect-vDEC25.md](agent-Cloud-Architect-vDEC25.md) - Cloud infrastructure design
+   - [agent-DevOps-Engineer-vDEC25.md](agent-DevOps-Engineer-vDEC25.md) - CI/CD automation
    - [agent-Frontend-Engineer-vDEC25.md](agent-Frontend-Engineer-vDEC25.md) - Client-side development
    - [agent-Project-Manager-vDEC25.md](agent-Project-Manager-vDEC25.md) - Project coordination
    - [agent-System-Architect-vSEP25.md](agents_vSEP25/agent-System-Architect-vSEP25.md) - Architecture governance
