@@ -60,7 +60,7 @@ Research shows AI agents can **boost team productivity by 60%** while humans mai
 | **[Performance-Engineer](agent-Performance-Engineer-vDEC25.md)** | Performance optimization | P-PERF-BENCHMARK, P-PERF-VALIDATION, P-OBSERVABILITY |
 | **[Product-Owner](agents_vSEP25/agent-Product-Owner-vSEP25.md)** | Product strategy | RICE Scoring, User Story Mapping, Roadmap Sync |
 | **[Project-Manager](agent-Project-Manager-vDEC25.md)** | Project coordination | P-RISK-ASSESS, P-PLAN-VALIDATION, P-RESOURCE |
-| **[QA-Tester](agents_vSEP25/agent-QA-Tester-vSEP25.md)** | Testing automation | P-TDD, Test Generation, Validation |
+| **[QA-Tester](agent-QA-Tester-vDEC25.md)** | Test automation & quality assurance | P-TDD, P-E2E-TESTING, P-API-CONTRACT-VALIDATION, P-OBSERVABILITY |
 | **[Security-Auditor](agent-Security-Auditor-vDEC25.md)** | Security assessment | P-SEC-VULN, SEC-THREAT-MODEL, SCM-VEX |
 | **[SRE](agent-SRE-vDEC25.md)** | Site reliability engineering | P-OPS-RESILIENCE, P-OPS-POSTMORTEM, P-OBSERVABILITY |
 | **[System-Architect](agents_vSEP25/agent-System-Architect-vSEP25.md)** | Architecture governance | ADR Creation, ASR Extraction, Technology Radar |
@@ -111,10 +111,10 @@ DevCrew specifications can be implemented using various platforms:
    - [agent-Orchestrator-vDEC25.md](agent-Orchestrator-vDEC25.md) - Central coordination and multi-agent workflow management
    - [agent-Performance-Engineer-vDEC25.md](agent-Performance-Engineer-vDEC25.md) - Performance optimization
    - [agent-Project-Manager-vDEC25.md](agent-Project-Manager-vDEC25.md) - Project coordination
+   - [agent-QA-Tester-vDEC25.md](agent-QA-Tester-vDEC25.md) - Test automation and quality assurance
    - [agent-Security-Auditor-vDEC25.md](agent-Security-Auditor-vDEC25.md) - Security assessment
    - [agent-SRE-vDEC25.md](agent-SRE-vDEC25.md) - Site reliability engineering
    - [agent-System-Architect-vSEP25.md](agents_vSEP25/agent-System-Architect-vSEP25.md) - Architecture governance
-   - [agent-QA-Tester-vSEP25.md](agents_vSEP25/agent-QA-Tester-vSEP25.md) - Test automation
    - [agent-UX-UI-Designer-vDEC25.md](agent-UX-UI-Designer-vDEC25.md) - User experience design
 
 3. **Understand the protocol structure**
