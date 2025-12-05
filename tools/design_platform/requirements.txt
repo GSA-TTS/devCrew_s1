@@ -30,7 +30,7 @@ responses==0.24.1  # HTTP request mocking
 fakeredis==2.20.1  # Redis mocking (if needed)
 
 # Code Quality Tools
-black==23.12.1  # Code formatter
+black==24.3.0  # Code formatter
 isort==5.13.2  # Import sorter
 flake8==7.0.0  # Style checker
 mypy==1.8.0  # Type checker
