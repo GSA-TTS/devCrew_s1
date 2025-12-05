@@ -55,6 +55,7 @@ Research shows AI agents can **boost team productivity by 60%** while humans mai
 | **[Debugger](agent-Debugger-vDEC25.md)** | Root cause analysis | GH-1, P-BUG-FIX, P-RECOVERY, P-OPS-POSTMORTEM |
 | **[DevOps-Engineer](agent-DevOps-Engineer-vDEC25.md)** | CI/CD automation | P-DEVSECOPS, P-DEPLOYMENT-VALIDATION, SCM-SBOM |
 | **[Frontend-Engineer](agent-Frontend-Engineer-vDEC25.md)** | Client-side development | P-TDD, P-FRONTEND-DEV, P-ACCESSIBILITY-GATE |
+| **[Orchestrator](agent-Orchestrator-vDEC25.md)** | Central coordination & workflow management | P-ORCHESTRATION, P-HUB-SPOKE-COORDINATION, P-DELEGATION-DEFAULT |
 | **[Performance-Engineer](agent-Performance-Engineer-vDEC25.md)** | Performance optimization | P-PERF-BENCHMARK, P-PERF-VALIDATION, P-OBSERVABILITY |
 | **[Product-Owner](agents_vSEP25/agent-Product-Owner-vSEP25.md)** | Product strategy | RICE Scoring, User Story Mapping, Roadmap Sync |
 | **[Project-Manager](agent-Project-Manager-vDEC25.md)** | Project coordination | P-RISK-ASSESS, P-PLAN-VALIDATION, P-RESOURCE |
@@ -105,6 +106,7 @@ DevCrew specifications can be implemented using various platforms:
    - [agent-Debugger-vDEC25.md](agent-Debugger-vDEC25.md) - Root cause analysis and bug investigation
    - [agent-DevOps-Engineer-vDEC25.md](agent-DevOps-Engineer-vDEC25.md) - CI/CD automation
    - [agent-Frontend-Engineer-vDEC25.md](agent-Frontend-Engineer-vDEC25.md) - Client-side development
+   - [agent-Orchestrator-vDEC25.md](agent-Orchestrator-vDEC25.md) - Central coordination and multi-agent workflow management
    - [agent-Performance-Engineer-vDEC25.md](agent-Performance-Engineer-vDEC25.md) - Performance optimization
    - [agent-Project-Manager-vDEC25.md](agent-Project-Manager-vDEC25.md) - Project coordination
    - [agent-Security-Auditor-vDEC25.md](agent-Security-Auditor-vDEC25.md) - Security assessment
