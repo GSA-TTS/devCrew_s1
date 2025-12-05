@@ -52,6 +52,7 @@ Research shows AI agents can **boost team productivity by 60%** while humans mai
 | **[Business-Analyst](agent-Business-Analyst-vDEC25.md)** | Data-driven insights | P-USER-RESEARCH, P-RICE-SCORING, P-FEEDBACK-INGEST |
 | **[Code-Reviewer](agents_vSEP25/agent-Code-Reviewer-vSEP25.md)** | Quality assurance | Code Review, Security Scan, Feedback Generation |
 | **[Product-Owner](agents_vSEP25/agent-Product-Owner-vSEP25.md)** | Product strategy | RICE Scoring, User Story Mapping, Roadmap Sync |
+| **[Project-Manager](agent-Project-Manager-vDEC25.md)** | Project coordination | P-RISK-ASSESS, P-PLAN-VALIDATION, P-RESOURCE |
 | **[QA-Tester](agents_vSEP25/agent-QA-Tester-vSEP25.md)** | Testing automation | P-TDD, Test Generation, Validation |
 | **[System-Architect](agents_vSEP25/agent-System-Architect-vSEP25.md)** | Architecture governance | ADR Creation, ASR Extraction, Technology Radar |
 | **[UX-UI-Designer](agent-UX-UI-Designer-vDEC25.md)** | User experience design | P-DESIGN-REVIEW, P-ACCESSIBILITY-GATE, P-ETHICAL-DESIGN |
@@ -93,6 +94,7 @@ DevCrew specifications can be implemented using various platforms:
    - [agent-Backend-Engineer-vSEP25.md](agents_vSEP25/agent-Backend-Engineer-vSEP25.md) - Development workflows
    - [agent-Blueprint-Writer-vDEC25.md](agent-Blueprint-Writer-vDEC25.md) - Implementation planning
    - [agent-Business-Analyst-vDEC25.md](agent-Business-Analyst-vDEC25.md) - Data-driven insights
+   - [agent-Project-Manager-vDEC25.md](agent-Project-Manager-vDEC25.md) - Project coordination
    - [agent-System-Architect-vSEP25.md](agents_vSEP25/agent-System-Architect-vSEP25.md) - Architecture governance
    - [agent-QA-Tester-vSEP25.md](agents_vSEP25/agent-QA-Tester-vSEP25.md) - Test automation
    - [agent-UX-UI-Designer-vDEC25.md](agent-UX-UI-Designer-vDEC25.md) - User experience design
