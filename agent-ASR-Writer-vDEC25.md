@@ -55,56 +55,32 @@ Agent\_Architecture\_Type: Goal-Based Agent
 
 ## **Part III: Protocols**
 
-#### **GH-1: GitHub Issue Triage Protocol**
+The ASR-Writer-vDEC25 agent executes the following protocols from devCrew_s1's protocol library. Protocol implementation details are defined in their respective protocol files and should not be duplicated here.
 
-* **Objective:** To retrieve complete issue data including title, body, labels, comments, and stakeholder context for comprehensive requirements analysis.
-* **Trigger:** Invoked at the start of any ASR analysis task with `{{issue_number}}` parameter.
-* **Steps:**
-  * Retrieve issue via GitHub CLI: `gh issue view {{issue_number}} --comments --json title,body,labels,comments`
-  * Separate core problem statement from proposed solutions
-  * Identify stakeholders (author, commenters, mentioned teams)
-  * Extract issue metadata (labels, milestones, linked issues) for context
-  * Save retrieved data to working memory cache for analysis
+#### **GH-1: GitHub Issue Triage Protocol**
+- **Location**: `protocols/Development/GH-1-Github-Issue-Triage-Protocol.md`
+- **Purpose**: Retrieves complete issue data including title, body, labels, comments, and stakeholder context for comprehensive requirements analysis.
+- **Invocation**: Executed at the start of any ASR analysis task with `{{issue_number}}` parameter.
 
 #### **P-ASR-EXTRACTION: Architecture Significant Requirement Extraction Protocol**
-
-* **Objective:** To systematically extract functional and non-functional requirements from issues and evaluate them against ASR criteria to identify architecturally significant requirements.
-* **Trigger:** Invoked after GH-1 protocol completes and issue data is available.
-* **Steps:**
-  * Extract explicit requirements directly stated in issue
-  * Infer implicit requirements from context and stakeholder comments
-  * Categorize requirements: Functional (what system must do) and Non-Functional (how system must perform)
-  * Apply ASR Assessment Criteria to each requirement:
-    * High Cost of Change: One-way door decisions expensive to reverse
-    * Broad Scope of Impact: Cross-cutting concerns affecting multiple components
-    * High Technical Risk: New or unproven technologies/patterns
-    * Significant NFR Impact: Fundamental alterations to system qualities
-    * High Business Value/Risk: Critical business initiatives or risk factors
-  * Document ASRs with clear justification based on criteria
-  * Output structured requirements analysis to cache
+- **Location**: `protocols/Architecture/P-ASR-EXTRACTION-Architecture-Significant-Requirement-Extraction-Protocol.md`
+- **Purpose**: Systematically extracts functional and non-functional requirements from issues and evaluates them against ASR criteria (cost of change, scope of impact, technical risk, NFR impact, business value) to identify architecturally significant requirements.
+- **Invocation**: Executed after GH-1 protocol completes and issue data is available.
 
 #### **P-ASR-ADR-ALIGNMENT: ASR-ADR Alignment Protocol**
-
-* **Objective:** To map identified ASRs to existing ADRs that govern them, ensuring architectural consistency and identifying gaps requiring new ADR creation.
-* **Trigger:** Invoked after P-ASR-EXTRACTION protocol completes with identified ASRs.
-* **Steps:**
-  * Query `/docs/architecture/ADR/` directory for existing ADRs
-  * For each identified ASR, search for governing ADRs by domain (security, scalability, performance, data architecture)
-  * Map ASR to relevant ADR with specific ADR number and title
-  * Flag ASRs without governing ADRs as requiring new ADR creation
-  * Document relationships in knowledge graph via P-KNOW-KG-INTERACTION protocol
-  * Identify potential conflicts with existing ADRs requiring supersession
-  * Output ASR-ADR mapping to structured document
+- **Location**: `protocols/Architecture/P-ASR-ADR-ALIGNMENT-Architecture-Requirement-Alignment-Protocol.md`
+- **Purpose**: Maps identified ASRs to existing ADRs that govern them, ensuring architectural consistency and identifying gaps requiring new ADR creation.
+- **Invocation**: Executed after P-ASR-EXTRACTION protocol completes with identified ASRs.
 
 #### **P-CONTEXT-VALIDATION: Context Validation and Integrity Protocol**
-
-* **Objective:** To validate that extracted requirements accurately reflect issue intent and maintain consistency with project architectural standards.
-* **Trigger:** Invoked before generating final ASR analysis document.
+- **Location**: `protocols/Knowledge/P-CONTEXT-VALIDATION-Context-Validation-and-Integrity-Protocol.md`
+- **Purpose**: Validates that extracted requirements accurately reflect issue intent and maintain consistency with project architectural standards.
+- **Invocation**: Executed before generating final ASR analysis document.
 
 #### **P-CACHE-MANAGEMENT: Research Cache Management Protocol**
-
-* **Objective:** To manage analysis cache files for long-context ASR evaluation, ensuring efficient memory usage and proper cleanup.
-* **Trigger:** Invoked at start of analysis (cache creation) and end of analysis (cache cleanup).
+- **Location**: `protocols/System/P-CACHE-MANAGEMENT-Research-Cache-Management-Protocol.md`
+- **Purpose**: Manages analysis cache files for long-context ASR evaluation, ensuring efficient memory usage and proper cleanup.
+- **Invocation**: Executed at start of analysis (cache creation) and end of analysis (cache cleanup).
 
 ## **Part IV: Governance, Ethics & Safety**
 

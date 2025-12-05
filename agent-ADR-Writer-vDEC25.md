@@ -58,92 +58,52 @@ Agent\_Architecture\_Type: Goal-Based Agent
 
 ## **Part III: Protocols**
 
-#### **GH-1: GitHub Issue Triage Protocol**
+The ADR-Writer-vDEC25 agent executes the following protocols from devCrew_s1's protocol library. Protocol implementation details are defined in their respective protocol files and should not be duplicated here.
 
-* **Objective:** To retrieve complete enhancement issue data including title, body, labels, comments, stakeholder concerns, and architectural implications.
-* **Trigger:** Invoked at the start of any ADR creation task with `{{issue_number}}` parameter.
-* **Steps:**
-  * Retrieve issue via GitHub CLI: `gh issue view {{issue_number}} --comments --json title,body,labels,comments`
-  * Extract core problem statement from proposed solutions
-  * Identify stakeholders (author, commenters, architects, technical leads)
-  * Extract architectural context from issue labels and linked issues
-  * Save retrieved data to working memory cache for analysis
+#### **GH-1: GitHub Issue Triage Protocol**
+- **Location**: `protocols/Development/GH-1-Github-Issue-Triage-Protocol.md`
+- **Purpose**: Retrieves complete enhancement issue data including title, body, labels, comments, stakeholder concerns, and architectural implications.
+- **Invocation**: Executed at the start of any ADR creation task with `{{issue_number}}` parameter.
 
 #### **P-ASR-EXTRACTION: Architecture Significant Requirement Extraction Protocol**
-
-* **Objective:** To identify architecturally significant requirements from enhancement issues when ASR Writer agent is unavailable or inline analysis is needed.
-* **Trigger:** Invoked after GH-1 protocol when ASRs are not provided by ASR Writer agent.
-* **Steps:**
-  * Extract functional and non-functional requirements from issue
-  * Apply ASR litmus test (cost of change, scope of impact, technical risk, NFR impact, business value)
-  * Document identified ASRs with clear justification
-  * Output ASR analysis to cache for ADR creation
+- **Location**: `protocols/Architecture/P-ASR-EXTRACTION-Architecture-Significant-Requirement-Extraction-Protocol.md`
+- **Purpose**: Identifies architecturally significant requirements from enhancement issues when ASR Writer agent is unavailable or inline analysis is needed. Applies ASR litmus test criteria.
+- **Invocation**: Executed after GH-1 protocol when ASRs are not provided by ASR Writer agent.
 
 #### **P-ASR-ADR-ALIGNMENT: ASR-ADR Alignment Protocol**
-
-* **Objective:** To cross-reference identified ASRs with existing ADRs, determine coverage, and identify gaps requiring new ADR creation.
-* **Trigger:** Invoked after ASR identification completes.
-* **Steps:**
-  * Query `/docs/architecture/ADR/` directory for existing ADRs
-  * For each identified ASR, search for governing ADRs by domain and scope
-  * Map ASR to relevant existing ADR if coverage exists
-  * Flag ASRs without governing ADRs as requiring new ADR creation
-  * Identify potential conflicts or supersessions with existing ADRs
-  * Document ADR gaps and requirements in analysis document
+- **Location**: `protocols/Architecture/P-ASR-ADR-ALIGNMENT-Architecture-Requirement-Alignment-Protocol.md`
+- **Purpose**: Cross-references identified ASRs with existing ADRs, determines coverage, and identifies gaps requiring new ADR creation.
+- **Invocation**: Executed after ASR identification completes.
 
 #### **P-ADR-CREATION: ADR Creation and Documentation Protocol**
-
-* **Objective:** To create comprehensive ADRs following industry best practices with multiple viable alternatives, honest trade-off analysis, and complete traceability.
-* **Trigger:** Invoked for each ASR flagged as requiring new ADR.
-* **Steps:**
-  * Define ADR title in present tense imperative (e.g., "Adopt GraphQL for API Layer")
-  * Set status to "Proposed"
-  * Synthesize context section connecting problem statement to ASRs
-  * Document assumptions and constraints affecting decision
-  * Identify minimum 2 viable alternatives (3+ preferred) with genuine pros/cons
-  * Provide evidence-based decision rationale explicitly connecting to ASRs
-  * Document comprehensive consequences: positive (benefits with measurements), negative (costs/trade-offs), and mitigation strategies
-  * List related artifacts (ASRs that drove decision, related ADRs, superseded ADRs)
-  * Save ADR to `/docs/architecture/ADR/ADR-NNN-[Title].md`
+- **Location**: `protocols/Architecture/P-ADR-CREATION-Architecture-Decision-Record-Creation-Protocol.md`
+- **Purpose**: Creates comprehensive ADRs following industry best practices with multiple viable alternatives, honest trade-off analysis, and complete traceability. Enforces minimum 2 alternatives and both positive/negative consequences.
+- **Invocation**: Executed for each ASR flagged as requiring new ADR.
 
 #### **P-QGATE: Automated Quality Gate Protocol**
-
-* **Objective:** To validate ADR completeness, anti-pattern avoidance, and quality standards before publication.
-* **Trigger:** Invoked after P-ADR-CREATION protocol completes for each ADR.
-* **Steps:**
-  * Verify ADR template completeness (all required sections present)
-  * Validate minimum 2 viable alternatives (not dummy alternatives)
-  * Check for ADR anti-patterns: Fairy Tale, Sales Pitch, Dummy Alternative, Free Lunch Coupon
-  * Verify ASR traceability (every ADR maps to at least one ASR)
-  * Validate both positive and negative consequences documented
-  * Ensure evidence-based language (no subjective claims without support)
-  * Flag quality issues for revision before publication
+- **Location**: `protocols/Quality/P-QGATE-Automated-Quality-Gate-Protocol.md`
+- **Purpose**: Validates ADR completeness, anti-pattern avoidance (Fairy Tale, Sales Pitch, Dummy Alternative, Free Lunch Coupon), and quality standards before publication.
+- **Invocation**: Executed after P-ADR-CREATION protocol completes for each ADR.
 
 #### **P-ARCH-INTEGRATION: Architecture Integration Protocol**
-
-* **Objective:** To publish validated ADRs to repository, update knowledge graph relationships, and maintain architectural governance.
-* **Trigger:** Invoked after P-QGATE protocol passes for each ADR.
-* **Steps:**
-  * Publish ADR to `/docs/architecture/ADR/` directory
-  * Update knowledge graph with ADR dependencies and relationships via P-KNOW-KG-INTERACTION
-  * Flag related ADRs that may need updates or supersession
-  * Update architectural pattern library if new patterns introduced
-  * Create ADR index entry if index exists
+- **Location**: `protocols/Architecture/P-ARCH-INTEGRATION-Architecture-Integration-Protocol.md`
+- **Purpose**: Publishes validated ADRs to repository, updates knowledge graph relationships via P-KNOW-KG-INTERACTION, and maintains architectural governance.
+- **Invocation**: Executed after P-QGATE protocol passes for each ADR.
 
 #### **P-PATTERN-MANAGEMENT: Architectural Pattern Management Protocol**
-
-* **Objective:** To document and manage architectural patterns referenced in ADRs.
-* **Trigger:** Invoked when ADRs introduce or reference architectural patterns.
+- **Location**: `protocols/Architecture/P-PATTERN-MANAGEMENT-Architectural-Pattern-Management-Protocol.md`
+- **Purpose**: Documents and manages architectural patterns referenced in ADRs.
+- **Invocation**: Executed when ADRs introduce or reference architectural patterns.
 
 #### **P-CACHE-MANAGEMENT: Research Cache Management Protocol**
-
-* **Objective:** To manage analysis cache files for ADR creation, ensuring efficient memory usage and proper cleanup.
-* **Trigger:** Invoked at start of analysis (cache creation) and end of analysis (cache cleanup).
+- **Location**: `protocols/System/P-CACHE-MANAGEMENT-Research-Cache-Management-Protocol.md`
+- **Purpose**: Manages analysis cache files for ADR creation, ensuring efficient memory usage and proper cleanup.
+- **Invocation**: Executed at start of analysis (cache creation) and end of analysis (cache cleanup).
 
 #### **P-KNOW-KG-INTERACTION: Knowledge Graph Interaction Protocol**
-
-* **Objective:** To maintain ADR dependency relationships and enable architectural governance queries.
-* **Trigger:** Invoked during P-ARCH-INTEGRATION to update knowledge graph with new ADR relationships.
+- **Location**: `protocols/Knowledge/P-KNOW-KG-INTERACTION-Knowledge-Graph-Interaction-Patterns-Protocol.md`
+- **Purpose**: Maintains ADR dependency relationships and enables architectural governance queries.
+- **Invocation**: Executed during P-ARCH-INTEGRATION to update knowledge graph with new ADR relationships.
 
 ## **Part IV: Governance, Ethics & Safety**
 
