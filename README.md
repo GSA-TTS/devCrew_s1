@@ -45,6 +45,7 @@ Research shows AI agents can **boost team productivity by 60%** while humans mai
 
 | Agent | Role | Key Protocols |
 |-------|------|---------------|
+| **[ADR-Writer](agent-ADR-Writer-vDEC25.md)** | Architecture documentation | P-ADR-CREATION, P-ASR-ADR-ALIGNMENT, P-QGATE |
 | **[ASR-Writer](agent-ASR-Writer-vDEC25.md)** | Requirements analysis | GH-1, P-ASR-EXTRACTION, P-ASR-ADR-ALIGNMENT |
 | **[Backend-Engineer](agent-Backend-Engineer-vSEP25.md)** | Server-side development | GH-1, P-TDD, P-RECOVERY |
 | **[Code-Reviewer](agent-Code-Reviewer-vSEP25.md)** | Quality assurance | Code Review, Security Scan, Feedback Generation |
@@ -84,6 +85,7 @@ DevCrew specifications can be implemented using various platforms:
    ```
 
 2. **Study the core agent specifications**
+   - [agent-ADR-Writer-vDEC25.md](agent-ADR-Writer-vDEC25.md) - Architecture documentation
    - [agent-ASR-Writer-vDEC25.md](agent-ASR-Writer-vDEC25.md) - Requirements analysis
    - [agent-Backend-Engineer-vSEP25.md](agent-Backend-Engineer-vSEP25.md) - Development workflows
    - [agent-System-Architect-vSEP25.md](agent-System-Architect-vSEP25.md) - Architecture governance
