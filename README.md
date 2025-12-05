@@ -58,7 +58,7 @@ Research shows AI agents can **boost team productivity by 60%** while humans mai
 | **[Frontend-Engineer](agent-Frontend-Engineer-vDEC25.md)** | Client-side development | P-TDD, P-FRONTEND-DEV, P-ACCESSIBILITY-GATE |
 | **[Orchestrator](agent-Orchestrator-vDEC25.md)** | Central coordination & workflow management | P-ORCHESTRATION, P-HUB-SPOKE-COORDINATION, P-DELEGATION-DEFAULT |
 | **[Performance-Engineer](agent-Performance-Engineer-vDEC25.md)** | Performance optimization | P-PERF-BENCHMARK, P-PERF-VALIDATION, P-OBSERVABILITY |
-| **[Product-Owner](agents_vSEP25/agent-Product-Owner-vSEP25.md)** | Product strategy | RICE Scoring, User Story Mapping, Roadmap Sync |
+| **[Product-Owner](agent-Product-Owner-vDEC25.md)** | Product strategy | P-RICE-SCORING, P-USER-STORY-MAPPING, P-ROADMAP-SYNC, P-METRIC-TRACKING |
 | **[Project-Manager](agent-Project-Manager-vDEC25.md)** | Project coordination | P-RISK-ASSESS, P-PLAN-VALIDATION, P-RESOURCE |
 | **[QA-Tester](agent-QA-Tester-vDEC25.md)** | Test automation & quality assurance | P-TDD, P-E2E-TESTING, P-API-CONTRACT-VALIDATION, P-OBSERVABILITY |
 | **[Security-Auditor](agent-Security-Auditor-vDEC25.md)** | Security assessment | P-SEC-VULN, SEC-THREAT-MODEL, SCM-VEX |
