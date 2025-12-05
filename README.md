@@ -45,7 +45,7 @@ Research shows AI agents can **boost team productivity by 60%** while humans mai
 
 | Agent | Role | Key Protocols |
 |-------|------|---------------|
-| **[ASR-Writer](agent-ASR-Writer-vSEP25.md)** | Requirements analysis | GH-1, P-ASR-EXTRACTION, P-ASR-ADR-ALIGNMENT |
+| **[ASR-Writer](agent-ASR-Writer-vDEC25.md)** | Requirements analysis | GH-1, P-ASR-EXTRACTION, P-ASR-ADR-ALIGNMENT |
 | **[Backend-Engineer](agent-Backend-Engineer-vSEP25.md)** | Server-side development | GH-1, P-TDD, P-RECOVERY |
 | **[Code-Reviewer](agent-Code-Reviewer-vSEP25.md)** | Quality assurance | Code Review, Security Scan, Feedback Generation |
 | **[Product-Owner](agent-Product-Owner-vSEP25.md)** | Product strategy | RICE Scoring, User Story Mapping, Roadmap Sync |
@@ -84,7 +84,7 @@ DevCrew specifications can be implemented using various platforms:
    ```
 
 2. **Study the core agent specifications**
-   - [agent-ASR-Writer-vSEP25.md](agent-ASR-Writer-vSEP25.md) - Requirements analysis
+   - [agent-ASR-Writer-vDEC25.md](agent-ASR-Writer-vDEC25.md) - Requirements analysis
    - [agent-Backend-Engineer-vSEP25.md](agent-Backend-Engineer-vSEP25.md) - Development workflows
    - [agent-System-Architect-vSEP25.md](agent-System-Architect-vSEP25.md) - Architecture governance
    - [agent-QA-Tester-vSEP25.md](agent-QA-Tester-vSEP25.md) - Test automation
