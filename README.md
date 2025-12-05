@@ -51,7 +51,7 @@ Research shows AI agents can **boost team productivity by 60%** while humans mai
 | **[Blueprint-Writer](agent-Blueprint-Writer-vDEC25.md)** | Implementation planning | P-USER-STORY-MAPPING, P-ASR-ADR-ALIGNMENT, P-CFR-INTEGRATION |
 | **[Business-Analyst](agent-Business-Analyst-vDEC25.md)** | Data-driven insights | P-USER-RESEARCH, P-RICE-SCORING, P-FEEDBACK-INGEST |
 | **[Cloud-Architect](agent-Cloud-Architect-vDEC25.md)** | Cloud infrastructure design | P-CLOUD-VALIDATION, P-FINOPS-COST-MONITOR, P-DEVSECOPS |
-| **[Code-Reviewer](agents_vSEP25/agent-Code-Reviewer-vSEP25.md)** | Quality assurance | Code Review, Security Scan, Feedback Generation |
+| **[Code-Reviewer](agent-Code-Reviewer-vDEC25.md)** | Code quality & security review | P-CODE-REVIEW, P-SECURITY-SCAN, P-FEEDBACK-GENERATION, GH-MAINTENANCE |
 | **[Context-Manager](agent-Context-Manager-vDEC25.md)** | Memory management & knowledge graph | P-CONTEXT-VALIDATION, P-KNOW-KG-INTERACTION, P-CACHE-MANAGEMENT |
 | **[Debugger](agent-Debugger-vDEC25.md)** | Root cause analysis | GH-1, P-BUG-FIX, P-RECOVERY, P-OPS-POSTMORTEM |
 | **[DevOps-Engineer](agent-DevOps-Engineer-vDEC25.md)** | CI/CD automation | P-DEVSECOPS, P-DEPLOYMENT-VALIDATION, SCM-SBOM |
