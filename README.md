@@ -47,7 +47,7 @@ Research shows AI agents can **boost team productivity by 60%** while humans mai
 |-------|------|---------------|
 | **[ADR-Writer](agent-ADR-Writer-vDEC25.md)** | Architecture documentation | P-ADR-CREATION, P-ASR-ADR-ALIGNMENT, P-QGATE |
 | **[ASR-Writer](agent-ASR-Writer-vDEC25.md)** | Requirements analysis | GH-1, P-ASR-EXTRACTION, P-ASR-ADR-ALIGNMENT |
-| **[Backend-Engineer](agents_vSEP25/agent-Backend-Engineer-vSEP25.md)** | Server-side development | GH-1, P-TDD, P-RECOVERY |
+| **[Backend-Engineer](agent-Backend-Engineer-vDEC25.md)** | Server-side development | GH-1, P-TDD, P-FEATURE-DEV, P-API-DEV, P-DB-MIGRATE |
 | **[Blueprint-Writer](agent-Blueprint-Writer-vDEC25.md)** | Implementation planning | P-USER-STORY-MAPPING, P-ASR-ADR-ALIGNMENT, P-CFR-INTEGRATION |
 | **[Business-Analyst](agent-Business-Analyst-vDEC25.md)** | Data-driven insights | P-USER-RESEARCH, P-RICE-SCORING, P-FEEDBACK-INGEST |
 | **[Cloud-Architect](agent-Cloud-Architect-vDEC25.md)** | Cloud infrastructure design | P-CLOUD-VALIDATION, P-FINOPS-COST-MONITOR, P-DEVSECOPS |
@@ -100,7 +100,7 @@ DevCrew specifications can be implemented using various platforms:
 2. **Study the core agent specifications**
    - [agent-ADR-Writer-vDEC25.md](agent-ADR-Writer-vDEC25.md) - Architecture documentation
    - [agent-ASR-Writer-vDEC25.md](agent-ASR-Writer-vDEC25.md) - Requirements analysis
-   - [agent-Backend-Engineer-vSEP25.md](agents_vSEP25/agent-Backend-Engineer-vSEP25.md) - Development workflows
+   - [agent-Backend-Engineer-vDEC25.md](agent-Backend-Engineer-vDEC25.md) - Server-side development with TDD
    - [agent-Blueprint-Writer-vDEC25.md](agent-Blueprint-Writer-vDEC25.md) - Implementation planning
    - [agent-Business-Analyst-vDEC25.md](agent-Business-Analyst-vDEC25.md) - Data-driven insights
    - [agent-Cloud-Architect-vDEC25.md](agent-Cloud-Architect-vDEC25.md) - Cloud infrastructure design
