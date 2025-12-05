@@ -54,6 +54,7 @@ Research shows AI agents can **boost team productivity by 60%** while humans mai
 | **[Product-Owner](agents_vSEP25/agent-Product-Owner-vSEP25.md)** | Product strategy | RICE Scoring, User Story Mapping, Roadmap Sync |
 | **[QA-Tester](agents_vSEP25/agent-QA-Tester-vSEP25.md)** | Testing automation | P-TDD, Test Generation, Validation |
 | **[System-Architect](agents_vSEP25/agent-System-Architect-vSEP25.md)** | Architecture governance | ADR Creation, ASR Extraction, Technology Radar |
+| **[UX-UI-Designer](agent-UX-UI-Designer-vDEC25.md)** | User experience design | P-DESIGN-REVIEW, P-ACCESSIBILITY-GATE, P-ETHICAL-DESIGN |
 
 
 ## 🔄 Core Protocols
@@ -94,6 +95,7 @@ DevCrew specifications can be implemented using various platforms:
    - [agent-Business-Analyst-vDEC25.md](agent-Business-Analyst-vDEC25.md) - Data-driven insights
    - [agent-System-Architect-vSEP25.md](agents_vSEP25/agent-System-Architect-vSEP25.md) - Architecture governance
    - [agent-QA-Tester-vSEP25.md](agents_vSEP25/agent-QA-Tester-vSEP25.md) - Test automation
+   - [agent-UX-UI-Designer-vDEC25.md](agent-UX-UI-Designer-vDEC25.md) - User experience design
 
 3. **Understand the protocol structure**
    - Begin with [GH-1 GitHub Issue Triage](protocols/Development/GH-1-Github-Issue-Triage-Protocol.md)
