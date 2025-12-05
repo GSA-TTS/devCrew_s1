@@ -2,7 +2,7 @@
 # Python 3.10+ required
 
 # Workflow Orchestration
-prefect==2.14.9
+prefect==2.20.17
 celery[redis]==5.3.4
 # redis is included with celery[redis]
 
