@@ -68,8 +68,8 @@ semgrep --version
 # Using pip
 pip install bandit
 
-# Or use existing bandit from devgru_setup
-# Bandit is already available in the devgru_setup environment
+# Or use existing bandit from setup
+# Bandit is already available in the setup environment
 
 # Verify installation
 bandit --version
@@ -451,8 +451,8 @@ which bandit
 # Install if missing
 pip install bandit
 
-# Or use from devgru_setup
-export PATH="/path/to/devgru_setup:$PATH"
+# Or use from setup
+export PATH="/path/to/setup:$PATH"
 ```
 
 ### Permission Denied Errors

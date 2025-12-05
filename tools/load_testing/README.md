@@ -498,7 +498,7 @@ To contribute:
 
 - **k6 Documentation**: https://k6.io/docs/
 - **Issue #37**: https://github.com/GSA-TTS/devCrew_s1/issues/37
-- **Tool Specification**: dev_gru/tools/TOOL-TEST-001_Load-Testing.md
+- **Tool Specification**: devCrew/tools/TOOL-TEST-001_Load-Testing.md
 
 ## License
 
