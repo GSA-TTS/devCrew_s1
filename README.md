@@ -63,7 +63,7 @@ Research shows AI agents can **boost team productivity by 60%** while humans mai
 | **[QA-Tester](agent-QA-Tester-vDEC25.md)** | Test automation & quality assurance | P-TDD, P-E2E-TESTING, P-API-CONTRACT-VALIDATION, P-OBSERVABILITY |
 | **[Security-Auditor](agent-Security-Auditor-vDEC25.md)** | Security assessment | P-SEC-VULN, SEC-THREAT-MODEL, SCM-VEX |
 | **[SRE](agent-SRE-vDEC25.md)** | Site reliability engineering | P-OPS-RESILIENCE, P-OPS-POSTMORTEM, P-OBSERVABILITY |
-| **[System-Architect](agents_vSEP25/agent-System-Architect-vSEP25.md)** | Architecture governance | ADR Creation, ASR Extraction, Technology Radar |
+| **[System-Architect](agent-System-Architect-vDEC25.md)** | Architecture governance | P-ASR-EXTRACTION, P-ADR-CREATION, P-ARCH-FITNESS, P-TECH-RADAR |
 | **[UX-UI-Designer](agent-UX-UI-Designer-vDEC25.md)** | User experience design | P-DESIGN-REVIEW, P-ACCESSIBILITY-GATE, P-ETHICAL-DESIGN |
 
 
@@ -114,7 +114,7 @@ DevCrew specifications can be implemented using various platforms:
    - [agent-QA-Tester-vDEC25.md](agent-QA-Tester-vDEC25.md) - Test automation and quality assurance
    - [agent-Security-Auditor-vDEC25.md](agent-Security-Auditor-vDEC25.md) - Security assessment
    - [agent-SRE-vDEC25.md](agent-SRE-vDEC25.md) - Site reliability engineering
-   - [agent-System-Architect-vSEP25.md](agents_vSEP25/agent-System-Architect-vSEP25.md) - Architecture governance
+   - [agent-System-Architect-vDEC25.md](agent-System-Architect-vDEC25.md) - Architecture governance with ML-enhanced ASR identification
    - [agent-UX-UI-Designer-vDEC25.md](agent-UX-UI-Designer-vDEC25.md) - User experience design
 
 3. **Understand the protocol structure**
