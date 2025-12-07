@@ -32,18 +32,18 @@
 
 1. Make the script executable:
 ```bash
-chmod +x /Users/tamnguyen/Documents/GitHub/devCrew_s1/devgru_setup/setup_devgru.sh
+chmod +x /Users/tamnguyen/Documents/GitHub/devCrew_s1/setup/setup_devgru.sh
 ```
 
 2. Verify the script is executable:
 ```bash
-ls -lh /Users/tamnguyen/Documents/GitHub/devCrew_s1/devgru_setup/setup_devgru.sh
+ls -lh /Users/tamnguyen/Documents/GitHub/devCrew_s1/setup/setup_devgru.sh
 # Should show: -rwxr-xr-x
 ```
 
 3. Run with bash explicitly:
 ```bash
-bash /Users/tamnguyen/Documents/GitHub/devCrew_s1/devgru_setup/setup_devgru.sh
+bash /Users/tamnguyen/Documents/GitHub/devCrew_s1/setup/setup_devgru.sh
 ```
 
 ---
@@ -67,7 +67,7 @@ ls -lh /tmp/issue67_work/prerequisites_validated.json
 2. If missing, regenerate prerequisites:
 ```bash
 # Navigate to project directory
-cd /Users/tamnguyen/Documents/GitHub/devCrew_s1/devgru_setup
+cd /Users/tamnguyen/Documents/GitHub/devCrew_s1/setup
 
 # Ensure work directory exists
 mkdir -p /tmp/issue67_work
@@ -199,7 +199,7 @@ Defaults timestamp_timeout=60
 ```bash
 # Add user to sudoers with NOPASSWD (use with caution!)
 # This should only be done in secure, controlled environments
-echo "$(whoami) ALL=(ALL) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/devgru_setup
+echo "$(whoami) ALL=(ALL) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/setup
 ```
 
 ---
@@ -250,12 +250,12 @@ python3.10 -m pip install package_name
 
 1. Check directory permissions:
 ```bash
-ls -la /Users/tamnguyen/Documents/GitHub/devCrew_s1/devgru_setup/
+ls -la /Users/tamnguyen/Documents/GitHub/devCrew_s1/setup/
 ```
 
 2. Fix permissions:
 ```bash
-cd /Users/tamnguyen/Documents/GitHub/devCrew_s1/devgru_setup
+cd /Users/tamnguyen/Documents/GitHub/devCrew_s1/setup
 chmod 755 .
 chmod -R 755 logs/ .state/
 ```
@@ -1283,19 +1283,19 @@ Review detailed logs for troubleshooting:
 
 ```bash
 # Find latest log file
-ls -lt /Users/tamnguyen/Documents/GitHub/devCrew_s1/devgru_setup/logs/
+ls -lt /Users/tamnguyen/Documents/GitHub/devCrew_s1/setup/logs/
 
 # View log
-cat /Users/tamnguyen/Documents/GitHub/devCrew_s1/devgru_setup/logs/setup_YYYYMMDD_HHMMSS.log
+cat /Users/tamnguyen/Documents/GitHub/devCrew_s1/setup/logs/setup_YYYYMMDD_HHMMSS.log
 
 # Search for errors
-grep -i error /Users/tamnguyen/Documents/GitHub/devCrew_s1/devgru_setup/logs/setup_*.log
+grep -i error /Users/tamnguyen/Documents/GitHub/devCrew_s1/setup/logs/setup_*.log
 
 # Search for warnings
-grep -i warning /Users/tamnguyen/Documents/GitHub/devCrew_s1/devgru_setup/logs/setup_*.log
+grep -i warning /Users/tamnguyen/Documents/GitHub/devCrew_s1/setup/logs/setup_*.log
 
 # View last 50 lines
-tail -50 /Users/tamnguyen/Documents/GitHub/devCrew_s1/devgru_setup/logs/setup_*.log
+tail -50 /Users/tamnguyen/Documents/GitHub/devCrew_s1/setup/logs/setup_*.log
 ```
 
 ---
@@ -1390,7 +1390,7 @@ jq . /tmp/issue67_work/prerequisites_validated.json
 
 # Query specific fields
 jq '.core_packages' /tmp/issue67_work/prerequisites_validated.json
-jq '.installed_packages' /Users/tamnguyen/Documents/GitHub/devCrew_s1/devgru_setup/.state/installation_state.json
+jq '.installed_packages' /Users/tamnguyen/Documents/GitHub/devCrew_s1/setup/.state/installation_state.json
 ```
 
 ---
@@ -1428,7 +1428,7 @@ If installation fails and you need to rollback:
 ```bash
 # The script will prompt for rollback
 # Or manually check what was installed:
-cat /Users/tamnguyen/Documents/GitHub/devCrew_s1/devgru_setup/.state/installation_state.json | jq -r '.installed_packages[]'
+cat /Users/tamnguyen/Documents/GitHub/devCrew_s1/setup/.state/installation_state.json | jq -r '.installed_packages[]'
 
 # Uninstall Python packages
 pip uninstall -y package_name
@@ -1449,7 +1449,7 @@ sudo yum remove -y package_name
 
 ### Main Setup Logs
 
-Location: `/Users/tamnguyen/Documents/GitHub/devCrew_s1/devgru_setup/logs/`
+Location: `/Users/tamnguyen/Documents/GitHub/devCrew_s1/setup/logs/`
 
 - **Setup logs**: `setup_YYYYMMDD_HHMMSS.log`
   - Contains all installation steps
@@ -1464,7 +1464,7 @@ Location: `/Users/tamnguyen/Documents/GitHub/devCrew_s1/devgru_setup/logs/`
 
 ### State File
 
-Location: `/Users/tamnguyen/Documents/GitHub/devCrew_s1/devgru_setup/.state/installation_state.json`
+Location: `/Users/tamnguyen/Documents/GitHub/devCrew_s1/setup/.state/installation_state.json`
 
 Contains:
 - Timestamp of installation
@@ -1538,7 +1538,7 @@ tail -f $(brew --prefix)/var/log/postgres.log
 
 ```bash
 # 1. Check what was installed
-cat /Users/tamnguyen/Documents/GitHub/devCrew_s1/devgru_setup/.state/installation_state.json | jq -r '.installed_packages[]'
+cat /Users/tamnguyen/Documents/GitHub/devCrew_s1/setup/.state/installation_state.json | jq -r '.installed_packages[]'
 
 # 2. Uninstall Python packages
 pip freeze | xargs pip uninstall -y
@@ -1554,8 +1554,8 @@ brew list | xargs brew uninstall
 sudo apt-get autoremove -y
 
 # 5. Clean up state and logs
-rm -rf /Users/tamnguyen/Documents/GitHub/devCrew_s1/devgru_setup/.state/
-rm -rf /Users/tamnguyen/Documents/GitHub/devCrew_s1/devgru_setup/logs/
+rm -rf /Users/tamnguyen/Documents/GitHub/devCrew_s1/setup/.state/
+rm -rf /Users/tamnguyen/Documents/GitHub/devCrew_s1/setup/logs/
 ```
 
 ---
@@ -1615,8 +1615,8 @@ sudo yum update
 **A**: Yes, you can:
 
 1. Edit requirements files:
-   - `/Users/tamnguyen/Documents/GitHub/devCrew_s1/devgru_setup/requirements/requirements-core.txt`
-   - `/Users/tamnguyen/Documents/GitHub/devCrew_s1/devgru_setup/requirements/requirements-optional.txt`
+   - `/Users/tamnguyen/Documents/GitHub/devCrew_s1/setup/requirements/requirements-core.txt`
+   - `/Users/tamnguyen/Documents/GitHub/devCrew_s1/setup/requirements/requirements-optional.txt`
 
 2. Use skip options:
    ```bash
@@ -1648,7 +1648,7 @@ python3 -c "import pandas, requests, pydantic, celery; print('Core packages OK')
 pip list
 
 # 5. Check installation report
-cat /Users/tamnguyen/Documents/GitHub/devCrew_s1/devgru_setup/logs/installation_report_*.txt
+cat /Users/tamnguyen/Documents/GitHub/devCrew_s1/setup/logs/installation_report_*.txt
 
 # 6. Verify databases (if installed)
 redis-cli ping        # Should return PONG
@@ -1720,13 +1720,13 @@ gcloud config list
 **A**: Resources:
 
 1. **Documentation**:
-   - Main README: `/Users/tamnguyen/Documents/GitHub/devCrew_s1/devgru_setup/README.md`
-   - Quick Start: `/Users/tamnguyen/Documents/GitHub/devCrew_s1/devgru_setup/QUICK_START.md`
-   - This Guide: `/Users/tamnguyen/Documents/GitHub/devCrew_s1/devgru_setup/docs/TROUBLESHOOTING.md`
+   - Main README: `/Users/tamnguyen/Documents/GitHub/devCrew_s1/setup/README.md`
+   - Quick Start: `/Users/tamnguyen/Documents/GitHub/devCrew_s1/setup/QUICK_START.md`
+   - This Guide: `/Users/tamnguyen/Documents/GitHub/devCrew_s1/setup/docs/TROUBLESHOOTING.md`
 
 2. **Logs**:
-   - Setup logs: `/Users/tamnguyen/Documents/GitHub/devCrew_s1/devgru_setup/logs/`
-   - State file: `/Users/tamnguyen/Documents/GitHub/devCrew_s1/devgru_setup/.state/installation_state.json`
+   - Setup logs: `/Users/tamnguyen/Documents/GitHub/devCrew_s1/setup/logs/`
+   - State file: `/Users/tamnguyen/Documents/GitHub/devCrew_s1/setup/.state/installation_state.json`
 
 3. **Command Help**:
    ```bash
@@ -1750,10 +1750,10 @@ gcloud config list
 
 ```bash
 # Check setup status
-cat /Users/tamnguyen/Documents/GitHub/devCrew_s1/devgru_setup/.state/installation_state.json | jq .
+cat /Users/tamnguyen/Documents/GitHub/devCrew_s1/setup/.state/installation_state.json | jq .
 
 # View latest log
-tail -100 /Users/tamnguyen/Documents/GitHub/devCrew_s1/devgru_setup/logs/setup_*.log
+tail -100 /Users/tamnguyen/Documents/GitHub/devCrew_s1/setup/logs/setup_*.log
 
 # Test with dry-run
 ./setup_devgru.sh --profile standard --dry-run
@@ -1808,7 +1808,7 @@ Error:
 Error: postgresql@15: Failed to download resource
 
 Log location:
-/Users/tamnguyen/Documents/GitHub/devCrew_s1/devgru_setup/logs/setup_20251120_143022.log
+/Users/tamnguyen/Documents/GitHub/devCrew_s1/setup/logs/setup_20251120_143022.log
 
 Steps to reproduce:
 1. Run setup with full profile

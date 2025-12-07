@@ -45,7 +45,7 @@ jobs:
 
       - name: Run DevGRU setup (standard profile)
         run: |
-          cd devgru_setup
+          cd setup
           chmod +x setup_devgru.sh
           ./setup_devgru.sh --profile standard --verbose
 
@@ -60,7 +60,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: setup-logs
-          path: devgru_setup/logs/
+          path: setup/logs/
           retention-days: 7
 ```
 
@@ -101,7 +101,7 @@ jobs:
 
       - name: Run DevGRU setup
         run: |
-          cd devgru_setup
+          cd setup
           chmod +x setup_devgru.sh
           ./setup_devgru.sh --profile ${{ matrix.profile }} --verbose
 
@@ -112,7 +112,7 @@ jobs:
 
       - name: Run tests
         run: |
-          cd devgru_setup/modules
+          cd setup/modules
           chmod +x test_python_setup.sh
           ./test_python_setup.sh
 
@@ -122,8 +122,8 @@ jobs:
         with:
           name: logs-${{ matrix.os }}-${{ matrix.profile }}
           path: |
-            devgru_setup/logs/
-            devgru_setup/.state/
+            setup/logs/
+            setup/.state/
 ```
 
 ### Workflow with Caching
@@ -147,7 +147,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('devgru_setup/requirements/*.txt') }}
+          key: ${{ runner.os }}-pip-${{ hashFiles('setup/requirements/*.txt') }}
           restore-keys: |
             ${{ runner.os }}-pip-
 
@@ -155,7 +155,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: /var/cache/apt/archives
-          key: ${{ runner.os }}-apt-${{ hashFiles('devgru_setup/setup_devgru.sh') }}
+          key: ${{ runner.os }}-apt-${{ hashFiles('setup/setup_devgru.sh') }}
           restore-keys: |
             ${{ runner.os }}-apt-
 
@@ -166,7 +166,7 @@ jobs:
 
       - name: Run setup with caching
         run: |
-          cd devgru_setup
+          cd setup
           chmod +x setup_devgru.sh
           ./setup_devgru.sh --profile standard --verbose
 
@@ -187,7 +187,7 @@ on:
     branches: [ main ]
     paths:
       - 'aws/**'
-      - 'devgru_setup/**'
+      - 'setup/**'
 
 jobs:
   aws-setup:
@@ -204,7 +204,7 @@ jobs:
 
       - name: Run AWS profile setup
         run: |
-          cd devgru_setup
+          cd setup
           chmod +x setup_devgru.sh
           ./setup_devgru.sh --profile cloud-aws --verbose
 
@@ -251,7 +251,7 @@ jobs:
 
       - name: Run security profile setup
         run: |
-          cd devgru_setup
+          cd setup
           chmod +x setup_devgru.sh
           ./setup_devgru.sh --profile security --verbose
 
@@ -298,7 +298,7 @@ variables:
 cache:
   paths:
     - .cache/pip
-    - devgru_setup/.state/
+    - setup/.state/
 
 before_script:
   - apt-get update -qq
@@ -310,15 +310,15 @@ setup:minimal:
   variables:
     PROFILE: "minimal"
   script:
-    - cd devgru_setup
+    - cd setup
     - chmod +x setup_devgru.sh
     - ./setup_devgru.sh --profile ${PROFILE} --verbose
     - python3 --version
     - pip list
   artifacts:
     paths:
-      - devgru_setup/logs/
-      - devgru_setup/.state/
+      - setup/logs/
+      - setup/.state/
     expire_in: 1 week
   only:
     - merge_requests
@@ -330,14 +330,14 @@ setup:standard:
   variables:
     PROFILE: "standard"
   script:
-    - cd devgru_setup
+    - cd setup
     - chmod +x setup_devgru.sh
     - ./setup_devgru.sh --profile ${PROFILE} --verbose
     - python3 -c "import pandas, requests, pydantic; print('Core verified')"
   artifacts:
     paths:
-      - devgru_setup/logs/
-      - devgru_setup/.state/
+      - setup/logs/
+      - setup/.state/
     expire_in: 1 week
   only:
     - main
@@ -349,7 +349,7 @@ test:verification:
   dependencies:
     - setup:standard
   script:
-    - cd devgru_setup/modules
+    - cd setup/modules
     - chmod +x test_python_setup.sh
     - ./test_python_setup.sh
   only:
@@ -380,13 +380,13 @@ variables:
   <<: *prerequisites
   stage: setup
   script:
-    - cd devgru_setup
+    - cd setup
     - chmod +x setup_devgru.sh
     - ./setup_devgru.sh --profile ${PROFILE} --verbose
   artifacts:
     paths:
-      - devgru_setup/logs/
-      - devgru_setup/.state/
+      - setup/logs/
+      - setup/.state/
     expire_in: 1 week
 
 setup:minimal:
@@ -426,8 +426,8 @@ report:generate:
   dependencies:
     - setup:standard
   script:
-    - cat devgru_setup/logs/installation_report_*.txt
-    - cat devgru_setup/.state/installation_state.json | jq .
+    - cat setup/logs/installation_report_*.txt
+    - cat setup/.state/installation_state.json | jq .
   when: always
 ```
 
@@ -450,15 +450,15 @@ setup:aws:
     - apt-get update -qq
     - apt-get install -y jq curl git
   script:
-    - cd devgru_setup
+    - cd setup
     - chmod +x setup_devgru.sh
     - ./setup_devgru.sh --profile cloud-aws --verbose
     - aws --version
     - python3 -c "import boto3; print('boto3 installed')"
   artifacts:
     paths:
-      - devgru_setup/logs/
-      - devgru_setup/.state/
+      - setup/logs/
+      - setup/.state/
     expire_in: 1 week
 
 deploy:aws:
@@ -467,7 +467,7 @@ deploy:aws:
   dependencies:
     - setup:aws
   before_script:
-    - cd devgru_setup
+    - cd setup
     - chmod +x setup_devgru.sh
     - ./setup_devgru.sh --profile cloud-aws --verbose
   script:
@@ -497,7 +497,7 @@ build:docker:
   before_script:
     - docker info
   script:
-    - cd devgru_setup
+    - cd setup
     - docker build -t devgru-setup:standard --build-arg PROFILE=standard -f docker/Dockerfile .
     - docker tag devgru-setup:standard $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA
     - docker tag devgru-setup:standard $CI_REGISTRY_IMAGE:latest
@@ -525,7 +525,7 @@ test:docker:
 ### Multi-Stage Dockerfile
 
 ```dockerfile
-# devgru_setup/docker/Dockerfile
+# setup/docker/Dockerfile
 
 # Stage 1: Base image with prerequisites
 FROM ubuntu:22.04 AS base
@@ -546,7 +546,7 @@ RUN apt-get update && \
 FROM base AS setup
 
 # Set working directory
-WORKDIR /devgru_setup
+WORKDIR /setup
 
 # Copy setup files
 COPY setup_devgru.sh .
@@ -603,7 +603,7 @@ RUN apt-get update && \
     apt-get install -y jq curl git && \
     rm -rf /var/lib/apt/lists/*
 
-WORKDIR /devgru_setup
+WORKDIR /setup
 COPY . .
 RUN chmod +x setup_devgru.sh && \
     ./setup_devgru.sh --profile minimal --verbose
@@ -621,7 +621,7 @@ RUN apt-get update && \
     apt-get install -y jq curl git && \
     rm -rf /var/lib/apt/lists/*
 
-WORKDIR /devgru_setup
+WORKDIR /setup
 COPY . .
 RUN mkdir -p /tmp/issue67_work
 COPY prerequisites_validated.json /tmp/issue67_work/
@@ -768,10 +768,10 @@ repos:
     hooks:
       - id: devgru-setup-validation
         name: Validate DevGRU Setup Script
-        entry: bash -c 'cd devgru_setup && ./setup_devgru.sh --profile minimal --dry-run'
+        entry: bash -c 'cd setup && ./setup_devgru.sh --profile minimal --dry-run'
         language: system
         pass_filenames: false
-        files: 'devgru_setup/.*'
+        files: 'setup/.*'
 
       - id: shellcheck
         name: ShellCheck
@@ -779,7 +779,7 @@ repos:
         language: system
         types: [shell]
         args: ['--severity=warning']
-        files: 'devgru_setup/.*\.sh$'
+        files: 'setup/.*\.sh$'
 
       - id: python-syntax
         name: Python Syntax Check
@@ -811,16 +811,16 @@ repos:
     hooks:
       - id: shellcheck
         args: ['--severity=warning']
-        files: 'devgru_setup/.*\.sh$'
+        files: 'setup/.*\.sh$'
 
   - repo: local
     hooks:
       - id: devgru-dry-run
         name: DevGRU Setup Dry Run
-        entry: bash -c 'cd devgru_setup && ./setup_devgru.sh --profile minimal --dry-run'
+        entry: bash -c 'cd setup && ./setup_devgru.sh --profile minimal --dry-run'
         language: system
         pass_filenames: false
-        files: 'devgru_setup/(setup_devgru\.sh|modules/.*\.sh)$'
+        files: 'setup/(setup_devgru\.sh|modules/.*\.sh)$'
         stages: [commit]
 
       - id: devgru-prerequisites-check
@@ -828,15 +828,15 @@ repos:
         entry: bash -c 'test -f /tmp/issue67_work/prerequisites_validated.json && jq empty /tmp/issue67_work/prerequisites_validated.json'
         language: system
         pass_filenames: false
-        files: 'devgru_setup/.*'
+        files: 'setup/.*'
         stages: [commit]
 
       - id: devgru-logging-test
         name: Test Logging Functions
-        entry: bash -c 'cd devgru_setup && bash -n setup_devgru.sh'
+        entry: bash -c 'cd setup && bash -n setup_devgru.sh'
         language: system
         pass_filenames: false
-        files: 'devgru_setup/setup_devgru\.sh$'
+        files: 'setup/setup_devgru\.sh$'
         stages: [commit]
 
   - repo: https://github.com/psf/black
@@ -869,16 +869,16 @@ set -e
 echo "Running DevGRU pre-commit checks..."
 
 # Check if setup script has been modified
-if git diff --cached --name-only | grep -q "devgru_setup/"; then
+if git diff --cached --name-only | grep -q "setup/"; then
     echo "DevGRU files modified, running validation..."
 
     # Run shellcheck
     echo "Running shellcheck..."
-    shellcheck devgru_setup/setup_devgru.sh devgru_setup/modules/*.sh
+    shellcheck setup/setup_devgru.sh setup/modules/*.sh
 
     # Run dry-run test
     echo "Running dry-run test..."
-    cd devgru_setup
+    cd setup
     ./setup_devgru.sh --profile minimal --dry-run > /dev/null
     cd ..
 
@@ -912,7 +912,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('devgru_setup/requirements/*.txt') }}
+          key: ${{ runner.os }}-pip-${{ hashFiles('setup/requirements/*.txt') }}
           restore-keys: |
             ${{ runner.os }}-pip-
 
@@ -932,8 +932,8 @@ jobs:
       - name: Cache DevGRU installation state
         uses: actions/cache@v4
         with:
-          path: devgru_setup/.state
-          key: ${{ runner.os }}-devgru-state-${{ hashFiles('devgru_setup/setup_devgru.sh') }}
+          path: setup/.state
+          key: ${{ runner.os }}-devgru-state-${{ hashFiles('setup/setup_devgru.sh') }}
           restore-keys: |
             ${{ runner.os }}-devgru-state-
 
@@ -945,7 +945,7 @@ jobs:
 
       - name: Run setup
         run: |
-          cd devgru_setup
+          cd setup
           chmod +x setup_devgru.sh
           ./setup_devgru.sh --profile standard --verbose
 ```
@@ -962,13 +962,13 @@ variables:
 cache:
   key:
     files:
-      - devgru_setup/requirements/*.txt
-      - devgru_setup/setup_devgru.sh
+      - setup/requirements/*.txt
+      - setup/setup_devgru.sh
   paths:
     - .cache/pip
     - .cache/apt
-    - devgru_setup/.state
-    - devgru_setup/logs
+    - setup/.state
+    - setup/logs
 
 before_script:
   - mkdir -p ${APT_CACHE_DIR}
@@ -978,13 +978,13 @@ before_script:
 setup:
   stage: setup
   script:
-    - cd devgru_setup
+    - cd setup
     - chmod +x setup_devgru.sh
     - ./setup_devgru.sh --profile standard --verbose
   artifacts:
     paths:
-      - devgru_setup/.state
-      - devgru_setup/logs
+      - setup/.state
+      - setup/logs
     expire_in: 1 week
   cache:
     policy: pull-push
@@ -1005,7 +1005,7 @@ RUN --mount=type=cache,target=/var/cache/apt \
 
 # Cache pip installations
 FROM base AS setup
-WORKDIR /devgru_setup
+WORKDIR /setup
 
 # Copy only requirements first for better caching
 COPY requirements/ requirements/
@@ -1040,7 +1040,7 @@ CMD ["/bin/bash"]
 set -euo pipefail
 
 CACHE_DIR="${HOME}/.devgru_cache"
-STATE_FILE="devgru_setup/.state/installation_state.json"
+STATE_FILE="setup/.state/installation_state.json"
 
 # Create cache directory
 mkdir -p "${CACHE_DIR}"/{pip,state,logs}
@@ -1058,7 +1058,7 @@ save_cache() {
     pip list --format=json > "${CACHE_DIR}/pip/packages.json"
 
     # Copy logs
-    cp -r devgru_setup/logs/* "${CACHE_DIR}/logs/" 2>/dev/null || true
+    cp -r setup/logs/* "${CACHE_DIR}/logs/" 2>/dev/null || true
 
     echo "Cache saved to ${CACHE_DIR}"
 }
@@ -1068,7 +1068,7 @@ restore_cache() {
     echo "Restoring from cache..."
 
     if [[ -f "${CACHE_DIR}/state/installation_state.json" ]]; then
-        mkdir -p "devgru_setup/.state"
+        mkdir -p "setup/.state"
         cp "${CACHE_DIR}/state/installation_state.json" "${STATE_FILE}"
         echo "State restored from cache"
     else
@@ -1133,7 +1133,7 @@ before_script:
 **Solution**:
 ```bash
 # Always ensure script is executable
-chmod +x devgru_setup/setup_devgru.sh
+chmod +x setup/setup_devgru.sh
 ```
 
 #### 3. Non-Interactive Mode Issues
@@ -1233,14 +1233,14 @@ echo -e "\n--- Environment Variables ---"
 env | grep -E "(CI|GITHUB|GITLAB|PATH)" | sort
 
 echo -e "\n--- DevGRU Files ---"
-ls -la devgru_setup/ 2>/dev/null || echo "devgru_setup directory not found"
+ls -la setup/ 2>/dev/null || echo "setup directory not found"
 
 echo -e "\n--- Logs ---"
-ls -la devgru_setup/logs/ 2>/dev/null || echo "No logs found"
+ls -la setup/logs/ 2>/dev/null || echo "No logs found"
 
 echo -e "\n--- State ---"
-if [[ -f devgru_setup/.state/installation_state.json ]]; then
-    cat devgru_setup/.state/installation_state.json | jq .
+if [[ -f setup/.state/installation_state.json ]]; then
+    cat setup/.state/installation_state.json | jq .
 else
     echo "No state file found"
 fi
@@ -1295,7 +1295,7 @@ jobs:
 
       - name: Run setup
         run: |
-          cd devgru_setup
+          cd setup
           chmod +x setup_devgru.sh
           ./setup_devgru.sh --profile ${{ steps.profile.outputs.profile }} --verbose
 ```
@@ -1308,7 +1308,7 @@ jobs:
 setup:minimal:
   stage: setup
   script:
-    - cd devgru_setup
+    - cd setup
     - ./setup_devgru.sh --profile minimal --verbose
   only:
     - merge_requests
@@ -1317,7 +1317,7 @@ setup:minimal:
 setup:standard:
   stage: setup
   script:
-    - cd devgru_setup
+    - cd setup
     - ./setup_devgru.sh --profile standard --verbose
   only:
     - develop
@@ -1326,7 +1326,7 @@ setup:standard:
 setup:full:
   stage: setup
   script:
-    - cd devgru_setup
+    - cd setup
     - ./setup_devgru.sh --profile full --verbose
   only:
     - main
@@ -1343,7 +1343,7 @@ name: Path-Based Profiles
 on:
   push:
     paths:
-      - 'devgru_setup/**'
+      - 'setup/**'
       - 'src/**'
       - 'tests/**'
 
@@ -1364,7 +1364,7 @@ jobs:
             echo "profile=cloud-aws" >> $GITHUB_OUTPUT
           elif git diff HEAD^ HEAD --name-only | grep -q "security"; then
             echo "profile=security" >> $GITHUB_OUTPUT
-          elif git diff HEAD^ HEAD --name-only | grep -q "devgru_setup"; then
+          elif git diff HEAD^ HEAD --name-only | grep -q "setup"; then
             echo "profile=full" >> $GITHUB_OUTPUT
           else
             echo "profile=standard" >> $GITHUB_OUTPUT
@@ -1379,7 +1379,7 @@ jobs:
         run: sudo apt-get update && sudo apt-get install -y jq curl git
       - name: Run setup
         run: |
-          cd devgru_setup
+          cd setup
           chmod +x setup_devgru.sh
           ./setup_devgru.sh --profile ${{ needs.detect-changes.outputs.profile }} --verbose
 ```
@@ -1407,8 +1407,8 @@ jobs:
   with:
     name: devgru-logs-${{ github.run_id }}
     path: |
-      devgru_setup/logs/
-      devgru_setup/.state/
+      setup/logs/
+      setup/.state/
     retention-days: 7
 ```
 
@@ -1419,7 +1419,7 @@ jobs:
 - uses: actions/cache@v4
   with:
     path: ~/.cache/pip
-    key: ${{ runner.os }}-pip-${{ hashFiles('devgru_setup/requirements/*.txt') }}
+    key: ${{ runner.os }}-pip-${{ hashFiles('setup/requirements/*.txt') }}
 ```
 
 ### 4. Implement Retry Logic
@@ -1471,7 +1471,7 @@ df -h
 # Pin specific versions
 - name: Run setup
   run: |
-    cd devgru_setup
+    cd setup
     git checkout v1.0.0  # Pin to specific version
     ./setup_devgru.sh --profile standard
 ```
@@ -1535,13 +1535,13 @@ jobs:
       - name: Shellcheck
         run: |
           sudo apt-get install -y shellcheck
-          shellcheck devgru_setup/setup_devgru.sh
-          shellcheck devgru_setup/modules/*.sh
+          shellcheck setup/setup_devgru.sh
+          shellcheck setup/modules/*.sh
 
       - name: Dry run test
         run: |
           sudo apt-get install -y jq curl git
-          cd devgru_setup
+          cd setup
           chmod +x setup_devgru.sh
           ./setup_devgru.sh --profile minimal --dry-run
 
@@ -1566,7 +1566,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ env.CACHE_VERSION }}-${{ hashFiles('devgru_setup/requirements/*.txt') }}
+          key: ${{ runner.os }}-pip-${{ env.CACHE_VERSION }}-${{ hashFiles('setup/requirements/*.txt') }}
 
       - name: Install prerequisites (Linux)
         if: runner.os == 'Linux'
@@ -1578,7 +1578,7 @@ jobs:
 
       - name: Run setup
         run: |
-          cd devgru_setup
+          cd setup
           chmod +x setup_devgru.sh
           ./setup_devgru.sh --profile ${{ matrix.profile }} --verbose
 
@@ -1594,8 +1594,8 @@ jobs:
         with:
           name: logs-${{ matrix.os }}-${{ matrix.profile }}
           path: |
-            devgru_setup/logs/
-            devgru_setup/.state/
+            setup/logs/
+            setup/.state/
 
   # Job 3: Security scan
   security:
@@ -1609,7 +1609,7 @@ jobs:
       - name: Setup
         run: |
           sudo apt-get update && sudo apt-get install -y jq curl git
-          cd devgru_setup
+          cd setup
           chmod +x setup_devgru.sh
           ./setup_devgru.sh --profile security --verbose
 
@@ -1642,9 +1642,9 @@ jobs:
 
       - name: Build Docker images
         run: |
-          docker build --build-arg PROFILE=minimal -t devgru:minimal devgru_setup/
-          docker build --build-arg PROFILE=standard -t devgru:standard devgru_setup/
-          docker build --build-arg PROFILE=full -t devgru:full devgru_setup/
+          docker build --build-arg PROFILE=minimal -t devgru:minimal setup/
+          docker build --build-arg PROFILE=standard -t devgru:standard setup/
+          docker build --build-arg PROFILE=full -t devgru:full setup/
 
       - name: Test Docker images
         run: |

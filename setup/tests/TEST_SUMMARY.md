@@ -169,7 +169,7 @@ Note: One test (database_connection) skipped as expected on systems without data
 
 ### Quick Test
 ```bash
-cd devgru_setup/tests
+cd setup/tests
 ./run_tests.sh
 ```
 

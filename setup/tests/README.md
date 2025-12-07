@@ -35,7 +35,7 @@ tests/
 ### Run All Tests
 
 ```bash
-cd devgru_setup/tests
+cd setup/tests
 ./run_tests.sh
 ```
 
@@ -373,7 +373,7 @@ jobs:
 
       - name: Run tests
         run: |
-          cd devgru_setup/tests
+          cd setup/tests
           ./run_tests.sh --verbose
 ```
 

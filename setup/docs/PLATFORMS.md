@@ -1856,7 +1856,7 @@ When reporting platform-specific issues, include:
 - OS version (`sw_vers`, `lsb_release -a`, `cat /etc/os-release`)
 - Architecture (`uname -m`)
 - Python version (`python3 --version`)
-- Installation logs from `devgru_setup/logs/`
+- Installation logs from `setup/logs/`
 
 ---
 

@@ -101,8 +101,8 @@ sudo yum install -y jq curl git
 ### 2. Run Setup Script
 
 ```bash
-# Navigate to devgru_setup directory
-cd /Users/tamnguyen/Documents/GitHub/devCrew_s1/devgru_setup
+# Navigate to setup directory
+cd /Users/tamnguyen/Documents/GitHub/devCrew_s1/setup
 
 # Make script executable (if needed)
 chmod +x setup_devgru.sh
@@ -490,7 +490,7 @@ Valid profile values:
 ## Directory Structure
 
 ```
-devgru_setup/
+setup/
 ├── setup_devgru.sh                    # Main setup script (executable)
 ├── README.md                          # This file - comprehensive documentation
 ├── QUICK_START.md                     # Quick reference guide

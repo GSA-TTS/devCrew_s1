@@ -22,7 +22,7 @@ Installs and configures database systems required by devCrew_s1 tools.
 
 ```bash
 # Source the module
-source devgru_setup/modules/databases.sh
+source setup/modules/databases.sh
 
 # Install individual databases
 install_redis

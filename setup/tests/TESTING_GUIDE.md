@@ -6,7 +6,7 @@ Quick reference for running and understanding the DevGRU setup test suite.
 
 ```bash
 # Navigate to tests directory
-cd devgru_setup/tests
+cd setup/tests
 
 # Run all tests
 ./run_tests.sh
@@ -173,8 +173,8 @@ chmod +x tests/*.sh tests/utils/*.sh
 ### "Module not found" errors
 Check you're in the correct directory:
 ```bash
-cd /path/to/devgru_setup/tests
-pwd  # Should end in .../devgru_setup/tests
+cd /path/to/setup/tests
+pwd  # Should end in .../setup/tests
 ```
 
 ### Python version too old
@@ -207,7 +207,7 @@ which jq curl git bash
 Run tests to verify your system is ready:
 
 ```bash
-cd devgru_setup/tests
+cd setup/tests
 ./run_tests.sh
 
 # Check results
@@ -221,7 +221,7 @@ cd devgru_setup/tests
 Verify installation succeeded:
 
 ```bash
-cd devgru_setup/tests
+cd setup/tests
 ./run_tests.sh
 
 # After installation, expect:
@@ -351,7 +351,7 @@ jobs:
       - uses: actions/checkout@v3
       - name: Run Tests
         run: |
-          cd devgru_setup/tests
+          cd setup/tests
           ./run_tests.sh
 ```
 
@@ -360,7 +360,7 @@ jobs:
 ```yaml
 test:
   script:
-    - cd devgru_setup/tests
+    - cd setup/tests
     - ./run_tests.sh
   only:
     - branches
