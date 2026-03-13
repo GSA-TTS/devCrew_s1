@@ -15,7 +15,7 @@ axe-playwright-python==0.1.4  # axe-core integration for WCAG validation
 lark==1.1.9  # Parser for C4 DSL
 
 # Image Processing and Optimization
-cairosvg==2.7.1  # SVG to PNG conversion
+cairosvg==2.9.0  # SVG to PNG conversion
 svgwrite==1.4.3  # SVG generation and manipulation
 
 # Color Contrast Calculations
