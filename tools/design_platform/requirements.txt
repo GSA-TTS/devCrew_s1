@@ -1,5 +1,5 @@
 # Core Dependencies
-requests==2.32.4  # HTTP library for Figma API calls
+requests==2.33.0  # HTTP library for Figma API calls
 pillow==12.1.1  # Image processing for exports
 pyyaml==6.0.1  # Configuration file parsing
 pydantic==2.5.3  # Data validation and serialization
@@ -15,7 +15,7 @@ axe-playwright-python==0.1.4  # axe-core integration for WCAG validation
 lark==1.1.9  # Parser for C4 DSL
 
 # Image Processing and Optimization
-cairosvg==2.7.1  # SVG to PNG conversion
+cairosvg==2.9.0  # SVG to PNG conversion
 svgwrite==1.4.3  # SVG generation and manipulation
 
 # Color Contrast Calculations
@@ -30,7 +30,7 @@ responses==0.24.1  # HTTP request mocking
 fakeredis==2.20.1  # Redis mocking (if needed)
 
 # Code Quality Tools
-black==24.3.0  # Code formatter
+black==26.3.1  # Code formatter
 isort==5.13.2  # Import sorter
 flake8==7.0.0  # Style checker
 mypy==1.8.0  # Type checker
