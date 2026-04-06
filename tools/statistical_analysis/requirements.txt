@@ -25,7 +25,7 @@ pytest>=7.4.0,<8.0.0
 pytest-cov>=4.1.0,<5.0.0
 
 # Code quality tools
-black>=23.0.0,<25.0.0
+black>=26.3.1
 isort>=5.12.0,<6.0.0
 flake8>=6.0.0,<8.0.0
 mypy>=1.5.0,<2.0.0
