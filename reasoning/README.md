@@ -1,18 +1,6 @@
-# reasoning/
+# Resources for Agent Reasoning
 
-Resources that support both **agent design** and **real-time agent reasoning**. Agents can load files from this folder as inputs during their reasoning steps—for example, a plan-and-execute agent loads a guide to structure its planning phase before acting.
-
----
-
-## Folder Structure
-
-```
-reasoning/
-├── guides/        # Step-by-step methodology guides for agent reasoning tasks
-└── sysprompts/    # System prompts that define agent personas and operating rules
-```
-
----
+Resources that support both **agent design** and **real-time agent reasoning**. Agents can load files from this folder as inputs during their reasoning steps. For example, a plan-and-execute agent may load guides to structure its planning phase before acting.
 
 ## guides/
 
@@ -31,7 +19,7 @@ Each guide is a self-contained, structured methodology an agent can follow to co
 
 ## sysprompts/
 
-System prompts that configure an agent's persona, mandate, and operating constraints. Load these at agent initialization to define how the agent behaves across an entire session.
+System prompts are examples about configuring an agent's persona, mandate, and operating constraints. These example sys-prompts mostly target single-agent use cases.
 
 | File | Purpose |
 |---|---|
