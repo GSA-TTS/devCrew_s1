@@ -32,7 +32,7 @@ psycopg2-binary==2.9.9  # Optional: only if using PostgreSQL
 # prometheus-client==0.19.0  # Metrics export
 
 # Testing dependencies
-pytest==7.4.3
+pytest==9.0.3
 pytest-asyncio==0.21.1
 pytest-celery==0.0.0
 pytest-cov==4.1.0
