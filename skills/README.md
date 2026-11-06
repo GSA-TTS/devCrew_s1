@@ -153,11 +153,11 @@ The dependencies in this collection are hand-off pointers: every skill's descrip
 "When not to use" section repeats the redirect. No skill calls another skill in its procedure. Each skill still
 points to the skill that handles the adjacent job, so those targets need to exist.
 
-### Skills copied in from `agent_skills/perplexity/skills` (†)
+### Supplemental skills (†)
 
-All 20 were referenced by the original 44 and were missing. They are byte-for-byte copies (`.DS_Store` excluded).
+All 20 are referenced by the original 44 skills and are included so that those references resolve.
 
-| Copied skill | Referenced by |
+| Supplemental skill | Referenced by |
 |---|---|
 | `claim-verification` | `multi-source-research-investigation` |
 | `codebase-question-retrieval` | `rag-architecture-design` |
@@ -182,15 +182,15 @@ All 20 were referenced by the original 44 and were missing. They are byte-for-by
 
 ### References that remain unresolved
 
-Only the skills the original 44 point to were copied. The copied skills have their own pointers, so some references still
+Only the skills the original 44 point to were added. The † skills have their own pointers, so some references still
 resolve to nothing in this folder.
 
-- **In the Perplexity source but not copied** (reached only through the † skills): `acm-journal-manuscript`,
-  `audience-tailored-explanation`, `certification-exam-item-bank`, `concept-map-extraction`, `constraint-model-scheduling`,
-  `htn-task-decomposition`, `knowledge-item-deduplication`, `lifecycle-patch-comparison`, `nonprofit-business-plan`,
-  `proposal-rigor-review`, `pyrit-scorer-selection`, `scenario-based-learning-design`, `textbook-chapter-front-matter`,
-  `textbook-chapter-validation`. Following their own pointers adds 11 more (25 in total); all of them are in the source.
-- **In neither collection** (probably general-purpose tools or skills outside the Perplexity set): `deep-research`,
+- **Reached only through the † skills** (not included): `acm-journal-manuscript`, `audience-tailored-explanation`,
+  `certification-exam-item-bank`, `concept-map-extraction`, `constraint-model-scheduling`, `htn-task-decomposition`,
+  `knowledge-item-deduplication`, `lifecycle-patch-comparison`, `nonprofit-business-plan`, `proposal-rigor-review`,
+  `pyrit-scorer-selection`, `scenario-based-learning-design`, `textbook-chapter-front-matter`,
+  `textbook-chapter-validation`. Following their own pointers reaches 11 more.
+- **Not available as skills here** (probably general-purpose tools or skills maintained elsewhere): `deep-research`,
   `research-report` (from `multi-source-research-investigation`), `chart` and `slides` (from `infographic-generation`),
   `demand-forecasting` (from `trend-projection-analysis`), `scenario-planning` (from `robust-scenario-decision`).
 
