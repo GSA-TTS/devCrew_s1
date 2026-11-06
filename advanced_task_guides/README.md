@@ -19,8 +19,18 @@ Guides are grouped into category subfolders directly under `advanced_task_guides
 | `scoring/` | complexityScoring, techAcceptanceScoring |
 | `authoring/` | guidewriting |
 | `specialized/` | `MethodInventoryClassificationMaturity Assessment`, AI tutor |
+| `memory-management/` | AgentMemoryManagement, AttentionBasedMemoryRetrieval, DistributedMemoryArchitecture, EpisodicMemory, GenerativeAgentMemory, HierarchicalMemory, LatentMemoryNetworks, MemoryConsolidation, MemoryForgetting, MemoryReadWriteOperations, SemanticMemory, StructuredMemory, TemporalKnowledgeGraphMemory, TransactiveMemory, UnstructuredMemory, WorkingMemory |
+| `knowledge-retrieval/` | AdvancedKnowledgeRetrieval, AgenticRAG, CodebaseStructureRetrieval, CorrectiveRAG, DeepResearchAgent, GraphRAG, HierarchicalIndexRetrieval, LatentKnowledgeRetrieval, ModularRAG, MultimodalRAG, QueryTransformationRetrieval, SelfRAG |
+| `context-management/` | ContextCompression, ContextEditingAndToolResultClearing, ContextEngineeringFrameworks, ContextFailurePrevention, ContextIsolation, ContextLifecycle, ContextManagement, ContextMemoryBlocks, ContextSelection, ContextStateMachines, ContextStreamingProtocols, ContextWritePatterns, FilesystemAsContext, HierarchicalContextArchitecture, KVCacheAwarePromptConstruction, SemanticContextCompression, SlidingWindowContext |
+| `reasoning/` | AbductiveReasoning, AnalogicalReasoning, BufferOfThoughts, CausalReasoning, ChainOfThoughtReasoning, ChainOfVerification, ForestOfThought, GraphOfThought, LeastToMostReasoning, MetacognitiveMonitoring, ProactiveClarification, ReflectiveMonteCarloTreeSearch, SelfConsistency, SkeletonOfThought, StepBackPrompting, TreeOfThought |
+| `tool-use/` | AgentControlPlane, AgentSkills, CodeAsAction, CodeExecution, ComputerUse, MCPToolGateway, ModelContextProtocol, StructuredReflectionTool, ToolRetrieval, ToolUseAndFunctionCalling |
+| `routing/` | CapabilityRouting, ContentBasedRouting, EmbeddingBasedRouting, LLMBasedRouting, RuleBasedRouting |
 
 The `planning/` guides are operational restructurings of a set of prose guides on agent planning patterns. They share a common structure and cross-reference one another by repository path, so several can be loaded together for a single planning task.
+
+The six categories `memory-management/`, `knowledge-retrieval/`, `context-management/`, `reasoning/`, `tool-use/` and `routing/` are operational restructurings of a further 78 prose guides, produced under `authoring/guide_guidewriting.md`. They follow the same conventions as `planning/` and cross-reference one another and the older categories by repository path. Each carries a status block, a phase-and-step Operational Framework, an `Implementation Guidance for AI Agents` section, and an execution tier partition naming which work is deterministic, which requires a model call, and which component holds authority when the two disagree.
+
+Two of the 78 sources were assessed as not operationalizable at the agent layer and were not converted, because their methods require a modified model architecture, training, or access to model internals. The assessment for each is recorded outside this repository with the originating material.
 
 `advanced_task_guides/authoring/guide_guidewriting.md` is the house-style specification for this directory. Load it when writing a new guide rather than when performing an analytical task.
 
