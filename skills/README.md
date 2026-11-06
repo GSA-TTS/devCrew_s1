@@ -4,8 +4,7 @@
 "Load when…" `description`, then Goal, Procedure and checks), a `references/` folder of supporting detail, and in a few
 cases a `scripts/` folder of helper code.
 
-44 skills are original to this collection. The 20 marked † were copied from
-`agent_skills/perplexity/skills` because the original skills point to them (see
+44 skills are original to this collection. The 20 marked † are supplemental skills because the original skills point to them (see
 [Cross-skill dependencies](#cross-skill-dependencies)).
 
 ## Contents
