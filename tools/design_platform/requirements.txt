@@ -34,7 +34,7 @@ black==26.10.1  # Code formatter
 isort==5.13.2  # Import sorter
 flake8==7.0.0  # Style checker
 mypy==1.8.0  # Type checker
-pylint==3.0.3  # Static code analyzer
+pylint==4.0.9  # Static code analyzer
 bandit==1.7.6  # Security linter
 
 # Documentation
