@@ -7,6 +7,9 @@ cases a `scripts/` folder of helper code.
 44 skills are original to this collection. The 20 marked † are supplemental skills because the original skills point to them (see
 [Cross-skill dependencies](#cross-skill-dependencies)).
 
+> [!CAUTION]
+> Skills are being evaluated. Those that were will have evaluation result reported.
+
 ## Contents
 
 | Category | Skills |
